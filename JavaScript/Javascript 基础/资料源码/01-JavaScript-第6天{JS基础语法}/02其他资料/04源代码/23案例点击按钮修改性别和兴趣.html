@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <style>
+    #dv1{
+      width: 300px;
+      height: 200px;
+      border:2px solid green;
+    }
+  </style>
+</head>
+<body>
+<div id="dv1">
+  <input type="button" value="选择性别" id="btn1" />
+  <input type="radio" value="1" name="sex"/>男
+  <input type="radio" value="2" name="sex" id="ck"/>女
+  <input type="radio" value="3" name="sex"/>保密
+</div>
+
+<div id="dv2">
+  <input type="button" value="选择兴趣" id="btn2" />
+  <input type="checkbox" value="1" name="xingque"/>吃饭
+  <input type="checkbox" value="2" name="xingque"/>睡觉
+  <input type="checkbox" value="3" name="xingque" id="ddd"/>打豆豆
+  <input type="checkbox" value="4" name="xingque"/>打篮球
+  <input type="checkbox" value="5" name="xingque"/>打足球
+  <input type="checkbox" value="6" name="xingque"/>打铅球
+</div>
+<div id="dv3">
+  <input type="button" value="选择城市" id="btn3"/>
+  <select id="s1">
+    <option value="1">北京</option>
+    <option value="2">上海</option>
+    <option value="3">重庆</option>
+    <option value="4" id="op1">天津</option>
+    <option value="5">首尔</option>
+    <option value="6">东京</option>
+  </select>
+</div>
+
+<script>
+  //如果html标签中的这个属性和值,都是自己,并且只有一个,此时在js代码的DOM操作中值就是布尔类型,
+  //checked,selected,disabled...
+
+  //DOM元素:就是通过DOM的方式获取的html的标签 document.get.....
+
+  //点击按钮选择性别
+  //根据id获取按钮,添加点击事件,添加事件处理函数
+  document.getElementById("btn1").onclick=function () {
+    //根据id获取性别为女的这个input标签
+    document.getElementById("ck").checked=true;
+  };
+
+  //选择性别
+  document.getElementById("btn2").onclick=function () {
+      //document.getElementById("ddd").checked=true;
+    document.getElementById("ddd").checked=true;
+  };
+
+  //选择城市
+  document.getElementById("btn3").onclick=function () {
+    document.getElementById("op1").selected=true;
+  };
+</script>
+
+</body>
+</html>

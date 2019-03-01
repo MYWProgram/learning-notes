@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>$永远的24k纯帅$</title>
+  <style>
+    div {
+      width: 300px;
+      height: 200px;
+      background-color: pink;
+    }
+  </style>
+  <script>
+    //随机产生一个十六进制的颜色值
+    //封装成一个函数
+    console.log(parseInt(Math.random() * 5));
+
+    function getColor() {
+      var str = "#";
+      //一个十六进制的值的数组
+      var arr = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f"];
+      for (var i = 0; i < 6; i++) {
+        //产生的每个随机数都是一个索引,根据索引找到数组中对应的值,拼接到一起
+        var num = parseInt(Math.random() * 16);
+        str += arr[num];
+      }
+      return str;
+    }
+    //页面记载的事件
+    window.onload = function () {
+      //在文档中通过id属性的值查找这个元素(标签).设置该标签的背景颜色
+      document.getElementById("dv").style.backgroundColor = getColor();
+    };
+    //console.log(getColor());
+  </script>
+</head>
+<body>
+<div id="dv"></div>
+
+</body>
+</html>

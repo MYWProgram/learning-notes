@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>$永远的24k纯帅$</title>
+  <script>
+
+    /*
+     *
+     * 一元运算符:  ++  --
+     *
+     * 如果不参与运算, ++在前面还是在后面结果都是一样的  +1
+     * 如果不参与运算, --在前面还是在后面结果都是一样的  -1
+     *
+     * var num=10;
+     * num++;   后+
+     * ++num;   前+
+     * 无论是前+还是后+只要参与运算,结果可能就不太一样
+     * 如:
+     *  var num=10;
+     *  var sum= num++ +10;
+     *  ++在后面的时候,先参与运算,然后自身加1
+     *  var num=10;
+     *  var sum=++num +10;
+     *  ++在前面的时候,先自身加1,然后再参与运算
+     *
+     *  流程控制: 代码的执行过程
+     *  1. 顺序结构:代码的执行的顺序,从上到下,从左到右(不严谨)
+     *  2. 分支结构: if,if-else ,if-esle if,switch-case ,三元表达式
+     *  3. 循环结构:while 循环,do-while,for循环  for-in循环
+     *
+     *  总结分支:如果只有一个分支,就用if
+     *  如果有两个分支,就用if-else
+     *  如果多个分支,一般是范围的,推荐使用if-else if
+     *  如果多个分支,一般是具体的值,推荐使用switch-case
+     *
+     *
+     *
+     *
+     *  总结循环:
+     *  while:先判断后循环,有可能一次循环都不执行
+     *  do-while:至少执行一次循环体,再判断
+     *  for循环:知道了循环的次数,推荐使用for循环
+     *
+     *
+     *  调试:是为了找代码的错误和问题所在,
+     *  断点,不加断点,就不方便调试
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     * */
+
+
+
+    //本金10000元存入银行，年利率是千分之三，每过1年，将本金和利息相加作为新的本金。计算5年后，获得的本金是多少？
+
+//    var money = 10000;//本金
+//    var rate=0.003;
+//    for(var i=0;i<5;i++){
+//      //money=money+money*rate;
+//      money+=money*rate;
+//    }
+//    console.log(money);
+
+
+
+
+
+
+
+
+    //有个人想知道，一年之内一对兔子能繁殖多少对？于是就筑了一道围墙把一对兔子关在里面。已知一对兔子每个月可以生一对小兔子，而一对兔子从出生后第3个月起每月生一对小兔子。假如一年内没有发生死亡现象，那么，一对兔子一年内（12个月）能繁殖成多少对？（兔子的规律为数列，1，1，2，3，5，8，13，21）
+
+    //每个月的值 就是前两个月的和
+
+//    var num1=1;//第一个月
+//    var num2=1;//第二个月
+//    var sum=num1+num2;//第三个月
+//
+//
+//    var num1=num2;//第二个月
+//    var num2=sum;//第三个月
+//    sum=num1+num2;//第四个月
+//
+//
+//    var num1=num2;//第三个月
+//    var num2=sum;//第四个月
+//    var sum=num1+num2;
+
+    var num1=1;//第一个月
+    var num2=1;//第二个月
+    var sum=0;
+    //i=3是从第三个月开始
+    for(var i=3;i<=12;i++){
+      sum=num1+num2;
+      num1=num2;
+      num2=sum;
+    }
+    console.log(sum);
+    //求斐波那契数列数列第12个月的值
+
+
+
+
+
+
+
+
+
+    //卡卡西  佐助  大蛇丸 鸣人  雏田
+
+    //练习: ++ 和 --
+
+    //    var a = 1;
+    //
+    //    var b = ++a + ++a;
+    //
+    //    console.log(b);
+
+
+    //    var a = 1;
+    //
+    //    var b = a++ + ++a;
+    //    console.log(b);
+
+
+    //    var a = 1;
+    //
+    //    var b = a++ + a++;
+    //    console.log(b);
+
+
+    //    var a = 1;
+    //
+    //    var b = ++a + a++;
+    //    console.log(b);
+
+
+    //    var a=1;
+    //    var b=++a + ++a+a++ + ++a;
+
+    //  var sum=0;
+    //  for(var i=1;i<=100&&i%2==0;i++){
+    //    sum+=i;
+    //  }
+    //  console.log(sum);
+
+
+    //    var num = 10;
+    //    switch (num) {
+    //      case 1:
+    //      case 2:console.log("嘎嘎");break;}
+
+
+    //    var i=1;
+    //    j=i++ + i++;
+    //    j=1+ 2++;
+    //    console.log(j);
+
+  </script>
+</head>
+<body>
+
+
+</body>
+</html>

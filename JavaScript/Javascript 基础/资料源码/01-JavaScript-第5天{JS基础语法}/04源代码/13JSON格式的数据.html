@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>$永远的24k纯帅$</title>
+  <script>
+    //对象:有属性和方法,特指的某个事物
+    //对象:一组无序属性的集合的键值对,属性的值可以是任意的类型
+    //    function Dog(name) {
+    //      this.name=name;
+    //    }
+    //    function Person(name,age) {
+    //      this.age=age;
+    //      this.name=name;
+    //      this.sex=true;
+    //      this.dog={};
+    //      this.play=function () {
+    //        console.log("喜欢玩游戏");
+    //      };
+    //    }
+    //
+    //    var sex=false;//男
+    //    console.log(sex?"男":"女");
+
+
+    //JSON格式的数据:一般都是成对的,是键值对,
+
+    //json也是一个对象,数据都是成对的,一般json格式的数据无论是键还是值都是用双引号括起来的
+
+    //    var obj={
+    //      name:"小明"
+    //    };
+
+
+    var json = {
+      "name": "小明",
+      "age": "10",
+      "sex": "男"
+    };
+    //遍历对象,是不能通过for循环遍历,无序
+
+    //key是一个变量,这个变量中存储的是该对象的所有的属性的名字
+    for (var key in json) {
+      console.log(key + "===========" + json[key]);
+    }
+
+
+    //    var key="name";
+    //    console.log(json[key]);
+    //可以通过for-in循环
+    //
+    //    for(var key in json){
+    //      //console.log(key);//json对象中的属性的名字
+    //      console.log(json[key]);
+    //    }
+    //对象中确实有这个属性对象.属性名字  或者对象[属性名字]
+
+
+    //一个一个的遍历出来
+
+    //    var arr=[10,20,30];
+    //    for(var i=0;i<arr.length;i++){
+    //      console.log(arr[i]);
+    //    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  </script>
+</head>
+<body>
+
+
+</body>
+</html>

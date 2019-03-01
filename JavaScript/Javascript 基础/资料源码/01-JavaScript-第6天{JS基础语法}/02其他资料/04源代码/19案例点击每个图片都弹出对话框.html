@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <style>
+    img{
+      width: 300px;
+      height: 200px;
+    }
+  </style>
+</head>
+<body>
+<img src="images/1.jpg" alt="美女1" />
+<img src="images/2.jpg" alt="美女2" />
+<img src="images/3.jpg" alt="美女3" />
+
+<script>
+
+  //点击图片,弹出对话框
+  //根据标签的名字来获取图片----最终都是数组,但是是伪数组
+  //document.getElementsByTagName("标签的名字");返回的是一个伪数组
+  var imgObjs=document.getElementsByTagName("img");
+  for(var i=0;i<imgObjs.length;i++){
+    //为每个图片标签注册事件,添加事件处理函数
+    imgObjs[i].onclick=function () {
+        alert("我被点了"+this.src);
+    };
+  }
+
+
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <style>
+    div{
+      width: 200px;
+      height: 100px;
+      background-color: pink;
+    }
+    .cls{
+      width: 500px;
+      height: 600px;
+      background-color: yellowgreen;
+    }
+  </style>
+</head>
+<body>
+
+<input type="button" value="设置样式" id="btn"/>
+<div id="dv">
+</div>
+<script>
+  document.getElementById("btn").onclick=function () {
+    //设置样式
+    var dvObj=document.getElementById("dv");
+    //在js中class是关键字,在js代码的DOM操作中,请使用className来代替html中的class
+    dvObj.className="cls";
+
+
+  };
+</script>
+</body>
+</html>

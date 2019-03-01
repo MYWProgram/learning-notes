@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script>
+    //for循环
+    /*
+    *
+    * for循环的语法:
+    * for(表达式1;表达式2;表达式3){
+    *   循环体
+    * }
+    *
+    * for(var i=0;i<=100;i++){
+    *   内容的代码
+    * }
+    * 执行过程:
+    * 先执行表达式1,然后判断表达式2是否成立,不成立,跳出循环
+    * 如果表达式2成立,则执行循环体,然后执行表达式3
+    * 然后再执行表达式2,判断是否成立,不成立则跳出循环
+    * 如果成立,则继续执行循环体,然后执行表达式3,然后判断表达式2
+    *
+    *
+    * */
+
+    //打印:哈哈,我又变帅了,10次
+//    for(var i=0;i<10;i++){
+//      console.log("我喜欢男人,段哥说");
+//    }
+//    for(;;){
+//      console.log("小段好帅");
+//    }
+//    //类似与while(true){}
+//    while (true){
+//      console.log("助教好帅");
+//    }
+
+    //例子: 计算1-100之间所有数字的和
+//    var sum=0;
+//    for(var i=1;i<=100;i++){
+//      sum+=i;
+//    }
+//    console.log("和为"+sum);
+
+    //计算1-100之间的奇数的和
+//    var oddSum=0;//存储奇数的和的变量
+//    for(var i=1;i<=100;i++){
+//      if(i%2!=0){
+//        oddSum+=i;
+//      }
+//    }
+//
+//    console.log("奇数的和:"+oddSum);
+
+    //注意:变量名尽量不用重复
+//    var num1=10;
+//    var num2=20;
+//    console.log(num);
+
+
+    //计算1-100之间偶数的和
+//    var evenSum=0;
+//    for(var i=1;i<=100;i++){
+//      if(i%2==0){
+//        evenSum+=i;
+//      }
+//    }
+//    console.log(evenSum);
+
+    //计算1-100之间能被3整除的数字的和
+    var sum=0;
+    for(var i=1;i<=100;i++){
+      if(i%3==0){
+        sum+=i;
+      }
+    }
+    console.log(sum);
+
+
+
+  </script>
+</head>
+<body>
+
+
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script>
+
+    //    简繁体转换(见备注资料)
+    var arr = ["你=伱", "说=詤", "我=莪", "好=恏", "帅=帅", "气=气", "的=的", "杨=楊", "哥=哥"];
+    //做一个字典:键和值的关系  键:简体的中文,值:对应的繁体中文
+    var obj={};
+    //遍历数组获取数组中每一个字符串内容
+    for (var i = 0; i < arr.length; i++) {
+      //console.log(arr[i]);//你=伱
+      var keyWords=arr[i].split("=");//keyWords-->是数组["好","恏"]
+      //keyWords[0]---键  keyWords[1]---值
+      obj[keyWords[0]]=keyWords[1];
+      //console.log(keyWords);
+    }
+    var result="";//把简体对应的所有的繁体字保存起来
+    //提示用户输入中文
+    var str=prompt("请输入中文");//你说我帅不  啥?
+    //遍历用户输入的字符串
+    for(var i=0;i<str.length;i++){
+      //判断用户输入的每个字在键值对中是否存在
+      if(obj[str[i]]){
+        //有这个简体字对应的繁体字的
+        result+=obj[str[i]];
+      }else{
+        //没有文字对应的繁体字
+        result+=str[i];
+      }
+    }
+    console.log(result);
+
+
+//    for(var key in obj){
+//      console.log(key+"===="+obj[key]);
+//    }
+
+
+
+    //    var obj={
+    //      "你":"伱"
+    //    };
+    //    var str=prompt("请输入中文");
+    //    //你说我好不好
+    //    str[i]
+
+
+  </script>
+</head>
+<body>
+
+
+</body>
+</html>

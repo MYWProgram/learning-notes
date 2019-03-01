@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>$永远的24k纯帅$</title>
+  <script>
+
+    /*
+     *
+     * do-while循环
+     *
+     * 语法:
+     *
+     * do{
+     *     循环体
+     * }while(条件);
+     *
+     * 执行过程:
+     * 先执行一次循环体,然后判断条件是否成立,不成立,则跳出循环,成立则执行循环体,然后再判断条件是否成立,成立则继续循环,否则跳出.....
+     *
+     * */
+
+
+    //例子:
+    //输出:哈哈,我又变帅了..10次
+
+    //    var i=0;//计数器
+    //    do{
+    //      console.log("哈哈,我又变帅了");
+    //      i++;
+    //    }while(i<10);
+
+    //例子:问用户:您觉得我帅吗?提示用户请输入y/n ,如果n就一直问,我帅不帅,如果用户输入的y,则结束,并提示用户,您真有眼光
+
+
+    //    do {
+    //      //把用户输入的结果存储到result变量中
+    //      var result = prompt("您觉得我帅吗?y/n");
+    //    } while (result != "y");
+    //    console.log("您真有眼光");
+
+
+    //练习:求100以内所有3的倍数的和
+
+    //    var i = 1;
+    //    var sum = 0;
+    //    while (i <= 100) {
+    //      if (i % 3 == 0) {
+    //        sum += i;
+    //      }
+    //      i++;
+    //    }
+    //    console.log(sum);//1683
+
+    var i = 1;
+    var sum = 0;
+    do {
+      if (i % 3 == 0) {
+        sum += i;
+      }
+      i++;
+    } while (i <= 100);
+    console.log(sum);
+
+
+  </script>
+</head>
+<body>
+
+
+</body>
+</html>

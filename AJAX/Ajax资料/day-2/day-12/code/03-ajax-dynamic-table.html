@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AJAX 动态表格渲染</title>
+</head>
+<body>
+  <table id="demo"></table>
+
+  <!--
+    script 标签的特点是
+    1. innerHTML 永远不会显示在界面上
+    2. 如果 type 不等于 text/javascript 的话，内部的内容不会作为 JavaScript 执行
+  -->
+  <script id="tmpl" type="text/x-art-template">
+    {{each comments}}
+    <!-- each 内部 $value 拿到的是当前被遍历的那个元素 -->
+    <tr>
+      <td>{{$value.author}}</td>
+      <td>{{$value.content}}</td>
+      <td>{{$value.created}}</td>
+    </tr>
+    {{/each}}
+  </script>
+  <script src="template-web.js"></script>
+  <script>
+
+    var xhr = new XMLHttpRequest()
+    xhr.open('GET', 'test.php')
+    xhr.send()
+    xhr.onreadystatechange = function () {
+      if (this.readyState !== 4) return
+      var res = JSON.parse(this.responseText)
+
+      // 模板所需数据
+      var context = { comments: res.data }
+      // 借助模板引擎的API 渲染数据
+      var html = template('tmpl', context)
+      console.log(html)
+
+      document.getElementById('demo').innerHTML = html
+
+
+      // 1. 选择一个模板引擎
+      //  https://github.com/tj/consolidate.js#supported-template-engines
+      // 2. 下载模板引擎JS文件
+      // 3. 引入到页面中
+      // 4. 准备一个模板
+      // 5. 准备一个数据
+      // 6. 通过模板引擎的JS提供的一个函数将模板和数据整合得到渲染结果HTML
+      // 7. 将渲染结果的HTML 设置到 默认元素的 innerHTML 中
+
+      // var tmpl = '{{if user}}<h2>{{user.name}}</h2>{{/if}}'
+      //
+      // 为什么不在JS变量中写模板？
+      // 1. 如果将模板写到JS中，维护不方便，不能换行，没有着色
+      // 为什么使用script标记
+      // 1. script不会显示在界面
+
+    }
+
+  </script>
+</body>
+</html>

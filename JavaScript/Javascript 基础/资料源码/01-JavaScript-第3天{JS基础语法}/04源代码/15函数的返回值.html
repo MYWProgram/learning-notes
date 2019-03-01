@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>$永远的24k纯帅$</title>
+  <script>
+    //set:设置
+    //get:获取
+    //函数的返回值:在函数内部有return关键字,并且在关键字后面有内容,这个内容被返回了
+    //当函数调用之后,需要这个返回值,那么就定义变量接收,即可
+
+    /*
+    *
+    * 如果一个函数中有return ,那么这个函数就有返回值
+    * 如果一个函数中没有return,那么这个函数就没有返回值
+    * 如果一个函数中没有明确的返回值,那么调用的时候接收了,结果就是undefined
+    * (没有明确返回值:函数中没有return,函数中有return,但是return后面没有任何内容)
+    * 函数没有返回值,但是在调用的时候接收了,那么结果就是undefined
+    * 变量声明了,没有赋值,结果也是undefined
+    * 如果一个函数有参数,有参数的函数
+    * 如果一个函数没有参数,没有参数的函数
+    * 形参的个数和实参的个数可以不一致
+    * return 下面的代码是不会执行的
+    *
+    *
+    *
+    * */
+
+
+    function f1(x,y) {
+      var sum= x+y;
+      return sum;
+      console.log("助教才是最帅的");
+      return 100;
+    }
+    var result=f1(10,20);
+    console.log(result);
+
+
+
+
+//    function getSum(x, y) {
+//      var sum = x + y;
+//      return sum;//把和返回
+//
+//    }
+//    //函数调用
+//    var result=getSum(10, 20);
+//    console.log(result+10);
+
+
+
+    //函数定义: 有参数有返回值的函数
+//    function getSum(x, y) {
+//      return  x + y;//把和返回
+//    }
+//    //函数调用
+//    var result=getSum(10, 20);
+//    console.log(result+10);
+
+
+
+    //有参数,有返回值的函数
+//    function f1(x,y) {
+//      return x+y;
+//    }
+//    //有参数,无返回值的函数
+//    function f2(x) {
+//      console.log(x);
+//    }
+//    //无参数,有返回值的函数
+//    function f3() {
+//      return 100;
+//    }
+//    //无参数无返回值的函数
+//    function f4() {
+//      console.log("萨瓦迪卡");
+//    }
+//
+//
+//    var sum=f1(10);
+//    console.log(sum);//
+
+  </script>
+</head>
+<body>
+
+
+</body>
+</html>

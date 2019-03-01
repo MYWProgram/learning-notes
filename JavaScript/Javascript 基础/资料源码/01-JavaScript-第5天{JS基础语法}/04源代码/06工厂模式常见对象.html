@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>$永远的24k纯帅$</title>
+  <script>
+
+    /*
+     *
+     * 如何获取该变量(对象)是不是属于什么类型的?
+     * 语法:
+     * 变量 instanceof 类型的名字----->布尔类型,true就是这种类型,false不是这种类型
+     * 在当前的对象的方法中,可以使用this关键字代表当前的对象
+     *
+     *
+     * */
+
+
+    //人的对象
+    //    var person=new Object();
+    //    person.name="小白";
+    //    person.age=10;
+    //    person.sayHi=function () {
+    //      //在当前这个对象的方法中是可以访问当前这个对象的属性的值
+    //        console.log("您好,吃了没您,我叫:"+this.name);
+    //    };
+    //    //学生的对象
+    //    var stu=new Object();
+    //    stu.name="小芳";
+    //    stu.age=18;
+    //    stu.study=function () {
+    //      console.log("学习,敲代码,今天作业四遍,我今年"+this.age+"岁了");
+    //    };
+    //    //小狗的对象
+    //    var dog=new Object();
+    //    dog.name="哮天犬";
+    //    dog.say=function () {
+    //      console.log("汪汪...我是哮天犬");
+    //    };
+    //
+    //    //输出人是不是人的类型
+    //    console.log(person instanceof Object);
+    //    console.log(stu instanceof Object);
+    //    console.log(dog instanceof Object);
+
+    //对象不能分辨出到底是属于什么类型?
+
+    //如何一次性创建多个对象?把创建对象的代码封装在一个函数中
+
+    //工厂模式创建对象
+    function createObject(name,age) {
+      var obj = new Object();//创建对象
+      //添加属性
+      obj.name = name;
+      obj.age = age;
+      //添加方法
+      obj.sayHi = function () {
+        console.log("阿涅哈斯诶呦,我叫:" + this.name + "我今年:" + this.age);
+      };
+      return obj;
+    }
+    //创建人的对象
+    var per1 = createObject("小芳",20);
+    per1.sayHi();
+    //创建一个人的对象
+    var per2 = createObject("小红",30);
+    per2.sayHi();
+
+
+  </script>
+</head>
+<body>
+
+
+</body>
+</html>

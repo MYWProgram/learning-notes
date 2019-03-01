@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>JSONP 客户端</title>
+</head>
+<body>
+  <script>
+
+    // var script = document.createElement('script')
+    // script.src = 'http://localhost/jsonp/server.php'
+    // document.body.appendChild(script)
+
+    // function aaabbb (data) {
+    //   console.log('1111', data)
+    // }
+
+    // var script = document.createElement('script')
+    // script.src = 'http://localhost/jsonp/server.php'
+    // document.body.appendChild(script)
+
+    // function aaabbb (data) {
+    //   console.log('2222', data)
+    // }
+
+
+    // 为每一个请求创建一个唯一的函数
+
+    // var funcName = 'haha_' + Date.now() + Math.random().toString().substr(2, 5)
+
+    // var script = document.createElement('script')
+    // script.src = 'http://localhost/jsonp/server.php?callback=' + funcName
+    // document.body.appendChild(script)
+
+    // window[funcName] = function (data) {
+    //   console.log('1111', data)
+    // }
+
+
+    function jsonp (url, params, callback) {
+      var funcName = 'jsonp_' + Date.now() + Math.random().toString().substr(2, 5)
+
+      if (typeof params === 'object') {
+        var tempArr = []
+        for (var key in params) {
+          var value = params[key]
+          tempArr.push(key + '=' + value)
+        }
+        params = tempArr.join('&')
+      }
+
+      var script = document.createElement('script')
+      script.src = url + '?' + params + '&callback=' + funcName
+      document.body.appendChild(script)
+
+      window[funcName] = function (data) {
+        callback(data)
+
+        delete window[funcName]
+        document.body.removeChild(script)
+      }
+    }
+
+
+    jsonp('http://localhost/jsonp/server.php', { id: 123 }, function (res) {
+      console.log(res)
+    })
+
+    jsonp('http://localhost/jsonp/server.php', { id: 123 }, function (res) {
+      console.log(res)
+    })
+  </script>
+</body>
+</html>

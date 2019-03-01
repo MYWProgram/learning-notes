@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+
+</head>
+<body>
+<input type="button" value="按钮" name="button1" id="btn"/>
+<script>
+  //点击按钮弹出对话框
+  //获取按钮---根据id获取
+  //name属性和id属性区别?name属性为了将来向后台提交的
+  //id属性为这个元素的唯一标识,页面中所有的元素的id值都不能重复,就像人的身份证号码
+
+
+</script>
+
+<script>
+  //从整个文档中去获取
+  //document.getElementById("id属性的值");//返回这个获取的对象(就是这个标签)
+  var btnObj = document.getElementById("btn");
+  //为按钮添加事件:点击事件
+  //事件:有事件源,触发,响应------>事件的三要素
+  //按钮被点击了,弹出对话框
+  btnObj.onclick = function () {
+      alert("我被点击了")
+  };
+</script>
+
+</body>
+</html>

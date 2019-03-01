@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>JSONP</title>
+</head>
+<body>
+  <script>
+    // http://day-12.io/13-jsonp.html
+    function myonload (data) {
+      console.log(data)
+    }
+  </script>
+  <script src="http://localhost/data.js"></script>
+  <!-- <script src="http://localhost/data.php"></script> -->
+  <!--
+    通过 script 标签请求一个服务端的 PHP 文件
+    这个文件返回的结果是一段 JS，作用是调用我们事先定义好的一个函数
+    从而将服务端想要给客户端发过去的数据发送给客户端
+  -->
+</body>
+</html>

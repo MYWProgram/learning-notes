@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>$永远的24k纯帅$</title>
+  <script>
+    //输入,年月日,获取这个日期是这一年的第多少天
+
+    //判断这个年份是不是闰年
+    function isLeapYear(year) {
+      return year%4==0&&year%100!=0||year%400==0;
+    }
+    //年---月---日:2017年4月28日
+    function getDays(year, month, day) {
+      //定义变量存储对应的天数
+      var days = day;
+      //如果用户输入的是一月份,没必要向后算天数,直接返回天数
+      if (month == 1) {
+        return days;
+      }
+      //代码执行到这里-----说明用户输入的不是1月份
+      //用户输入的是7月份23日----1，2，3  +23
+      //定义一个数组,存储每个月份的天数
+      var months = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+      //小于的是输入的月份-1
+      for (var i = 0; i < month - 1; i++) {
+        days += months[i];
+      }
+      //需要判断这个年份是不是闰年
+      if(isLeapYear(year)&&month>2){
+        days++;
+      }
+      return days;
+    }
+
+     console.log(getDays(2000,3,2));
+
+
+
+
+
+    //函数里面可以调用其他的函数
+//    function f1() {
+//      console.log("我是一个函数");
+//      f2();//函数的调用
+//    }
+//    function f2() {
+//      console.log("我也是一个函数");
+//    }
+//
+//    f1();
+
+
+
+  </script>
+</head>
+<body>
+
+
+</body>
+</html>

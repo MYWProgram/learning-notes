@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>$永远的24k纯帅$</title>
+  <script>
+
+    //1 调用构造函数创建对象
+    var obj=new Object();
+
+    //2. 自定义构造函数创建对象
+
+    //自定义构造函数
+    function Person(name,age) {
+      this.name=name;
+      this.age=age;
+      this.sayHi=function () {
+        console.log("您好,我叫:"+this.name);
+      };
+    }
+    //创建对象----实例化一个对象,并初始化
+    var per=new Person("小明",20);
+    per.name="张三";
+    //四件事:
+    /*
+    * 1. 开辟空间,存储创建的新的对象
+    * 2. 把this设置为当前的对象
+    * 3. 设置对象的属性和方法的值
+    * 4. 返回创建后新的对象
+    *
+    *
+    * */
+
+  </script>
+</head>
+<body>
+
+
+</body>
+</html>

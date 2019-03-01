@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>$永远的24k纯帅$</title>
+  <script>
+
+    /*
+     * 命名函数:函数如果有名字,就是命名函数
+     *
+     * 匿名函数:函数如果没有名字,就是匿名函数
+     *
+     * 函数的另一种定义方式
+     * 函数表达式:
+     * 把一个函数给一个变量,此时形成了函数表达式
+     * var 变量=匿名函数;
+     * 例子:
+     * var f1=function (){
+     *
+     * };
+     * 如果是函数表达式,那么此时前面的变量中存储的就是一个函数,而这个变量就相当于是一个函数,就可以直接加小括号调用了
+     * f1();
+     *
+     * 注意:
+     * 函数表达式后面,赋值结束后,要加分号
+     *
+     *
+     *
+     * 函数定义:
+     * 1. 函数声明--函数定义
+     * function 函数名(){
+     *     函数体
+     * }
+     *
+     * */
+
+
+
+    //    var f1=function(){console.log("阿涅哈斯诶呦");};
+    //    f1();
+
+    //函数的自调用,没有名字,调用---声明的同时,直接调用
+    //一次性的--------
+    //    (function(){console.log("阿涅哈斯诶呦");})();
+    //    (function(){console.log("嘎嘎")})();
+
+
+    //
+    //    function f1() {
+    //      console.log("哈哈,我又变帅了");
+    //    }
+    //    f1();//函数调用
+    //    //如果一个函数能够调用:  函数的代码();
+    //
+    //    //函数表达式
+    //    var f2 = function () {
+    //      console.log("哈哈,真的好帅哦");
+    //    };
+    //    //匿名函数不能直接调用
+    //    f2();
+    //
+    //
+    //    var f4 = function () {
+    //      console.log("我是一个函数");
+    //    };
+    //    f4();
+    //
+    //
+    //
+    //    var num=10;
+
+
+    //函数声明
+    function f1() {
+      console.log("助教好帅哦");
+    }
+    f1();
+    function f1() {
+      console.log("小苏好猥琐哦");
+    }
+    f1();
+
+    //函数表达式
+    var f2 = function () {
+      console.log("助教没有小杨帅");
+    };
+    f2();
+    f2 = function () {
+      console.log("小杨真的很帅");
+    };
+    f2();
+    //函数自调用
+    (function () {
+      console.log("阿涅哈斯诶呦");
+    })();
+    (function () {
+      console.log("嘎嘎")
+    })();
+
+
+    //    var num=10;
+    //    console.log(num);
+    //    num=100;
+    //    console.log(num);
+  </script>
+</head>
+<body>
+
+
+</body>
+</html>

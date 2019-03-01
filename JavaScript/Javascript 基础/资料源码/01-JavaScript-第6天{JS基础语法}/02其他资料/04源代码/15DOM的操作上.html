@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script>
+
+    //学习DOM:
+    //DOM的作用:操作页面的元素
+    /*
+    *
+    * 事件:就是一件事,
+    *
+    * */
+  </script>
+</head>
+<body>
+<!--第一种写法-->
+<!--点击按钮弹出对话框-->
+<!--<input type="button" value="按钮" onclick="js的代码"/>-->
+<!--<input type="button" value="按钮" onclick="alert('被点了')"/>-->
+
+<!--第二种写法-->
+<script>
+  function f1() {
+    alert("哈哈");
+  }
+</script>
+<input type="button" value="按钮" onclick="f1();"/>
+
+
+<!--第三种写法-->
+
+<input type="button" value="按钮" id="btn1" />
+<script>
+
+  function f2() {
+    alert("哦被点了");
+  }
+  //获取按钮,添加onclick的点击事件
+  //根据id属性的值获取某个元素
+  var btnObj=document.getElementById("btn1");
+  btnObj.onclick=f2; //f2()调用
+</script>
+
+<!--第四种写法-->
+<input type="button" value="按钮" id="btn"/>
+<script>
+  //获取按钮
+//  var btnObj=document.getElementById("btn");
+//  btnObj.onclick=function () {
+//    alert("哈哈,我又变帅了");
+//  };
+
+
+
+  document.getElementById("btn").onclick=function () {
+    alert("哈哈,我又变帅了");
+  };
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>$永远的24k纯帅$</title>
+  <script>
+
+
+    //案例1:求数组中所有元素的和
+
+    var arr1 = [10, 20, 30, 40, 50];
+    var sum = 0;
+    for (var i = 0; i < arr1.length; i++) {
+      sum += arr1[i];
+    }
+    console.log(sum);
+
+    //案例2:求数组中所有元素的平均值
+
+    var arr2 = [1, 2, 3, 4, 5];
+    var sum2 = 0;
+    for (var i = 0; i < arr2.length; i++) {
+      sum2 += arr2[i];
+    }
+    console.log(sum2 / arr2.length);
+
+    //案例3:求数组中所有元素中的最大值
+
+    var arr3 = [1, 3, 2, 5, 10, 100, 50];
+    //假设max变量中存储的是最大值
+    var max = arr3[0];
+    for (var i = 0; i < arr3.length; i++) {
+      //判断这个变量的值和数组中每个元素的值是不是最大值
+      if (max < arr3[i]) {
+        max = arr3[i];
+      }
+    }
+    console.log("最大值:" + max);
+
+
+    //一个不好的地方----会出现bug的
+    //    var arr3=[-1,-2,-3];
+    //    //假设max变量中存储的是最大值
+    //    var max=0;
+    //    for(var i=0;i<arr3.length;i++){
+    //      //判断这个变量的值和数组中每个元素的值是不是最大值
+    //      if(max<arr3[i]){
+    //        max=arr3[i];
+    //      }
+    //    }
+    //    console.log("最大值:"+max);
+
+
+    //    var arr3=[1,3,2,5,10,100,50];
+    //    //假设max变量中存储的是最大值
+    //    var max=Number.MIN_VALUE;//假设变量是最大的,但是实际上存储的是最小的值
+    //    for(var i=0;i<arr3.length;i++){
+    //      //判断这个变量的值和数组中每个元素的值是不是最大值
+    //      if(max<arr3[i]){
+    //        max=arr3[i];
+    //      }
+    //    }
+    //    console.log("最大值:"+max);
+
+
+    //案例4:求数组中所有元素的最小值
+    var arr4 = [100, 10, 20, 30, 40, 50];
+    var min = arr4[0];//假设min里存储的就是最小值
+    for (var i = 0; i < arr4.length; i++) {
+      if (min > arr4[i]) {
+        min = arr4[i];
+      }
+    }
+    console.log("最小值:" + min);
+
+
+    //案例5:倒序遍历数组
+
+    var arr5 = [10, 20, 30, 40, 50, 100];
+    //正序
+//    for (var i = 0; i < arr5.length; i++) {
+//      console.log(arr5[i]);
+//    }
+    //倒序
+    for(var i=arr5.length-1;i>=0;i--){
+      console.log(arr5[i]);
+    }
+
+
+  </script>
+</head>
+<body>
+
+
+</body>
+</html>

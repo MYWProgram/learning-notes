@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>jQuery中对AJAX的封装</title>
+</head>
+<body>
+  <script src="jquery.js"></script>
+  <script>
+
+    // // 最基础的 调用
+    // $.ajax('./time.php', {
+    //   type: 'post', // method 请求方法
+    //   success: function (res) {
+    //     // res => 拿到的只是响应体
+    //     console.log(res)
+    //   }
+    // })
+
+    // $.ajax({
+    //   url: 'time.php',
+    //   type: 'post',
+    //   // 用于提交到服务端的参数，
+    //   // 如果是 GET 请求就通过 url 传递
+    //   // 如果是 POST 请求就通过请求体传递
+    //   data: { id: 1, name: '张三' },
+    //   success: function (res) {
+    //     console.log(res)
+    //   }
+    // })
+
+    // $.ajax({
+    //   url: 'json.php',
+    //   type: 'get',
+    //   success: function (res) {
+    //     // res 会自动根据服务端响应的 content-type 自动转换为对象
+    //     // 这是 jquery 内部实现的
+    //     console.log(res)
+    //   }
+    // })
+
+    $.ajax({
+      url: 'json.php',
+      type: 'get',
+      // 设置的是请求参数
+      data: { id: 1, name: '张三' },
+      // 用于设置响应体的类型 注意 跟 data 参数没关系！！！
+      dataType: 'json',
+      success: function (res) {
+        // 一旦设置的 dataType 选项，就不再关心 服务端 响应的 Content-Type 了
+        // 客户端会主观认为服务端返回的就是 JSON 格式的字符串
+        console.log(res)
+      }
+    })
+
+  </script>
+</body>
+</html>

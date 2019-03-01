@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>怎么判断一个变量是Null还是undefined</title>
+</head>
+<body>
+
+</body>
+<script>
+
+                //  Undefined和Null
+
+    // 1. undefined 表示一个声明了没有赋值的变量，变量只声明的时候值默认是undefined
+    // 2. null 表示一个空，变量的值如果想为null，必须要手动设置, null 是一个非常特别的值，
+
+
+           var num =null;
+           console.log(num instanceof Object);
+
+
+
+
+// undefined    表示一个变量声明了没有初始化(赋值)；
+// undefined    不是一个有效的JSON，而null是；
+
+// undefined    的类型(typeof)是undefined；
+// null的类型(typeof)是object；
+
+
+
+// Javascript将未赋值的变量默认值设为undefined；
+// Javascript从来不会将变量设为null。它是用来让程序员表明某个用var声明的变量
+// 时没有值的。
+// typeof undefined
+//     //"undefined"
+//     undefined :是一个表示"无"的原始值或者说表示"缺少值"，就是此处应该有一个值，但是还没有定义。当尝试读取时会返回 undefined；
+//     例如变量被声明了，但没有赋值时，就等于undefined
+
+
+// typeof null
+//     //"object"
+//     null : 是一个对象(空对象, 没有任何属性和方法)；
+//     例如作为函数的参数，表示该函数的参数不是对象；
+// 注意：
+//     在验证null时，一定要使用　=== ，因为 == 无法分别 null 和　undefined
+//      null == undefined // true
+//       null === undefined // false
+
+</script>
+</html>
+

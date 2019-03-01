@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <style>
+
+    .cls{
+      background-color: red;
+    }
+  </style>
+</head>
+<body>
+
+<ul id="uu">
+  <li>乔峰</li>
+  <li class="cls">凤姐</li>
+  <li>段哥</li>
+  <li>卡卡西</li>
+  <li>初音</li>
+</ul>
+<p class="cls">第一个p</p>
+<p>第二个p</p>
+<span class="cls">第一个span</span>
+
+<input type="button" value="按钮1" name="button1" />
+<input type="button" value="按钮2" name="button1" />
+<input type="button" value="按钮3" name="button2" id="btn2" />
+<input type="button" value="按钮4" name="button1" />
+<script>
+
+//  //根据id属性
+//  document.getElementById("id属性的值");返回一个对象
+//  //根据标签名字
+//  document.getElementsByTagName("标签的名字");返回的是多个,组成了一个数组
+//  //获取应用了cls类样式的标签--h5中的
+//  document.getElementsByClassName("类样式的名字");返回的是多个,组成了一个数组
+//  //根据name属性的值来获取元素
+//  document.getElementsByName("name属性的值");返回的是多个,组成了一个数组
+//  //根据选择器的方式来获取--h5中的
+//  document.querySelector("选择器");返回一个对象
+//  document.querySelectorAll("选择器");返回是多个
+//
+
+
+//  var obj3=document.querySelector("#btn2");
+//  console.log(obj3.value);
+
+
+//  var objs1=document.getElementsByName("button1");
+//  for(var i=0;i<objs1.length;i++){
+//    console.log(objs1[i].value);
+//  }
+
+
+//  var objs=document.getElementsByClassName("cls");
+//  for(var i=0;i<objs.length;i++){
+//    console.log(objs[i].innerText);
+//  }
+
+</script>
+
+</body>
+</html>

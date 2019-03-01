@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>$永远的24k纯帅$</title>
+  <script>
+
+
+    //求1-100之间所有偶数的和
+    var sum1=0;
+    for(var i=1;i<=100;i++){
+      //判断i与2取余是0---->偶数
+      if(i%2==0){
+        sum1+=i;
+      }
+    }
+    console.log(sum1);//2550
+    //求1-100之间所有奇数的和
+
+    var sum2=0;
+    for(var i=1;i<=100;i++){
+      if(i%2!=0){
+        //奇数
+        sum2+=i;
+      }
+    }
+    console.log("和为:"+sum2);
+
+    //求1-100之间所有能被3整除的数字的和
+    var sum3=0;
+    for(var i=1;i<=100;i++){
+      if(i%3==0){
+        sum3+=i;
+      }
+    }
+    console.log(sum3);
+
+
+    //求1-100之间所有能被7整除的数字的和
+    var sum4=0;
+    for(var i=1;i<=100;i++){
+      if(i%7==0){
+        sum4+=i;
+      }
+    }
+    console.log(sum4);
+  </script>
+</head>
+<body>
+
+
+</body>
+</html>

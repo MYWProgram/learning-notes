@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <style>
+    div{
+      width: 200px;
+      height: 200px;
+      background-color: green;
+    }
+  </style>
+</head>
+<body>
+
+<input type="button" value="隐藏" id="btn"/>
+<div id="dv">
+</div>
+<script>
+
+  //初级版本的
+
+  document.getElementById("btn").onclick=function () {
+      //获取div
+    var dvObj=document.getElementById("dv");
+
+    //判断按钮的value值
+
+    if(this.value=="隐藏"){
+      //div隐藏
+      dvObj.style.display="none";
+      this.value="显示";
+
+    }else if(this.value=="显示"){
+      dvObj.style.display="block";
+      this.value="隐藏";
+    }
+  };
+
+
+</script>
+</body>
+</html>

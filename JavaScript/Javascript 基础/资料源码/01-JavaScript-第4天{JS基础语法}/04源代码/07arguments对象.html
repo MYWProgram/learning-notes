@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>$永远的24k纯帅$</title>
+  <script>
+
+    //计算两个数字的和
+//    function f1(x, y) {
+//      return x + y;
+//    }
+//    //计算三个数字的和
+//    function f2(x, y, z) {
+//      return x + y + z;
+//    }
+//    //计算四个数字的和
+//    function f3(x, y, z, k) {
+//      return x + y + z + k;
+//    }
+//    //计算五个数字的和
+//    function f4(a, b, c, d, e) {
+//      return a + b + c + d + e;
+//    }
+//    //计算六个数字的和
+//    function f5(a, b, c, d, e, f) {
+//      return a + b + c + d + e + f;
+//    }
+    //计算n个数字的和
+    //定义一个函数,如果不确定用户是否传入了参数,或者说不知道用户传了几个参数,没办法计算,但是如果在函数中知道了参数的个数,也知道了，每个参数的值.可以
+
+    //定义
+//    function f1() {
+//      //获取的是函数在调用的时候,传入了几个参数
+//      //console.log(arguments.length);
+//      //使用arguments对象可以获取传入的每个参数的值
+//      console.log(arguments);
+//    }
+//
+//    f1(10,20,30,40,100,200);//调用
+
+
+
+    function f1() {
+      //arguments----->数组使用------伪数组---
+      var sum=0;
+      for(var i=0;i<arguments.length;i++){
+        sum+=arguments[i];
+      }
+      return sum;
+    }
+
+    console.log(f1(10,20,30));
+  </script>
+</head>
+<body>
+
+
+</body>
+</html>

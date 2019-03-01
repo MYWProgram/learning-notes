@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>$永远的24k纯帅$</title>
+  <script>
+
+//   var result= Math.max(10,20,30,40);
+//    console.log(result);
+
+    //例子:自己定义一个对象,实现系统的max的方法
+    function MyMath() {
+      //添加了一个方法
+      this.getMax=function () {
+        //所有数字中的最大值
+        var max=arguments[0];
+        for(var i=0;i<arguments.length;i++){
+          if(max<arguments[i]){
+            max=arguments[i];
+          }
+        }
+        return max;
+      };
+    }
+    //实例对象
+    var mt=new MyMath();
+    var result=mt.getMax(10,20,30,40,100,3);
+    console.log(result);
+
+  </script>
+</head>
+<body>
+
+
+</body>
+</html>

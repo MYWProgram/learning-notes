@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>尝试对一个不同源地址发起一个AJAX请求（失败了）</title>
+</head>
+<body>
+  <script src="jquery.js"></script>
+  <script>
+
+    // 当前页面访问地址：http://day-12.io/11-cross-domain.html
+    // 希望被AJAX的地址：http://locally.uieee.com/categories
+    // 这两个地址之间 协议相同 端口相同 域名不同 所以是两个不同源的地址
+    // 同源策略指的就是：不同源地址之间，默认不能相互发送AJAX请求
+
+    // 不同源地址之间如果需要相互请求，必须服务端和客户端配合才能完成
+
+    $.get('http://locally.uieee.com/categories', function (res) {
+      console.log(res)
+    })
+
+  </script>
+</body>
+</html>

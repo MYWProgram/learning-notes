@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+
+</head>
+<body>
+<input type="button" value="没怀孕" />
+<input type="button" value="没怀孕" />
+<input type="button" value="没怀孕" />
+<input type="button" value="没怀孕" />
+<input type="button" value="没怀孕" />
+<script>
+
+  //先获取所有的按钮
+  var btnObjs=document.getElementsByTagName("input");
+  //循环的方式为每个按钮注册点击事件
+  for(var i=0;i<btnObjs.length;i++){
+    //为每个按钮注册事件
+    btnObjs[i].onclick=function () {
+        //再次循环所有的按钮
+      for(var j=0;j<btnObjs.length;j++){
+        btnObjs[j].value="没怀孕";
+      }
+      //当前被点击的这个按钮的value为怀孕
+     // btnObjs[i].value="怀孕了";
+      //console.log(i);
+      this.value="怀孕了";
+
+    };
+
+
+  }
+
+
+</script>
+</body>
+</html>

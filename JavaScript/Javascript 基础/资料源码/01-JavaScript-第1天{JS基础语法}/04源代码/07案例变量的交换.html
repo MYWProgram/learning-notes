@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>$永远的24k纯帅$</title>
+  <script>
+    //变量的交换的第一个思路:使用第三方的变量进行交换
+    //    var num1=10;
+    //    var num2=20;
+    //   //把num1这个变量的值取出来放在temp变量中
+    //    var temp=num1;
+    //   //把num2这个变量的值取出来放在num1变量中
+    //    num1=num2;
+    //   //把temp变量的值取出来放在num2变量中
+    //    num2=temp;
+    //    console.log(num1);//20
+    //    console.log(num2);//10
+
+
+    //第二种方式交换:一般适用于数字的交换
+
+
+    //    var num1 = 10;
+    //    var num2 = 20;
+    //    //把num1的变量中的值和num2变量中的值,取出来相加,重新赋值给num1这个变量
+    //    num1 = num1 + num2;//30
+    //    //num1变量的值和num2变量的值取出来,相减的结果重新赋值给num2
+    //    num2 = num1 - num2;//10
+    //    //num1变量的值和num2变量的值取出来,相减的结果重新赋值给num1
+    //    num1 = num1 - num2;//20
+    //    console.log(num1, num2);
+
+
+    //Ctrl+Alt+L----->格式化代码的(设置代码有很好的格式,代码是错误的,这个快捷键是没有效果)
+
+    //注意；变量的名字是不能重名
+
+    //    var num1=10;
+    //    var num1=20;
+    //    console.log(num1);
+
+    //扩展的变量的交换:只需要看代码,不需要理解---位运算
+    var num1 = 10;
+    var num2 = 20;
+    num1 = num1 ^ num2;
+    num2 = num1 ^ num2;
+    num1 = num1 ^ num2;
+    console.log(num1, num2);
+
+
+  </script>
+</head>
+<body>
+
+
+</body>
+</html>

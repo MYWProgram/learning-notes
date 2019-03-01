@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+
+    // function foo () {
+    //   function bar () {
+    //     return 123
+    //   }
+    //   return bar()
+    // }
+
+    // function foo () {
+    //   setTimeout(function () {
+    //     return 123
+    //   }, 1000)
+    // }
+
+    function foo () {
+      var res
+      function bar () {
+        res = 123
+      }
+      bar()
+      return res
+    }
+
+    console.log(foo())
+
+  </script>
+</body>
+</html>

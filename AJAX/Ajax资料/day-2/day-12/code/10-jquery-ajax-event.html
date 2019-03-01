@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>jQuery全局事件处理函数</title>
+  <style>
+    .loading {
+      display: none;
+      position: fixed;
+    }
+  </style>
+</head>
+<body>
+  <div class="loading">正在玩命加载中...</div>
+  <button id="btn">请求</button>
+  <script src="jquery.js"></script>
+  <script>
+
+    $(document)
+      .ajaxStart(function () {
+        // 只要有 ajax 请求发生 就会执行
+        $('.loading').fadeIn()
+        // 显示加载提示
+        console.log('注意即将要开始请求了')
+      })
+      .ajaxStop(function () {
+        // 只要有 ajax 请求结束 就会执行
+        $('.loading').fadeOut()
+        // 结束提示
+        console.log('请求结束了')
+      })
+
+    $('#btn').on('click', function () {
+      // $.ajax({
+      //   url: 'time.php'
+      // })
+
+      $.get('time.php')
+    })
+
+  </script>
+</body>
+</html>

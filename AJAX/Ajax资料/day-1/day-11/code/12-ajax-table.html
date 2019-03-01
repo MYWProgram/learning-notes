@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>动态渲染数据到表格中</title>
+</head>
+<body>
+  <table>
+    <tbody id="content"></tbody>
+  </table>
+  <script>
+    var xhr = new XMLHttpRequest()
+    xhr.open('GET', 'test.php')
+    xhr.send()
+    xhr.onreadystatechange = function () {
+      if (this.readyState !== 4) return
+      var res = JSON.parse(this.responseText)
+      // res => 服务端返回的数据
+      var data = res.data
+      for (var i = 0; i < data.length; i++) {
+        // 先创建行
+        // 再创建列
+        // 再将列添加到行
+        // 再将行添加到tbody
+        // console.log(data[i])
+        var tr = document.createElement('tr')
+        tr.innerHTML = '<td>' + data[i].id + '</td><td></td><td></td><td></td><td></td><td></td>'
+      }
+    }
+  </script>
+</body>
+</html>

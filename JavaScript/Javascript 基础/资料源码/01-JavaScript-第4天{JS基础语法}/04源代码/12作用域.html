@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>$永远的24k纯帅$</title>
+  <script>
+    //作用域:使用范围
+    /*
+    *
+    * 全局变量:声明的变量是使用var声明的,那么这个变量就是全局变量,全局变量可以在页面的任何位置使用
+    * 除了函数以外,其他的任何位置定义的变量都是全局变量
+    * 局部变量:在函数内部定义的变量,是局部变量,外面不能使用
+    * 全局变量,如果页面不关闭,那么就不会释放,就会占空间,消耗内存
+    *
+    * 全局作用域:全局变量的使用范围
+    * 局部作用域:局部变量的使用范围
+    *
+    * 块级作用域:一对大括号就可以看成是一块,在这块区域中定义的变量,只能在这个区域中使用,但是在js中在这个块级作用域中定义的变量,外面也能使用;
+    * 说明:js没有块级作用域,只有函数除外
+    *
+    * 隐式全局变量:声明的变量没有var,就叫隐式全局变量
+    * 全局变量是不能被删除的,隐式全局变量是可以被删除的
+    * 定义变量使用var是不会被删除的,没有var是可以删除的
+    *
+    *
+    * */
+
+//    function f1() {
+//      number=1000;//是隐式全局变量
+//    }
+//    f1();
+//    console.log(number);
+
+//    var num1=10;
+//    num2=20;
+//    delete num1;//把num1删除了
+//    delete num2;//把num2删除了
+//    console.log(typeof num1);
+//    console.log(num1+10);
+//    console.log(typeof num2);
+
+
+
+
+//    num=100;
+//    console.log(num);
+
+    //扩展:隐式
+
+
+//    function f1() {
+//      var num=100;
+//      num+=10;
+//    }
+//    f1();//这个函数结束之后
+
+
+//    {
+//      var num=10;
+//      console.log(num);//10
+//    }
+//    console.log(num);
+
+//    if(true){
+//      var num=10;
+//    }
+//    console.log(num);
+//    for(var i=0;i<5;i++){
+//      var number=20;
+//    }
+//    console.log(number);
+
+//    var i=0;
+//    while (i<5){
+//      var num=100;
+//      i++;
+//    }
+//    console.log(num);
+
+
+//    function f1() {
+//      var num=10;
+//    }
+//    f1();
+//    console.log(num);
+
+
+
+//    var num=10;
+//    console.log(num);//10
+  </script>
+  <script>
+    //console.log(num);
+  </script>
+</head>
+<body>
+
+
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>$永远的24k纯帅$</title>
+  <script>
+    //js代码的注意问题
+    /*
+    *
+    *  1.在一对script的标签中有错误的js代码,那么该错误的代码后面的js代码不会执行
+    *  2.如果第一对的script标签中有错误,不会影响后面的script标签中的js代码执行
+    *  3.script的标签中可以写什么内容 type="text/javascript"是标准写法或者写language="JavaScript"都可以
+    *  但是,目前在我们的html页面中,type和language都可以省略,原因:html是遵循h5的标准
+    *
+    *  4.有可能会出现这种情况:script标签中可能同时出现type和language的写法.
+    *
+    *
+    *  5.script标签在页面中可以出现多对
+    *  6.script标签一般是放在body的标签的最后的,有的时候会在head标签中,目前讲课的时候都在body标签的后面(body中的最后)
+    *
+    *  7.如果script标签是引入外部js文件的作用,那么这对标签中不要写任何的js代码,如果要写,重新写一对script标签,里面写代码
+    *
+    * */
+//    alert("哈哈;
+//        alert("嘎嘎");
+  </script>
+  <script type="text/javascript" language="JavaScript">
+   // alert("有弹出来了");
+  </script>
+  <script language="JavaScript">
+    alert("哦买噶的");
+  </script>
+
+</head>
+<body>
+<script src="test.js">
+</script>
+
+
+</body>
+</html>

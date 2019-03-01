@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>$永远的24k纯帅$</title>
+  <script>
+
+    //求斐波那契数列,12---144
+    //1 1 2 3 5 8 13 21 34 55 89 144
+    function getFib(num) {
+      var num1=1;
+      var num2=1;
+      var sum=0;
+      for(var i=3;i<=num;i++){
+        sum=num1+num2;
+        num1=num2;
+        num2=sum;
+      }
+      return sum;
+    }
+    console.log(getFib(12));
+  </script>
+</head>
+<body>
+
+
+</body>
+</html>

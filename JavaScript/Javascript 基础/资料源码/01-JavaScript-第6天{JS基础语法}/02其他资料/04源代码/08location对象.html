@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script>
+
+    //location是window对象下的一个属性,实际上也是一个对象,主要是对浏览器的地址栏做操作
+
+    //获取地址的
+    //console.log(location.href);
+    //设置地址,地址改变,就会跳转
+    //location.href="http://www.baidu.com";
+//   location.assign("http://www.baidu.com");//-----一边去
+    //location.reload();//重载,刷新
+
+  </script>
+</head>
+<body>
+<!--<input type="button" value="去百度" id="btn"/>-->
+<input type="button" value="显示效果" id="btn"/>
+<script>
+  document.getElementById("btn").onclick=function () {
+    //location.assign("http://www.baidu.com");
+
+    //把当前页面的地址,替换成一个新的地址,不会保存到历史记录
+   // location.replace("http://www.baidu.com");
+    //跳转页面了,和location.href是一样的
+    //同时会把原来的页面的记录会保存到历史记录中
+    //location.assign("http://www.baidu.com");
+
+    //属性
+    //location.href
+    //主机名和端口号
+   // console.log(location.host);
+
+    //地址栏上#及后面的内容
+    console.log(window.location.hash);
+    //主机名字和端口号
+    console.log(window.location.host);
+    //主机名字
+    console.log(window.location.hostname);
+    //文件的相对路径
+    console.log(window.location.pathname);
+    //端口
+    console.log(window.location.port);
+    //协议
+    console.log(window.location.protocol);
+    //搜索的内容:获取的是?及后面的内容
+    console.log(window.location.search);
+    //和location.href属性是一样的操作,
+    location.assign("http://www.baidu.com");
+    //替换的地址的,没有历史记录
+    location.replace("http://www.baidu.com");
+    location.reload();//刷新
+  };
+</script>
+
+</body>
+</html>

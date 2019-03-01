@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>$永远的24k纯帅$</title>
+  <script>
+
+    //if语句只有一个分支
+    //if-else语句有两个分支,最终执行一个分支
+    //if-else if-else if-else if-else if..........else---多分支,最终也是执行一个
+
+    /*
+     *
+     * if-else if语句...
+     *
+     * 语法:
+     * if(表达式1){
+     *   代码1
+     * }else if(表达式2){
+     *   代码2
+     * }else if(表达式3){
+     *   代码3
+     * }else{
+     *   代码4
+     * }
+     *
+     * else if---这种结构可以写多个,具体多少个看需求,
+     * else--结构是可以不用写的,具体也是看需求
+     *
+     *
+     * 执行过程:
+     * 先判断表达式1的结果,
+     * 如果为true则执行代码1
+     * 如果为false,则判断表达式2
+     * 如果表达式2为true则执行代码2
+     * 如果为false,则判断表达式3
+     * 如果表达式3为true则执行代码3
+     * 否则执行代码4
+     *
+     *
+     * */
+
+    /*
+     * 例子: 成绩的结果是在90到100(包含)之间则 显示A级
+     *  如果成绩是在80到90(包含)之间,则显示B级
+     *  如果成绩是在70到80(包含)之间,则显示C级
+     *  如果成绩是在60(包含)到70(包含)之间,则显示D级
+     *  如果成绩在0到60(不包含)之间,则显示E级
+     *
+     *
+     *
+     * */
+
+    //实现代码
+    var score = Number(prompt("请您输入成绩"));//有bug
+    if (!isNaN(score)) {//如果为true就说明 不是数字
+      if (score > 90 && score <= 100) {
+        console.log("A级");
+      } else if (score > 80) {
+        console.log("B级");
+      } else if (score > 70) {
+        console.log("C级");
+      } else if (score >= 60) {
+        console.log("D级");
+      } else {
+        console.log("E级");
+      }
+    } else {
+      console.log("您输入有误");
+    }
+
+    //练习:判断一个年份是不是闰年
+    //定义变量存储一个年份
+    var year = 2017;
+    if (year % 4 == 0 && year % 100 != 0 || year % 400 == 0) {
+      console.log("闰年");
+    } else {
+      console.log("平年");
+    }
+
+  </script>
+</head>
+<body>
+
+
+</body>
+</html>

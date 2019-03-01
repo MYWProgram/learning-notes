@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <style>
+    div{
+      width: 200px;
+      height: 100px;
+      border: 2px solid red;
+      background-color: yellow;
+    }
+  </style>
+</head>
+<body>
+<input type="button" value="显示效果" id="btn"/>
+<div id="dv"></div>
+<script>
+  //点击按钮设置div的样式
+  //设置元素的样式:两种方式
+  //1.在style属性中
+  //2.在style标签中
+
+  //设置元素的样式:都应该:对象.style.属性
+  //经验:凡是在css属性中,属性名字是多个单词组合,中间用-隔开的,在js代码DOM操作中,把-干掉,后面单词的首字母变大写
+
+  //根据id属性获取按钮,注册点击事件,添加事件处理函数
+  document.getElementById("btn").onclick=function () {
+    //根据id获取div
+    var divObj=document.getElementById("dv");
+    //设置样式:宽,高,背景颜色,边框
+    divObj.style.width="300px";
+    divObj.style.height="200px";
+    divObj.style.backgroundColor="pink";
+    divObj.style.border="10px solid orange";
+
+  };
+
+</script>
+</body>
+</html>

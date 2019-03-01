@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+
+</head>
+<body>
+<input type="button" value="跳一下" id="btn1"/>
+第一个页面
+<input type="button" value="去吧,皮卡丘" id="btn2"/>
+<script>
+  document.getElementById("btn1").onclick=function () {
+      location.href="11test.html";
+  };
+  document.getElementById("btn2").onclick=function () {
+    //前进
+    history.forward();
+  };
+
+  //想要前进和后退,必须要有历史记录
+  history.forward();//前进
+  history.back();//后退
+  history.go();//如果是正数就是前进,负数就是后退
+</script>
+</body>
+</html>

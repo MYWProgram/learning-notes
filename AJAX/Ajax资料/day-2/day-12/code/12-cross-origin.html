@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>尝试找到一种可以发送不同源请求的方式</title>
+  <!-- link 真正的定义：链入一个文档，通过 rel 属性申明链入的文档与当前文档之间的关系 -->
+  <!-- <link rel="stylesheet" href="nprogress.css"> -->
+</head>
+<body>
+  <!-- <img src="http://ww1.sinaimg.cn/large/006ThXL5ly1fj8w5i2onyj302u02umwz.jpg" alt=""> -->
+  <script>
+
+    // 请求一个不同源的地址实际上就是我们所说的跨域请求
+
+    // 当前页面访问地址：http://day-12.io/12-cross-origin.html
+    // 希望被请求的地址：http://locally.uieee.com/categories
+    //
+    // 校验目标：1 能发出去，2 能收回来
+
+    // img link script iframe
+    //
+    // ## 1. img
+    // 可以发送不同源地址之间的请求
+    // 无法拿到响应结果
+    // var img = new Image()
+    // img.src = 'http://locally.uieee.com/categories'
+
+    // ## 2. link
+    // 可以发送不同源地址之间的请求
+    // 无法拿到响应结果
+    // var link = document.createElement('link')
+    // link.rel = 'stylesheet'
+    // link.href = 'http://locally.uieee.com/categories'
+    // document.body.appendChild(link)
+
+    // ## 3. script
+    // 可以发送不同源地址之间的请求
+    // 无法拿到响应结果
+    // 借助于能够作为 JS 执行
+    var script = document.createElement('script')
+    script.src = 'http://localhost/time2.php'
+    document.body.appendChild(script) // 开始发起请求
+
+    // 相当于请求的回调
+    function foo (res) {
+      console.log(res)
+    }
+
+    // console.log(a)
+
+  </script>
+</body>
+</html>

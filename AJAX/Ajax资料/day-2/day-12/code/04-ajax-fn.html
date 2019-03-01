@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>关于AJAX的封装</title>
+</head>
+<body>
+  <script>
+
+    // 封装的套路：
+    // 1. 写一个相对比较完善的用例
+    // 2. 写一个空函数，没有形参，将刚刚的用例直接作为函数的函数体
+    // 3. 根据使用过程中的需求抽象参数
+    //
+
+
+    // // ## version 4 ========================================
+    // function ajax (method, url, params) {
+    //   var res = null
+
+    //   method = method.toUpperCase()
+    //   var xhr = new XMLHttpRequest()
+
+    //   // 将 object 类型的参数转换为 key=value&key=value
+    //   if (typeof params === 'object') {
+    //     var tempArr = []
+    //     for (var key in params) {
+    //       var value = params[key]
+    //       tempArr.push(key + '=' + value)
+    //     }
+    //     // tempArr => [ 'key1=value1', 'key2=value2' ]
+    //     params = tempArr.join('&')
+    //     // params => 'key1=value1&key2=value2'
+    //   }
+
+    //   if (method === 'GET') {
+    //     url += '?' + params
+    //   }
+
+    //   xhr.open(method, url, false)
+
+    //   var data = null
+    //   if (method === 'POST') {
+    //     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+    //     data = params
+    //   }
+
+    //   xhr.onreadystatechange = function () {
+    //     if (this.readyState !== 4) return
+    //     // 不应该在封装的函数中主观的处理响应结果
+    //     // console.log(this.responseText)
+    //     // 无法再内部包含的函数中通过 return 给外部函数的调用返回结果
+    //     // return this.responseText
+    //     // 由于异步模式下 这里的代码最后执行 所以不可能在外部通过返回值的方式返回数据
+    //     res = this.responseText
+    //   }
+
+    //   xhr.send(data)
+
+    //   return res
+    // }
+
+    // ajax('GET', 'time.php', { id: 1 })
+    // ajax('POST', 'add.php', { key1: 'value1', key2: 'value2' })
+    // ajax('POST', 'add.php', 'key1=value1')
+    // ajax('post', 'add.php', 'key1=value1')
+
+    // var res = ajax('GET', 'time.php', { id: 1 })
+    // console.log(res)
+
+    // var res1 = ajax('GET', 'time.php', { id: 1 })
+    // console.log(res1)
+
+
+    // ## version 1 =======================================
+    // function ajax (method, url, params) {
+    //   var xhr = new XMLHttpRequest()
+    //   xhr.open(method, url)
+    //   xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+
+    //   params = params || null
+
+    //   xhr.send(params)
+    //   xhr.onreadystatechange = function () {
+    //     if (this.readyState !== 4) return
+    //     console.log(this.responseText)
+    //   }
+    // }
+
+    // // ## version 2 ========================================
+    // function ajax (method, url, params) {
+    //   var xhr = new XMLHttpRequest()
+
+    //   if (method === 'GET') {
+    //     url += '?' + params
+    //   }
+
+    //   xhr.open(method, url)
+
+    //   var data = null
+    //   if (method === 'POST') {
+    //     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+    //     data = params
+    //   }
+
+    //   xhr.send(data)
+    //   xhr.onreadystatechange = function () {
+    //     if (this.readyState !== 4) return
+    //     console.log(this.responseText)
+    //   }
+    // }
+
+    // // ## version 3 ========================================
+    // function ajax (method, url, params) {
+    //   var xhr = new XMLHttpRequest()
+
+    //   // 将 object 类型的参数转换为 key=value&key=value
+    //   if (typeof params === 'object') {
+    //     var tempArr = []
+    //     for (var key in params) {
+    //       var value = params[key]
+    //       tempArr.push(key + '=' + value)
+    //     }
+    //     // tempArr => [ 'key1=value1', 'key2=value2' ]
+    //     params = tempArr.join('&')
+    //     // params => 'key1=value1&key2=value2'
+    //   }
+
+    //   if (method === 'GET') {
+    //     url += '?' + params
+    //   }
+
+    //   xhr.open(method, url)
+
+    //   var data = null
+    //   if (method === 'POST') {
+    //     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+    //     data = params
+    //   }
+
+    //   xhr.send(data)
+    //   xhr.onreadystatechange = function () {
+    //     if (this.readyState !== 4) return
+    //     console.log(this.responseText)
+    //   }
+    // }
+
+    // ajax('GET', 'time.php', { id: 1 })
+    // ajax('POST', 'add.php', { key1: 'value1', key2: 'value2' })
+    // ajax('POST', 'add.php', 'key1=value1')
+  </script>
+</body>
+</html>

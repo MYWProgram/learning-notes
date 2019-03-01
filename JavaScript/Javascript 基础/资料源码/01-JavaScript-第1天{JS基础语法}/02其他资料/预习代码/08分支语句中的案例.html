@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script>
+
+    //判断闰年案例
+    //四年一闰,百年不润,四百年再润
+    //年份%4==0&&年份%100!=0||年份%400==0
+
+    var year=2000;
+    if(year%4==0&&year%100!=0||year%400==0){
+      console.log("闰年");
+    }else{
+      console.log("平年");
+    }
+
+  </script>
+</head>
+<body>
+
+
+</body>
+</html>

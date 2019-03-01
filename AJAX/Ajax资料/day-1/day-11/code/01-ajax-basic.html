@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AJAX 的快速上手（发送请求）</title>
+</head>
+<body>
+  <script>
+    // 涉及到 AJAX 操作的页面“不能”使用文件协议访问（文件的方式访问）
+
+    // AJAX 是一套 API 核心提供的类型：XMLHttpRequest
+    // 1. 安装浏览器（用户代理）
+    //  xhr 就类似于浏览器的作用（发送请求接收响应）
+    var xhr = new XMLHttpRequest();
+    // 2. 打开浏览器 输入网址
+    xhr.open('GET', 'http://day-11.io/time.php');
+    // 3. 敲回车键 开始请求
+    xhr.send();
+    // 4. 等待响应
+
+    // 5. 看结果
+
+  </script>
+</body>
+</html>

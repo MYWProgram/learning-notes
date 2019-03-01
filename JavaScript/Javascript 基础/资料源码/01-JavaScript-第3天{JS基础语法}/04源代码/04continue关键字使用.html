@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>$永远的24k纯帅$</title>
+  <script>
+    //continue:在循环中如果遇到continue关键字,直接开始下一次循环
+
+//    var i=0;
+//    while (i<10){
+//      console.log("哈哈");
+//      //continue;
+//      i++;
+//    }
+
+
+    //案例:求100-200之间所有的奇数的和（用continue）
+
+//    var sum=0;
+//    var i=100;
+//    while(i<=200){
+//      //判断是不是偶数
+//      if(i%2==0){
+//       //如果是偶数----->跳过这个数字
+//        i++;//102
+//        continue;
+//      }
+//      sum+=i;
+//      i++;
+//    }
+//    console.log(sum);
+
+
+    //案例:求整数100～200的累加值，但要求跳过所有个位为3的数
+
+//    var sum=0;
+//    var i=100;
+//    while(i<=200){
+//      if(i%10==3){
+//        //个位数是3,不要
+//        i++;
+//        continue;
+//      }
+//      sum+=i;
+//      i++;
+//    }
+//    console.log(sum);
+
+
+    var sum=0;
+    var i=1;
+    while(i<=10){
+      if(i%10==3){
+        //个位数是3,不要
+        i++;
+        continue;
+      }
+      sum+=i;
+      i++;
+    }
+    console.log(sum);
+
+
+
+   // console.log(3%10  ==3);
+
+
+
+
+
+  </script>
+</head>
+<body>
+
+
+</body>
+</html>

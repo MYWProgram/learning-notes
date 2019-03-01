@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>$永远的24k纯帅$</title>
+  <script>
+    //案例1:
+    var str = "我爱最帅的杨哥,太帅了";
+    //console.log("杨哥");
+    var key = "杨哥";
+    //先获取要截取的字符串的索引的位置
+    var index = str.indexOf(key);
+    //从指定的位置开始截取,截取两个即可
+    str = str.substr(index, 2);
+    console.log(str);
+
+    //案例2:找到这个字符串中所有的 o 出现的位置
+    var str2 = "hello wod odd ott fbo nhyo";
+    var index = 0;//开始的位置
+    var key = "o";//要找的字符串
+    while ((index = str2.indexOf(key, index)) != -1) {//如果是-1情况,说明找完了
+      console.log(index);
+      index += key.length;
+    }
+    //4 7 10 14 20 25
+    //var index=str2.indexOf("o",0);
+    //console.log(index);
+
+    //案例3:找到这个字符串中每个字符串出现了多少次
+    var str3 = "whatOareYyouYnoYshaHleiHoHmyHgod";
+    //第一步:把所有的字母全部变成小写
+    str3 = str3.toLocaleLowerCase();
+    //第二步:创建一个空对象,目的:把字母作为键,次数作为值
+    var obj = {};
+    //第三步,遍历字符串,获取每个字母
+    for (var i = 0; i < str3.length; i++) {
+      //判断obj这个对象中有没有这个字母(字母---键)
+      var key = str3[i];//每个字母
+      if (obj[key]) {//判断obj中有没有这个键
+        //对象中有这个字母了
+        obj[key]++;
+      } else {
+        //对象中没有这个字母,那就把字母加到对象中,并且给这个字母一个出现的次数,默认1次
+        obj[key] = 1;
+      }
+    }
+
+    //遍历对象,显示每个字母的次数
+    for(var key in obj){
+      console.log(key+"这个字母出现了"+obj[key]+"次");
+    }
+    //创建新的对象---空对象---没有属性,也没有方法
+
+
+    //    var obj={
+    //      "sex":"男"
+    //    };
+    //我想知道这个obj对象中有没有sex这个属性
+    //把对象["属性名字"]--->放在if的判断中即可----判断对象中有没有这个属性
+    //if的判断的结果是true,则有这个属性,否则没有这个属性
+    //    if(obj["age"]){
+    //      console.log("有");
+    //    }else{
+    //      console.log("没有");
+    //    }
+
+  </script>
+</head>
+<body>
+
+
+</body>
+</html>

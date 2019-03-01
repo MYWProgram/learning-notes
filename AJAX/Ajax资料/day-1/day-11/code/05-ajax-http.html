@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>遵循HTTP协议</title>
+</head>
+<body>
+  <script>
+
+    var xhr = new XMLHttpRequest()
+
+    xhr.open('POST', '/add.php') // 设置请求行
+
+    xhr.setRequestHeader('Foo', 'Bar') // 设置一个请求头
+    // 一旦你的请求体是 urlencoded 格式的内容，一定要设置请求头中 Content-Type 'application/x-www-form-urlencoded'
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+
+    xhr.send('key1=value1&key2=value2') // 以 urlencoded 格式设置请求体
+
+  </script>
+</body>
+</html>

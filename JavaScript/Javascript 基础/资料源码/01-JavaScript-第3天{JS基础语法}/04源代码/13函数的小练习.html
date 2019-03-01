@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>$永远的24k纯帅$</title>
+  <script>
+
+    //函数需要先定义,然后才能使用
+    //函数名字:要遵循驼峰命名法
+    //函数一旦重名,后面的会把前面的函数覆盖
+    //Ctrl +鼠标左键---->转到定义
+    //一个函数最好就是一个功能
+    //下面的所有的函数的代码-----全部作废
+
+
+
+//    function alert() {
+//      console.log("哇塞,哭了哇函数迪斯噶");
+//    }
+//    alert("弹框");
+
+//    function f1() {
+//      console.log("小杨好帅哦");
+//    }
+//    function f1() {
+//      console.log("小苏好猥琐哦");
+//    }
+//    f1();
+
+
+    //通过函数
+    //求两个数字的和
+    function consoleSum() {//函数定义
+      var num1 = 100;
+      var num2 = 200;
+      var sum = num1 + num2;
+      console.log(sum);
+    }
+    //调用
+    consoleSum();
+
+
+    //求三个数字的和
+    function consoleSum2() {
+      var num1 = 10;
+      var num2 = 20;
+      var num3 = 30;
+      var sum = num1 + num2 + num3;
+      console.log(sum);
+    }
+    consoleSum2();
+
+    //求两个数字的最大值
+    function consoleMax() {
+      var x = 10;
+      var y = 20;
+      console.log(x > y ? x : y);
+    }
+    consoleMax();
+
+    //求三个数字的最大值
+    function consoleMax2() {
+      var x = 10;
+      var y = 20;
+      var z = 30;
+      var max = x > y ? (x > z ? x : z) : (y > z ? y : z);//嵌套的三元表达式
+      console.log(max);
+    }
+
+    consoleMax2();
+    //求1-100之间所有数字的和
+    function everySum() {
+      var sum=0;
+      for(var i=1;i<=100;i++){
+        sum+=i;
+      }
+      console.log(sum);
+    }
+    everySum();
+    //求1-100之间所有偶数的和
+    function everyEvenSum() {
+      var sum=0;
+      for(var i=1;i<=100;i++){
+        if(i%2==0){
+          sum+=i;
+        }
+      }
+      console.log(sum);
+    }
+    everyEvenSum();
+
+    //求一个数组的和
+    function consoleArraySum() {
+      var sum=0;
+      var arr=[10,20,30,40,50];
+      for(var i=0;i<arr.length;i++){
+        sum+=arr[i];
+      }
+      console.log(sum);
+    }
+    consoleArraySum();
+  </script>
+</head>
+<body>
+
+
+</body>
+</html>

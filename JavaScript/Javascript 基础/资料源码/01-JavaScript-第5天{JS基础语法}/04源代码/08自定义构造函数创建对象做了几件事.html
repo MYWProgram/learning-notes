@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>$永远的24k纯帅$</title>
+  <script>
+
+
+    /*
+    *
+    * 1. 在内存中开辟(申请一块空闲的空间)空间,存储创建的新的对象
+    * 2. 把this设置为当前的对象
+    * 3. 设置对象的属性和方法的值
+    * 4. 把this这个对象返回
+    *
+    *
+    * */
+    function Person(name,age) {
+      this.name=name;
+      this.age=age;
+      this.sayHi=function () {
+        console.log("我叫:"+this.name+",年龄是:"+this.age);
+      };
+    }
+
+    //创建对象
+    var obj=new Person("小明",10);
+    console.log(obj.name);
+    console.log(obj.age);
+    obj.sayHi();
+
+
+    //通过自定义构造函数实现下面的例子:
+
+    //创建一个图片的对象,图片有宽,有高,有大小(4M),图片可以展示内容
+    //创建一个小猫的对象,猫有颜色，体重，年龄,小猫可以抓耗子,可以打架
+
+
+
+
+
+
+
+
+
+
+  </script>
+</head>
+<body>
+
+
+</body>
+</html>

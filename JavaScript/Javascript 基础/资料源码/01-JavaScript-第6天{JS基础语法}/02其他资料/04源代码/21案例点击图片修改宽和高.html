@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+
+</head>
+<body>
+<!--图片标签本身有width和height的属性,是不需要家px-->
+<img src="images/liuyan.jpg" alt="美女" width="300" height="400" id="img1"/>
+<script>
+  //点击图片,设置宽和高
+  var imgObj = document.getElementById("img1");
+  imgObj.onclick = function () {
+    this.width = "500";
+    this.height = "200";
+    //鼠标在图片上的时候显示的信息
+    this.title = "好大的图片啊";
+  };
+
+  /*
+  * 所有的标签都可以有id属性
+  * 普通的标签的属性:src/href/title/width/height/...
+  *
+  * 表单标签的属性:name/value/type/checked/disabled/selected...
+  *
+  *
+  *
+  * */
+
+
+</script>
+
+</body>
+</html>

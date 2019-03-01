@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script>
+    /*
+     * 都是根据条件做判断
+     *
+     * if语句
+     * if-else语句
+     * if-else if语句
+     *
+     * if-else if-else if语句
+     *
+     * 语法:
+     *
+     * if(条件1){
+     *   语句1;
+     * }else if(条件2){
+     *   语句2;
+     * }else if(条件3){
+     *   语句3;
+     * }else if(条件4){
+     *   语句4;
+     * }else{
+     *   语句5;
+     * }
+     *
+     * 执行过程:
+     * 判断条件1是否成立.如果为true则执行语句1
+     * 如果条件1不成立(false),此时判断条件2是否成立,如果为true,则执行语句2
+     * 如果条件2不成立(false),此时判断条件3是否成立,如果为true,则执行语句3
+     * 如果条件3不成立(false),此时判断条件4是否成立,如果为true,则执行语句4
+     * 否则执行语句5
+     *
+     *
+     * */
+
+
+    //例子:判断小段的英语成绩,如果成绩在90分到100(包含)分之间,则成绩结果为A
+    //如果成绩在80分到90(包含)分之间,则成绩结果为B
+    //如果成绩在70分到80(包含)分之间,则成绩结果为C
+    //如果成绩在60分到70(包含)分之间,则成绩结果为D
+    //否则为E
+
+    //获取成绩
+    var score = 80;
+    if(score>=0&&score<=100){
+      if (score > 90 && score <= 100) {
+        console.log("A");
+      } else if (score > 80) {
+        console.log("B");
+      } else if (score > 70) {
+        console.log("C");
+      } else if (score > 60) {
+        console.log("D");
+      } else {
+        console.log("E");
+      }
+    }else{
+      console.log("您输入的成绩有误");
+    }
+
+  </script>
+</head>
+<body>
+
+
+</body>
+</html>

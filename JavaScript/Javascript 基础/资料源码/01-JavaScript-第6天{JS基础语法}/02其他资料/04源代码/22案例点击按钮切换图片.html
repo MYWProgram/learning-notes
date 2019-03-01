@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+
+</head>
+<body>
+<input type="button" value="切换" id="btn"/>
+<img src="images/cangjingkong.jpg" alt="" id="im" />
+<script>
+  //根据id获取按钮,为按钮注册点击事件,添加事件处理函数
+  document.getElementById("btn").onclick=function () {
+    //设置src属性
+      document.getElementById("im").src="images/boduo.jpg";
+  };
+</script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>$永远的24k纯帅$</title>
+  <script>
+    //预解析中,变量的提升,只会在当前的作用域中提升,提前到当前的作用域的最上面
+    //函数中的变量只会提前到函数的作用域中的最前面,不会出去
+    //预解析会分段(多对的script标签中函数重名,预解析的时候不会冲突)
+
+//    function f1() {
+//
+//      console.log(num);//undefined
+//      var num=10;
+//    }
+//    f1();
+//    console.log(num);//
+
+
+
+
+    function f1() {
+      console.log("哈哈");
+    }
+
+  </script>
+  <script>
+    f1();
+    function f1() {
+      console.log("嘎嘎");
+    }
+  </script>
+</head>
+<body>
+
+
+</body>
+</html>

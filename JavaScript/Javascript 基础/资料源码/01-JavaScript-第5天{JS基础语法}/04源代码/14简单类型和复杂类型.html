@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>$永远的24k纯帅$</title>
+  <script>
+
+    //原始数据类型: number,string,boolean,undefined, null,object
+    //基本类型(简单类型),值类型: number,string,boolean
+    //复杂类型(引用类型):object
+    //空类型:undefined,null
+
+    //值类型的值在哪一块空间中存储? 栈中存储
+    //引用类型的值在哪一块空间中存储?对象在堆上存储,地址在栈上存储
+
+    //var num=10;//值类型,值在栈上
+    //var obj={};//复杂类型,对象在堆,地址(引用)在栈
+
+    //值类型之间传递,传递的是值
+    //引用类型之间传递,传递的是地址(引用)
+
+    //值类型作为函数的参数,传递的是值
+    //引用类型作为函数的参数,传递的是地址
+
+
+
+
+
+
+
+//    var num=10;
+//    var num2=num;//传递的值
+
+//    function f1(x) {
+//      x=100;
+//    }
+//    var num=10;
+//    f1(num);
+//    console.log(num);//
+
+
+    var obj={
+      name:"小明"
+    };
+    function f2(obj2) {
+      obj2.name="小红";
+    }
+    console.log(obj.name);//
+    f2(obj);
+    console.log(obj.name);//
+
+
+  </script>
+</head>
+<body>
+
+
+</body>
+</html>

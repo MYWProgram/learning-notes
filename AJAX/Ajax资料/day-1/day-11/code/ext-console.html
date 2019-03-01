@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    var obj = { foo: 123 }
+
+    console.log(obj)
+
+    setTimeout(function () {
+      obj.foo = 456
+      console.log(obj)
+    }, 3000)
+  </script>
+</body>
+</html>

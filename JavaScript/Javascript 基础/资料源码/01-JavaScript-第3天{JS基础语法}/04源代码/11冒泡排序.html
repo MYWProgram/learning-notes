@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>$永远的24k纯帅$</title>
+  <script>
+
+    //冒泡排序:把所有的数据按照一定的顺序进行排列(从小到大,从大到下)
+
+    var arr = [10, 0, 100, 20, 60, 30];
+    //循环控制比较的轮数
+    for (var i = 0; i < arr.length - 1; i++) {
+      //控制每一轮的比较的次数
+      for (var j = 0; j < arr.length - 1 - i; j++) {
+        if (arr[j] < arr[j + 1]) {
+          var temp = arr[j];
+          arr[j] = arr[j + 1];
+          arr[j + 1] = temp;
+        }
+      }
+    }
+    console.log(arr);
+  </script>
+</head>
+<body>
+
+
+</body>
+</html>

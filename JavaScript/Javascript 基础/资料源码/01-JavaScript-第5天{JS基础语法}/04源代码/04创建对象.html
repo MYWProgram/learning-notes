@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>$永远的24k纯帅$</title>
+  <script>
+    //创建对象三种方式:
+    /*
+     *
+     * 1.调用系统的构造函数创建对象
+     * var 变量名= new Object(); Object 是系统的构造函数  Array
+     *
+     * 2.自定义构造函数创建对象(结合第一种和需求通过工厂模式创建对象)
+     *
+     *
+     * 3.字面量的方式创建对象
+     *
+     *
+     * */
+
+
+
+    //第一种创建对象的方式
+    //小苏举例子:
+    //实例化对象
+    var obj = new Object();
+    //对象有特征---属性和行为---方法
+    //添加属性-----如何添加属性?  对象.名字=值;
+    obj.name = "小苏";
+    obj.age = 38;
+    obj.sex = "女";
+    //添加方法----如何添加方法? 对象.名字=函数;
+    obj.eat = function () {
+      console.log("我喜欢吃油炸榴莲凉拌臭豆腐和大蒜");
+    };
+    obj.play = function () {
+      console.log("我喜欢玩飞机模型");
+    };
+    obj.cook = function () {
+      console.log("切菜");
+      console.log("洗菜");
+      console.log("把菜放进去");
+      console.log("大火5分钟");
+      console.log("出锅");
+      console.log("凉水过一下");
+      console.log("放料,吃");
+    };
+    console.log(obj.name);//获取--输出了
+    console.log(obj.age);
+    console.log(obj.sex);
+    //方法的调用
+    obj.eat();
+    obj.play();
+    obj.cook();
+
+    //练习:有一个黄色的小狗,叫大黄,今年已经三岁了,250斤的重量每次走路都很慢,喜欢吃大骨头
+    //练习:创建一个手机对象,手机有型号,有颜色,可以打电话和发短信
+
+  </script>
+</head>
+<body>
+
+
+</body>
+</html>

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AJAX 跨域（CORS）</title>
+  <!-- Cross Origin Resource Share -->
+</head>
+<body>
+  <script src="jquery.js"></script>
+  <script>
+
+    $.get('http://localhost/cors.php', {}, function (res) {
+      console.log(res)
+    })
+
+  </script>
+</body>
+</html>

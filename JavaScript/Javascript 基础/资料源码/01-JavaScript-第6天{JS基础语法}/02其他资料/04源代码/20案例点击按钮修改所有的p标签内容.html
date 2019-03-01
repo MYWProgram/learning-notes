@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <style>
+    div {
+      width: 200px;
+      height: 200px;
+      background-color: yellow;
+    }
+    #dv2{
+      width: 500px;
+      height: 200px;
+      border:2px solid deeppink;
+      background-color: green;
+    }
+  </style>
+</head>
+<body>
+<input type="button" value="显示效果" id="btn"/>
+<div id="dv">
+  <p>第一个</p>
+  <p>第二个</p>
+  <p>第三个</p>
+  <p>第四个</p>
+  <p>第五个</p>
+</div>
+<p>这是外面的p</p>
+
+<div id="dv2">
+  <input type="button" value="按钮" id="btn2"/><br/>
+  <input type="text" value="文本1"/><br/>
+  <input type="text" value="文本1"/><br/>
+  <input type="text" value="文本1"/><br/>
+  <input type="text" value="文本1"/><br/>
+  <input type="text" value="文本1"/><br/>
+</div>
+<script>
+
+  //根据id获取按钮,注册点击事件,添加事件处理函数
+  document.getElementById("btn").onclick = function () {
+    //console.log(this);//此时的this就是按钮
+    //修改所有的p标签中的内容
+    //先获取div
+    var dvObj=document.getElementById("dv");
+    var pObj = dvObj.getElementsByTagName("p");
+    for (var i = 0; i < pObj.length; i++) {
+      pObj[i].innerText = "我们都是p";
+    }
+  };
+</script>
+
+<script>
+
+  //点击按钮修改所有的文本框的内容
+  //根据id获取按钮,注册点击事件,添加事件处理函数
+  document.getElementById("btn2").onclick=function () {
+    //获取的是第二个div中的文本框
+    var dvObj2=document.getElementById("dv2");
+    //获取的是所有的input标签
+    var inputs=dvObj2.getElementsByTagName("input");
+    for(var i=0;i<inputs.length;i++){
+      //判断input标签的type属性是不是text
+      if(inputs[i].type=="text"){
+        inputs[i].value="都改变吧";
+      }
+    }
+
+  };
+</script>
+</body>
+</html>

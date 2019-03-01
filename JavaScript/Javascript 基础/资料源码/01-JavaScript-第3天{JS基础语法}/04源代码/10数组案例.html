@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>$永远的24k纯帅$</title>
+  <script>
+
+
+    //案例6:把数组中每个元素用|拼接到一起产生一个字符串并输出
+
+    //    var names=["卡卡西","佐助","鸣人","大蛇丸","雏田","小苏","凤姐","黑崎一护"];
+    //    var str="";//空的字符串
+    //    for(var i=0;i<names.length-1;i++){
+    //      str+=names[i]+"|";
+    //    }
+    //
+    //    console.log(str+names[names.length-1]);
+
+    //    var names=["卡卡西","佐助","鸣人","大蛇丸","雏田","小苏","凤姐","黑崎一护"];
+    //    var str="";//空的字符串
+    //    for(var i=1;i<names.length;i++){
+    //      str+="|"+names[i];
+    //    }
+    //
+    //    console.log(names[0]+str);
+
+
+    //案例7:去掉数组中重复的0，把其他的数据放在一个新的数组中
+
+    //    var arr = [10, 0, 20, 0, 30, 0, 50];
+    //    var newArr=[];//新数组,用来存放第一个数组中所有非0的数字
+    //    for(var i=0;i<arr.length;i++){
+    //      if(arr[i]!=0){
+    //        newArr[newArr.length]=arr[i];
+    //      }
+    //    }
+    //    //把新数组的长度作为下标使用,数组的长度是可以改变的
+    //    console.log(newArr);
+
+
+    //案例8:反转数组---把数组中的数据的位置调换
+    //    var array = [10, 20, 30, 40, 50];
+    //    //循环的目的是控制交换的次数
+    //    for (var i = 0; i < array.length / 2; i++) {
+    //      //先把第一个元素的值放在第三方变量中
+    //      var temp = array[i];
+    //      array[i] = array[array.length - 1 - i];
+    //      array[array.length - 1 - i] = temp;
+    //    }
+    //    console.log(array);
+
+
+    //    for(var i=array.length-1;i>=0;i--){
+    //      console.log(array[i]);
+    //    }
+    //console.log(array);//50 40 30 20 10
+
+
+    //案例9:提示用户输入班级人数,求总成绩,平均值,最高分,最低分---扩展
+
+    //提示用户输入人数,并转成数字类型
+    var perCount = parseInt(prompt("请输入班级人数"));
+    //定义数组存储班级的每个人的成绩
+    var perScores = [];
+    //循环的方式录入每个人的成绩
+    for (var i = 0; i < perCount; i++) {
+      //把每个人的成绩存储到数组中
+      perScores[perScores.length] = parseInt(prompt("请输入第" + (i + 1) + "个人的成绩:"));
+    }
+    console.log(perScores);
+    //求总成绩
+    var sum = 0;
+    var avg = 0;//平均值
+    var max=perScores[0];//最大值
+    var min=perScores[0];//最小值
+    for (var i = 0; i < perScores.length; i++) {
+      sum += perScores[i];//求和
+      //求最大值
+      if(max<perScores[i]){
+        max=perScores[i];
+      }
+      //求最小值
+      if(min>perScores[i]){
+        min=perScores[i];
+      }
+    }
+    //平均值
+    avg = sum / perScores.length;
+    console.log("和为:"+sum);
+    console.log("平均值:"+avg);
+    console.log("最大值:"+max);
+    console.log("最小值:"+min);
+
+    //案例10: 冒泡排序
+
+  </script>
+</head>
+<body>
+
+
+</body>
+</html>

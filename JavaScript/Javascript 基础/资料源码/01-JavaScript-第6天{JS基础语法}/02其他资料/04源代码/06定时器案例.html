@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>哈哈,我又变帅了</title>
+  <script>
+
+    setInterval(function () {
+      //获取title标签中的内容
+      var str=document.title;
+      //获取的是title标签中第一个字符串
+      var str1=str.charAt(0);
+      //除了第一个字符串以为的字符串
+      var str2=str.substr(1);
+      document.title=str2+str1;
+    },100);
+  </script>
+</head>
+<body>
+
+
+</body>
+</html>
