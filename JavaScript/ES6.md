@@ -265,6 +265,164 @@ let {0: first, [arr.length-1] : last} = arr;
 console.log(first, last);   //1, 3
 ~~~
 
+### 字符串的解构赋值
+
+      原理:字符串被转换成了一个类似数组的对象
+
+~~~js
+const [a, b, c, d, e] = 'hello';
+console.log(a, b, c, d, e);   //h, e, l, l, o
+
+//对数组对象的length属性解构赋值
+
+let {length: len} = 'hello';
+console.log(len);   //5
+~~~
+
+### 数值和布尔值的解构赋值
+
+      规则:只要等号右边的值不是对象或数组,就先将其转为对象
+
+~~~js
+//下面代码中数值和布尔值的包装对象都有toString属性,因此s都能取到值
+
+let {toString: s} = 123;
+console.log(s === Number.prototype.toString);   //true
+
+let {toString: s} = true;
+console.log(s === Boolean.prototype.toString);    //true
+
+//由于undefined和null无法转为对象,所以对它们进行解构赋值,都会报错
+
+let {prop: x} = undefined;    //TypeError
+let {prop: y} = null;   //TypeError
+~~~
+
+### 函数参数的解构赋值
+
+~~~js
+//下面的代码传入add函数的参数是一个数组,但是函数解析会默认解析为两个单独的参数x和y
+
+function add([x, y]) {
+  return x + y;
+}
+add([1, 2]);
+
+//指定了x和y的默认值,只要解构失败就返回默认值
+
+function move({x=0, y=0} = {}) {
+  return [x, y];
+}
+move({x: 3, y: 8});   //[3, 8]
+move({x: 3});   //[3, 0]
+move({});   //[0, 0]
+move();   //[0, 0]
+
+//为函数move指定了默认值
+
+function move({x, y} = {x: 0, y: 0}) {
+  return [x, y];
+}
+move({x: 3, y: 8});   //[3, 8]
+move({x: 3});   //[3, undefined]
+move({});   //[undefined, undefined]
+move();   //[0, 0]
+~~~
+
+### 解构的用途
+
+      1. 交换变量的值
+
+~~~js
+let x = 1;
+let y = 2;
+[x, y] = [y, x];
+~~~
+
+      2. 从函数返回多个值
+
+~~~js
+function example() {
+  return [1, 2, 3];
+}
+let [a, b, c] = example();
+console.log(a, b, c);   //1, 2, 3
+
+function example() {
+  return {
+    foo: a,
+    bar: b,
+  }
+}
+let {foo, bar} = example();
+console.log({foo, bar});    //{foo: a, bar: b}
+~~~
+
+      3. 函数参数的定义
+
+~~~js
+//有序
+
+function f(x, y, z) {};
+f([1, 2, 3]);
+
+//无序
+
+function f(x, y, z) {};
+f({z: 3, y: 2, x: 1});
+~~~
+
+      4. 提取JSON数据
+
+~~~js
+let jsonData = {
+  id: 1,
+  status: 'OK',
+  data: [666, 999],
+};
+let {id, status, data: number} = jsonData;
+console.log(id, status, number);
+~~~
+
+      5. 指定参数的默认值
+
+~~~js
+//避免在函数体内部再对参数指定值
+
+jQuery.ajax = function (url, {
+  async = true,
+  beforeSend = function () {},
+  cache = true,
+  complete = function () {},
+  crossDomain = false,
+  global = true,
+  // ... more config
+} = {}) {
+  // ... do stuff
+};
+~~~
+
+      6. 遍历Map结构
+      任何部署了Iterator接口的对象,都可以用for...of循环遍历;Map结构原生支持Iterator接口,配合变量的解构赋值,获取键名和键值就非常方便
+
+~~~js
+const map = new Map();
+map.set('first', 'hello');
+map.set('second', 'world');
+
+for (let [key, value] of map) {
+  console.log(key + " is " + value);
+}
+// first is hello
+// second is world
+~~~
+
+      7. 输入模块的指定方法
+
+~~~js
+const { SourceMapConsumer, SourceNode } = require("source-map");
+~~~
+
 ## 箭头操作符
 
     简化了函数的书写;操作符左边为输入的参数,右边是进行的操作以及返回的值Inputs=>outputs,箭头函数更方便写回掉:
