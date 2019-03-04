@@ -208,6 +208,61 @@ console.log(x, y, z);   //a, undefined, []
 
 let [a, [b], d] = [1, [2, 3], 4];
 console.log(a, bb, d);    //1, 2, 4
+
+//set结构的解构
+
+let [x, y ,z] = new Set(['a', 'b', 'c']);
+console.log(x, y, z);   //a, b, c
+~~~
+
+      解构允许在给属性赋值之前添加默认值,但是要取到属性的默认值必须对位值是===下的undefined
+
+~~~js
+let [x, y = 'b'] = ['a', undefined];
+console.log(x, y);    //a, b
+
+//要取到默认值,对位赋值属性值应为===下的undefined;如下null!===undefined
+let [x = 1] = [null];
+console.log(x);   //null!===undefined
+
+//特殊情况
+
+let [x=y, y=1] = [];    //报错,因为x取y值之前y没有赋值
+~~~
+
+### 对象的解构赋值
+
+      对象的解构赋值的内部机制,是先找到同名属性,然后再赋给对应的变量;真正被赋值的是后者,而不是前者
+
+~~~js
+//下面代码中foo是一种'匹配模式',真正被赋值的变量是bar
+
+let {foo: bar} = {foo: 'aaa', baz: 'bbb'};
+console.log(bar, foo);    //'aaa', error: foo is not defined
+
+//下面代码有三次解构赋值,分别是对loc,start,line;最后一次对line解构赋值,只有line是变量,loc和start都是模式
+const node = {
+  loc: {
+    start: {
+      line: 1,
+      column: 5,
+    }
+  }
+};
+let {loc, loc: {start}, loc: {start: {line}}} = node;
+console.log(line, loc, start);    //1, Object{start: Object}, Object{line: 1, colunm: 5}
+
+//对象的解构赋值也可以设定默认值,条件与数组一样
+
+//如果解构模式是嵌套的对象,而且子对象所在的父属性不存在,那么将会报错
+
+let {foo: baz} = {bar: 'bar'};    //报错
+
+//数组进行对象解构
+
+let arr = [1, 2, 3];
+let {0: first, [arr.length-1] : last} = arr;
+console.log(first, last);   //1, 3
 ~~~
 
 ## 箭头操作符
