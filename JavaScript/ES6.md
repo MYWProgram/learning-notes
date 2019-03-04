@@ -423,6 +423,85 @@ for (let [key, value] of map) {
 const { SourceMapConsumer, SourceNode } = require("source-map");
 ~~~
 
+## 字符串的扩展
+
+### 字符串的遍历接口
+
+~~~js
+for (var i of `hello`) {
+  console.log(i);   //h, e, l, l, o
+}
+~~~
+
+### 新方法
+
+      传统JS只有indexOf()方法,用来确定一个字符串是否包含再另一个字符串中
+      includes():返回布尔值,表示是否找到了参数字符串
+      startsWith():返回布尔值,表示参数字符串是否在原字符串的头部
+      endsWith():返回布尔值,表示参数字符串是否在原字符串的尾部
+      三个方法都支持第二个参数,表示开始搜索的位置
+
+      repeat()方法返回一个新的字符串,表示将原字符串重复n次
+
+      字符串补全方法:
+      padStart():开头补全
+      padEnd():结尾补全
+      两个方法都是接收两个参数,第一个是补全生效的最大长度,第二个是用来补全的字符串(第二个参数省略时默认空格补全);如果用来补全的字符串与原字符串,两者的长度之和超过了最大长度,则会截去超出位数的补全字符串
+
+~~~js
+var str = `hello world!`;
+str.includes('world', 6);   //true
+str.startWith('hello', 5);    //true
+str.includes('hello', 6);   //flase
+
+'x'.repeat(2);    //'xx'
+
+//padStart()用于提示字符串格式
+
+'12'.padStart(10, 'YYYY-MM-DD') // "YYYY-MM-12"
+'09-12'.padStart(10, 'YYYY-MM-DD') // "YYYY-09-12"
+~~~
+
+### 模板字符串
+
+      用反引号(`)标识;它可以当作普通字符串使用,也可以用来定义多行字符串(空格与换行都会全部保留),或者在字符串中嵌入变量和函数(${variate})
+
+~~~js
+//嵌套反引号的写法
+
+let greeting = `\`Yo\` bro!`;   //`Yo` bro!
+
+//引用模板字符串本身
+
+let str = '(name) => `Hello ${name}`';
+let func = eval.call(null, str);
+console.log(func('Jack'));    //Hello Jack
+~~~
+
+### 标签模板
+
+      标签模板其实不是模板,而是函数调用的一种特殊形式;“标签”指的就是函数,紧跟在后面的模板字符串就是它的参数
+
+      下面代码tag()函数第一个参数是一个数组,数组成员就是模板字符串中没有被${}替换的成员;第二个参数就是被${}替换的成员
+
+~~~js
+let a = 5;
+let b = 10;
+function tag(s, v1, v2) {
+  console.log(s[0]);
+  console.log(s[1]);
+  console.log(s[2]);
+  console.log(v1);
+  console.log(v2);
+}
+tag `hello ${a+b} world ${a*b}`;
+//hello, world, '', 15, 50
+
+//下面接收的其实是一个数组;数组有一个raw属性,保存的是转义后的原字符串
+
+console.log`123`;   //['123', raw: Array(1)]
+~~~
+
 ## 箭头操作符
 
     简化了函数的书写;操作符左边为输入的参数,右边是进行的操作以及返回的值Inputs=>outputs,箭头函数更方便写回掉:
@@ -495,17 +574,6 @@ var worker = {
 human.breathe(); //输出 ‘breathing...’
 //调用继承来的breathe方法
 worker.breathe(); //输出 ‘breathing...’
-~~~
-
-## 字符串模板
-
-    使用反引号 ` 来创建字符串,可以包含由美元符号加花括号包裹的变量${vraible}
-
-~~~js
-//产生一个随机数
-var num=Math.random();
-//将这个数字输出到console
-console.log(`your num is ${num}`);
 ~~~
 
 ## 默认参数值
