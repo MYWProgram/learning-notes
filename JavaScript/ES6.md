@@ -178,6 +178,38 @@ import getGlobal from 'system.global';
 const global = getGlobal();
 ~~~
 
+## 变量的解构赋值
+
+### 数组的解构赋值
+
+      只要某种数据结构具有Iterator接口,都可以采用数组形式的解构赋值;如果等号的右边不是数组(或者严格地说,不是可遍历的结构),那么将会报错
+
+~~~js
+//完全解构
+
+let [foo, [[bar], baz]] = [1, [[2], 3]];
+console.log(foo, bar, baz);   //1, 2, 3
+
+let [,, third] = [1, 2, 3];
+console.log(third);   //3
+
+let [x,,y] = [1, 2, 3];
+console.log(x, y);    //1, 3
+
+let [one, ...some] = [1, 2, 3, 4];
+console.log(one, some);    //1, [2, 3, 4]
+
+let [x, y, ...z] = ['a'];
+console.log(x, y, z);   //a, undefined, []
+
+//解构不成功,值为undefinned
+
+//不完全解构
+
+let [a, [b], d] = [1, [2, 3], 4];
+console.log(a, bb, d);    //1, 2, 4
+~~~
+
 ## 箭头操作符
 
     简化了函数的书写;操作符左边为输入的参数,右边是进行的操作以及返回的值Inputs=>outputs,箭头函数更方便写回掉:
@@ -261,22 +293,6 @@ worker.breathe(); //输出 ‘breathing...’
 var num=Math.random();
 //将这个数字输出到console
 console.log(`your num is ${num}`);
-~~~
-
-## 解构
-
-    自动解析数组或对象中的值;比如若一个函数要返回多个值,常规的做法是返回一个对象,将每个值做为这个对象的属性返回;利用解构这一特性,可以直接返回一个数组,然后数组中的值会自动被解析到对应接收该值的变量中
-
-~~~js
-var [x,y]=getVal(),//函数返回值的解构
-    [name,,age]=['wayou','male','secrect'];//数组解构
-
-function getVal() {
-    return [ 1, 2 ];
-}
-
-console.log('x:'+x+', y:'+y); //输出:x:1, y:2
-console.log('name:'+name+', age:'+age); //输出: name:wayou, age:secrect
 ~~~
 
 ## 默认参数值
