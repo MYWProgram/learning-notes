@@ -551,6 +551,101 @@ const day = matchObj.groups.day;
 console.log(year, month, day);
 ~~~
 
+## 数值的扩展
+
+### Number.isFinite(),Number.isNaN()
+
+      与传统isFinite()和isNaN()区别:
+      传统方法会先把非Num的转化为Num,而新的函数只要不是Num就返回false
+
+### Math.trunc()
+
+      去除一个数的小数部分,返回整数部分
+      使用这个方法,非数值会内部转换为数值;对于空值和无法截取的数值,返回NaN
+
+~~~js
+//ES5模拟代码
+
+Math.trunc = Math.trunc || function(x) {
+  return x<0 ? Math.ceil(x) : Math.floor(x);
+};
+~~~
+
+### Math.sign()
+
+      判断一个数到底是正数、负数、还是零;非数值会先转换为数值,无法转换的返回NaN
+      参数为正数,返回+1
+      参数为负数,返回-1
+      参数为 0,返回0
+      参数为-0,返回-0
+      其他值,返回NaN
+
+~~~js
+//ES5模拟代码
+
+Math.sign = Math.sign || function(x) {
+  x = +x;
+  if(x ===0 || isNaN(x)) {
+    return x;
+  }
+  return x>0 ? 1 : -1;
+};
+~~~
+
+### Math.cbrt()
+
+      计算一个数的立方根
+
+~~~js
+//ES5模拟代码
+
+Math.cbrt = Math.cbrt || function(x) {
+  var y = Math.pow(Math.abs(x), 1/3);
+  return x<0 ? -y : y;
+}
+~~~
+
+### Math.hypot()
+
+      返回所有参数的平方和的平方根
+
+### 对数方法
+
+      Math.expm1(): Math.expm1(x)返回ex - 1,即Math.exp(x) - 1
+      Math.log1p(): Math.log1p(x)方法返回1 + x的自然对数,即Math.log(1 + x)。如果x小于-1,返回NaN
+      Math.log10(): Math.log10(x)返回以 10 为底的x的对数。如果x小于 0,则返回 NaN
+      Math.log2(): Math.log2(x)返回以 2 为底的x的对数。如果x小于 0,则返回 NaN
+
+~~~js
+//ES5模拟代码
+
+Math.expm1 = Math.expm1 || function(x) {
+  return Math.exp(x) - 1;
+};
+
+Math.log1p = Math.log1p || function(x) {
+  return Math.log(1 + x);
+};
+
+Math.log10 = Math.log10 || function(x) {
+  return Math.log(x) / Math.LN10;
+};
+
+Math.log2 = Math.log2 || function(x) {
+  return Math.log(x) / Math.LN2;
+};
+~~~
+
+### 双曲函数方法
+
+      6个方法:
+      Math.sinh(x) 返回x的双曲正弦（hyperbolic sine）
+      Math.cosh(x) 返回x的双曲余弦（hyperbolic cosine）
+      Math.tanh(x) 返回x的双曲正切（hyperbolic tangent）
+      Math.asinh(x) 返回x的反双曲正弦（inverse hyperbolic sine）
+      Math.acosh(x) 返回x的反双曲余弦（inverse hyperbolic cosine）
+      Math.atanh(x) 返回x的反双曲正切（inverse hyperbolic tangent）
+
 ## 箭头操作符
 
     简化了函数的书写;操作符左边为输入的参数,右边是进行的操作以及返回的值Inputs=>outputs,箭头函数更方便写回掉:
