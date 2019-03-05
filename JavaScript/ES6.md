@@ -639,26 +639,226 @@ Math.log2 = Math.log2 || function(x) {
 ### 双曲函数方法
 
       6个方法:
-      Math.sinh(x) 返回x的双曲正弦（hyperbolic sine）
-      Math.cosh(x) 返回x的双曲余弦（hyperbolic cosine）
-      Math.tanh(x) 返回x的双曲正切（hyperbolic tangent）
-      Math.asinh(x) 返回x的反双曲正弦（inverse hyperbolic sine）
-      Math.acosh(x) 返回x的反双曲余弦（inverse hyperbolic cosine）
-      Math.atanh(x) 返回x的反双曲正切（inverse hyperbolic tangent）
+      Math.sinh(x) 返回x的双曲正弦(hyperbolic sine)
+      Math.cosh(x) 返回x的双曲余弦(hyperbolic cosine)
+      Math.tanh(x) 返回x的双曲正切(hyperbolic tangent)
+      Math.asinh(x) 返回x的反双曲正弦(inverse hyperbolic sine)
+      Math.acosh(x) 返回x的反双曲余弦(inverse hyperbolic cosine)
+      Math.atanh(x) 返回x的反双曲正切(inverse hyperbolic tangent)
 
-## 箭头操作符
+## 函数的扩展
 
-    简化了函数的书写;操作符左边为输入的参数,右边是进行的操作以及返回的值Inputs=>outputs,箭头函数更方便写回掉:
+### 函数参数的默认值
+
+#### 参数默认值的基本用法
+
+      ES6之前不能为函数的参数设定默认值
 
 ~~~js
-var array = [1, 2, 3];
-//传统写法
-array.forEach(function(v, i, a) {
-    console.log(v);
-})
-//ES6
-array.forEach(v => console.log(v));
+//ES5写法
+
+function log(x, y) {
+  if(typeof y === 'undefined') {
+    y = 'world';
+  }
+  console.log(x, y);
+}
+
+//ES6写法
+
+function log(x, y = 'world') {
+  this.x = x;
+  this.y = y;
+  console.log(x, y);
+}
 ~~~
+
+      当进行了参数默认值,就不能在代码块中再对参数进行声明;另外,参数默认值不是传值的:
+      下面代码每次调用p,都会重新计算
+
+~~~js
+let x = 99;
+function foo(p = x + 1) {
+  console.log(p);
+}
+console.log(foo());   //100
+
+let x = 100;
+console.log(foo());   //101
+~~~
+
+#### 与解构赋值默认值结合使用
+
+      参见变量的解构赋值-函数参数的解构赋值
+
+#### length属性
+
+      指定了默认值以后,函数的length属性,将返回没有指定默认值的参数个数;此时函数的length属性失真
+      如果设置了默认值的参数不是尾参数,那么length属性也不再计入后面的参数了
+
+~~~js
+console.log((function a(x = 1, y, z){}).length);    //0
+~~~
+
+#### 单独的作用域
+
+      一旦设置了参数的默认值,函数进行声明初始化时,参数会形成一个单独的作用域(context);等到初始化结束,这个作用域就会消失;这种请何况在不设置默认参数时不会出现
+
+~~~js
+//下面代码参数y默认值为x;调用函数参数形成单独的作用域;在这个作用域里默认值变量x指向第一个参数x,而不是全局变量
+
+var x = 1;
+function a(x, y = x) {
+  console.log(y);
+};
+a(2);   //2
+
+//调用函数参数y = x形成单独作用域;作用域里x没有定义,所以指向全局变量x
+
+var x = 2;
+function b(y = x) {
+  console.log(y);
+};
+b();    //1
+~~~
+
+#### 应用
+
+      利用参数默认值,可以指定某一个参数不得省略,如果省略就抛出一个错误
+
+~~~js
+function throwIfMissing() {
+  throw new Error('Missing parameter!');
+};
+function foo(mustBeProvided = throwIfMissing()) {
+  return mustBeProvided;
+};
+
+foo();    //抛出错误信息
+~~~
+
+### rest参数
+
+      ES6新引入rest参数(类似于解构赋值),以数组的存放方式获取函数的多余参数;rest参数之后不能再有其他参数,函数的length属性不包括rest参数
+
+~~~js
+//利用rest参数改写数组的push方法
+
+function push(Array, ...items) {
+  Array.forEach(function(item) {
+    Array.push(item);
+    // console.log(item);
+  });
+};
+let arr = [];
+push(arr, 1, 2, 3);
+console.log(arr);   //[1, 2, 3]
+~~~
+
+### name属性
+
+      如果将一个匿名函数赋值给一个变量,ES5的name属性,会返回空字符串,而ES6的name属性会返回实际的函数名
+      如果将一个具名函数赋值给一个变量,则ES5和ES6的name属性都返回这个具名函数原本的名字
+
+### 箭头函数
+
+      简化函数写法
+
+~~~js
+function f() {
+  ...
+}
+
+var f = () => {
+  ...
+}
+~~~
+
+      使用的注意点:
+      1. 函数体内的this对象,就是定义时所在的对象,而不是使用时所在的对象
+      2. 不可以当作构造函数,也就是说,不可以使用new命令,否则会抛出一个错误
+      3. 不可以使用arguments对象,该对象在函数体内不存在;如果要用,可以用rest参数代替
+      4. 不可以使用yield命令,因此箭头函数不能用作Generator函数
+
+      PS. 由于箭头函数没有自己的this,所以当然也就不能用call()、apply()、bind()这些方法去改变this的指向
+
+~~~js
+//两个定时器前者this绑定定义时的作用域(即Timer函数),后者this指向执行时的作用域(全局对象)
+
+function Timer() {
+  this.a = 0;
+  this.b = 0;
+  const id1 = setInterval( () => {
+    this.a++;
+  }, 1000);
+  const id2 = setInterval( function() {
+    this.b++;
+  }, 1000);
+};
+
+var timer = new Timer();
+setTimeout( () => {console.log('a:', this.a)}, 3100);   //a:3
+setTimeout( () => {console.log('b:', this.b)}, 3100);   //b:0
+
+//绑定箭头函数的this指向可以解决这个问题,同时这种特性很有利于封装回调函数
+
+//下面代码的init方法中,使用了箭头函数,这导致这个箭头函数里面的this,总是指向handler对象。否则,回调函数运行时,this.doSomething这一行会报错,因为此时this指向document对象
+
+var handler = {
+  id: '123456',
+
+  init: function() {
+    document.addEventListener('click',
+      event => this.doSomething(event.type), false);
+  },
+
+  doSomething: function(type) {
+    console.log('Handling ' + type  + ' for ' + this.id);
+  }
+};
+~~~
+
+      不适用场合:
+      1. 定义函数的方法,且该方法内部包括this
+      2. 需要动态this的时候
+      3. 函数体很复杂,有许多行,或者函数内部有大量的读写操作,不单纯是为了计算值(此时使用普通函数会提高效率)
+
+### 双冒号运算符
+
+      函数绑定运算符是并排的两个冒号(::),双冒号左边是一个对象,右边是一个函数;该运算符会自动将左边的对象,作为上下文环境(即this对象),绑定到右边的函数上面
+      作用就类似于bind(),call(),apply()
+
+### 尾调用与尾递归
+
+      尾调用: 在函数最后一步操作进行函数调用,且只能为函数的调用不能有其他操作
+
+~~~js
+function f(x){
+  let y = g(x);
+  return y;
+}
+
+function f(x){
+  return g(x) + 1;
+}
+
+function f(x){
+  g(x);
+}
+
+//以上三种情况都不属于尾调用,前两个时有其他操作;最后一个是执行函数等同于g(x)之后return undefined
+
+function f(x) {
+  if (x > 0) {
+    return m(x)
+  }
+  return n(x);
+}
+
+//上面代码函数m与n都是尾调用,因为都是函数f的最后一步操作
+~~~
+
+      尾递归: 函数递归是自调用,尾递归就是函数最后一步执行调用函数本身(耗费内存,不建议使用)
 
 ## 类的支持
 
