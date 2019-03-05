@@ -502,6 +502,55 @@ tag `hello ${a+b} world ${a*b}`;
 console.log`123`;   //['123', raw: Array(1)]
 ~~~
 
+## 正则的扩展
+
+### RegExp构造函数
+
+      修饰符含义:
+      i 忽略大小写匹配
+      m 多行匹配,即在到达一行文本末尾时还会继续寻常下一行中是否与正则匹配的项
+      g 全局匹配,模式应用于所有字符串,而非在找到第一个匹配项时停止
+      y 全局匹配,ES6新增;(g修饰符只要剩余位置中存在匹配就可,而y修饰符确保匹配必须从剩余的第一个位置开始)
+
+~~~js
+//ES5中两种情况
+//第一种参数是字符串,此时第二个参数表示正则表达式的修饰符
+
+var regexp = new RegExp('xyz', 'i');    //等价于 var regexp = /xyz/i;
+
+//第二种参数是一个正则表达式,这时会返回一个原有正则表达式的拷贝
+
+var regexp = new RegExp(/xyz/i);    //等价于 var regexp = /xyz/i;
+
+//ES6写法
+
+new RegExp(/abc/ig, 'i').flags;   //原有对象修饰符是ig,但是会被i覆盖
+
+//关于y修饰符的特性:y修饰符的第二次匹配因为是从'_'开始匹配的,所以null
+//要正确匹配,需要修改表达式为 var reg2 = /a+_/y;
+
+var s = `aaa_aa_a`;
+var reg1 = /a+/g;
+var reg2 = /a+/y;
+console.log(reg1.exec(s));    //['aaa']
+console.log(reg2.exec(s));    //['aaa']
+console.log(reg1.exec(s));    //['aa']
+console.log(reg2.exec(s));    //null
+~~~
+
+### 具名组匹配
+
+      下面是一个拆解日期的正则,表达式中年月日分别加上了对应的名字,等于为每一组匹配加上了ID,便于描述匹配的目的;如果组的顺序变了,也不用改变匹配后的处理代码
+
+~~~js
+const RE_DATE = /(?<year>\d{4})-(?<month>\d{2})-(?<day>\d{2})/;
+const matchObj = RE_DATE.exec(`2019-03-05`);
+const year = matchObj.groups.year;
+const month = matchObj.groups.month;
+const day = matchObj.groups.day;
+console.log(year, month, day);
+~~~
+
 ## 箭头操作符
 
     简化了函数的书写;操作符左边为输入的参数,右边是进行的操作以及返回的值Inputs=>outputs,箭头函数更方便写回掉:
