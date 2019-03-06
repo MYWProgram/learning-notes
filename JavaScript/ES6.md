@@ -1169,195 +1169,283 @@ contains(['foo', 'bar'], 'baz'); // => false
 
       PS. 不管ES5还是ES6的方法对数组空位的处理都不一致,所以应该避免出现空位
 
-## 类的支持
+## 对象的扩展
 
-    引入了class关键字;JS本身就是面向对象的,ES6中提供的类实际上只是JS原型模式的包装
-    下面代码展示了类在ES6中的使用:
+### 属性的简洁表示方法
 
 ~~~js
-//类的定义
-class Animal {
-    //ES6中新型构造器
-    constructor(name) {
-        this.name = name;
-    }
-    //实例方法
-    sayName() {
-        console.log('My name is '+this.name);
-    }
+let birth = '2019-01-01';
+
+const person = {
+  name: '张三',
+  birth,
+  //等同于birth: birth,
+  hello() {
+    console.log('我的名字是:', this.name);
+  }
+  //等同于hello: function() {}
 }
-//类的继承
-class Programmer extends Animal {
-    constructor(name) {
-        //直接调用父类构造器进行初始化
-        super(name);
-    }
-    program() {
-        console.log("I'm coding...");
-    }
+
+//用于函数返回值会非常方便
+
+function getPoint() {
+  const x = 1;
+  const y = 10;
+  return {x, y};
 }
-//测试我们的类
-var animal=new Animal('dummy'),
-wayou=new Programmer('wayou');
-animal.sayName();//输出 ‘My name is dummy’
-wayou.sayName();//输出 ‘My name is wayou’
-wayou.program();//输出 ‘I'm coding...’
+
+getPoint();   // {x:1, y:10}
 ~~~
 
-## 增强的对象字面量
+      PS. 用这种方法写某个方法的值是一个Generator函数,前面需要加上星号
 
-    可以在对象字面量里面定义原型
-    定义方法可以不用function关键字
-    直接调用父类方法
+### 属性名表达式
+
+      ES6允许字面量定义对象时,属性名可以以表达式方式书写(方法也适用)
 
 ~~~js
-//通过对象字面量创建对象
-var human = {
-  breathe() {
-    console.log('breathing...');
+let lastWord = 'last word';
+
+const a = {
+  'first word': 'hello',
+  [lastWord]: 'world',
+  ['h' + 'ello']() {
+    return 'hi';
+  },
+};
+
+a['first word'];    // "hello"
+a[lastWord];    // "world"
+a['last word'];   // "world"
+~~~
+
+      PS. 属性名表达式与简洁表示法不能同时使用,会报错
+      属性名表达式如果是一个对象,默认情况下会自动将对象转为字符串[object Object]
+
+~~~js
+const keyA = {a: 1};
+const keyB = {b: 2};
+
+const myObject = {
+  [keyA]: 'valueA',
+  [keyB]: 'valueB'
+};
+
+myObject; // Object {[object Object]: "valueB"}
+~~~
+
+### 方法的name属性
+
+      对象的方法也是函数,所以像函数一样拥有name属性
+      特殊情况
+      1. 当方法使用取值函数(getter)和存值函数(setter):返回get和set加上函数名
+      2. bind方法创造的函数,name属性返回bound加上原函数的名字
+      3. Function构造函数创造的函数,name属性返回anonymous
+      4. 如果对象的方法是一个Symbol值,那么name属性返回的是这个Symbol值的描述
+
+### 对象属性的遍历
+
+      ES6的5种遍历对象属性的方法:
+
+      1. for...in循环遍历对象自身的和继承的可枚举属性(不含Symbol属性)
+      2. Object.keys(obj)返回一个数组,包括对象自身的(不含继承的)所有可枚举属性(不含Symbol属性)的键名
+      3. Object.getOwnPropertyNames(obj)返回一个数组,包含对象自身的所有属性(不含Symbol属性,但是包括不可枚举属性)的键名
+      4. Object.getOwnPropertySymbols(obj)返回一个数组,包含对象自身的所有Symbol属性的键名
+      5. Reflect.ownKeys(obj)返回一个数组,包含对象自身的所有键名,不管键名是Symbol或字符串,也不管是否可枚举
+
+### super关键字
+
+      this关键字总是指向函数所在的当前对象,ES6新增了另一个类似的关键字super,指向当前对象的原型对象
+
+~~~js
+const proto = {
+  foo: 'hello'
+};
+
+const obj = {
+  foo: 'world',
+  find() {
+    return super.foo;
   }
+};
+
+Object.setPrototypeOf(obj, proto);
+//设置proto为obj的原型,实现了方法的继承
+obj.find()    //hello
+~~~
+
+### 新增的方法
+
+#### Object.is()
+
+      用来比较两个值是否严格相等,与严格比较运算符(===)的行为基本一致
+      不同之处只有两个:一是+0不等于-0,二是NaN等于自身
+
+~~~js
+//ES5代替代码
+Object.defineProperty(Object, 'is', {
+  value: function(x, y) {
+    if (x === y) {
+      // 针对+0 不等于 -0的情况
+      return x !== 0 || 1 / x === 1 / y;
+    }
+    // 针对NaN的情况
+    return x !== x && y !== y;
+  },
+  configurable: true,
+  enumerable: false,
+  writable: true
+});
+~~~
+
+#### Object.assign()
+
+      用于对象的合并,将源对象(source)的所有可枚举属性,复制到目标对象(target)
+      第一个参数为目标对象,后面的参数为源对象;遇到同名属性,后面的源对象优先级更高,会覆盖前面的
+      如果该参数不是对象,则会先转成对象
+
+      PS.
+      1. Object.assign方法实行的是浅拷贝,而不是深拷贝;如果源对象某个属性的值是对象,那么目标对象拷贝得到的是这个对象的引用
+      2. 对于嵌套的对象,一旦遇到同名属性,Object.assign的处理方法是替换,而不是添加
+
+      用处
+      1. 为对象添加属性
+
+~~~js
+class Point {
+  constructor(x, y) {
+    Object.assign(this, {x, y});
+  };
+};
+~~~
+
+      2. 为对象添加方法
+
+~~~js
+Object.assign(SomeClass.prototype, {
+  someMethod(arg1, arg2) {
+    ···
+  },
+  anotherMethod() {
+    ···
+  },
+});
+~~~
+
+      3. 克隆对象
+
+~~~js
+//下面代码只能克隆对象自身的值,不能克隆它继承的值
+
+function clone(origin) {
+  return Object.assign({}, origin);
 }
-var worker = {
-  __proto__: human, //设置此对象的原型为human,相当于继承human
-  company: 'freelancer',
+
+//下面代码可以克隆对象自身和继承的值
+
+function clone(origin) {
+  let originProto = Object.getPrototypeOf(origin);
+  return Object.assign(Object.create(originProto), origin);
+}
+~~~
+
+      4. 合并多个对象
+
+~~~js
+//合并多个对象并返回一个新对象
+
+const merge = (...args) => Object.assign({}, ...args);
+~~~
+
+      5. 为属性指定默认值
+
+~~~js
+//为options属性指定了defaults默认值
+
+const defaults = {
+  logLevel: 0,
+  outputFormat: 'html',
+};
+function processContent(options) {
+  options = Object.assign({}, defaults, options);
+  ...
+}
+~~~
+
+### ES6的原型操作
+
+      __proto__:
+      无论从语义的角度,还是从兼容性的角度,都不要使用这个属性(使用下面的)
+
+#### Object.setPrototypeOf()
+
+      设置一个对象的prototype对象,返回参数对象本身
+      PS. 如果第一个对象是undefined或者null会报错
+
+~~~js
+const person = {
+  type: 'Man',
+  eat() {
+    console.log(`eatting`);
+  },
+};
+const worker = {
+  job: 'Worker',
   work() {
-    console.log('working...');
-  }
-}
-human.breathe(); //输出 ‘breathing...’
-//调用继承来的breathe方法
-worker.breathe(); //输出 ‘breathing...’
+    console.log(`working`);
+  },
+};
+
+Object.setPrototypeOf(worker, person);
+console.log(worker.eat());    //eatting
 ~~~
 
-## 默认参数值
+#### Object.getPrototypeOf()
 
-    可以在定义函数的时候指定参数的默认值,不用像以前那样通过逻辑或操作符来达到目的
+      用于读取一个对象的原型对象
 
 ~~~js
-function sayHello(name){
-//传统的指定默认参数的方式
-  var name=name||'dude';
-  console.log('Hello '+name);
-}
-//运用ES6的默认参数
-function sayHello2(name='dude'){
-  console.log(`Hello ${name}`);
-}
-sayHello();//输出:Hello dude
-sayHello('Wayou');//输出:Hello Wayou
-sayHello2();//输出:Hello dude
-sayHello2('Wayou');//输出:Hello Wayou
-~~~
-
-## 不定参数(扩展运算符)
-
-    不定参数是在函数中使用命名参数同时接收不定数量的未命名参数;是一种语法糖,在以前的JavaScript代码中我们可以通过arguments变量来达到这一目的;不定参数的格式是三个句点后跟代表所有不定参数的变量名;下面这个例子中,...x代表了所有传入add函数的参数
-
-~~~js
-//将所有参数相加的函数
-function add(...x){
-  return x.reduce((m,n)=>m+n);
-}
-//传递任意个数的参数
-console.log(add(1,2,3));//输出:6
-console.log(add(1,2,3,4,5));//输出:15
-~~~
-
-## 拓展参数
-
-    拓展参数是语法糖,它允许传递数组或者类数组直接做为函数的参数而不用通过apply
-
-~~~js
-var people=['Wayou','John','Sherlock'];
-//sayHello函数本来接收三个单独的参数人一,人二和人三
-function sayHello(people1,people2,people3){
-  console.log(`Hello ${people1},${people2},${people3}`);
-}
-//但是我们将一个数组以拓展参数的形式传递,它能很好地映射到每个单独的参数
-sayHello(...people);//输出:Hello Wayou,John,Sherlock
-
-//而在以前,如果需要传递数组当参数,我们需要使用函数的apply方法
-sayHello.apply(null,people);//输出:Hello Wayou,John,Sherlock
-~~~
-
-## for of 值遍历
-
-    for in循环用于遍历数组,类数组或对象,ES6中新引入的for of循环功能相似,不同的是每次循环它提供的不是序号而是值
-
-~~~js
-var someArray = [ "a", "b", "c" ];
-
-for (v of someArray) {
-    console.log(v);//输出 a,b,c
-}
-~~~
-
-## iterator, generator
-
-    iterator:拥有一个next方法,这个方法返回一个对象{done,value},这个对象包含两个属性,一个布尔类型的done和包含任意值的value
-    iterable:拥有一个obj[@@iterator]方法,这个方法返回一个iterator
-    generator:是一种特殊的iterator;反的next方法可以接收一个参数并且返回值取决与它的构造函数(generator function);generator同时拥有一个throw方法
-    generator函数:即generator的构造函数;函数内可以使用yield关键字;在yield出现的地方可以通过generator的next或throw方法向外界传递值;generator函数是通过function##来声明的
-    yield关键字:它可以暂停函数的执行,随后可以再进入函数继续执行
-
-## 模块
-
-    将不同功能的代码分别写在不同文件中,各模块只需导出公共接口部分,然后通过模块的导入的方式可以在其他地方使用
-
-~~~js
-// point.js
-module "point" {
-    export class Point {
-        constructor (x, y) {
-            public x = x;
-            public y = y;
-        }
-    }
+function Rectangle() {
+  // ...
 }
 
-// myapp.js
-//声明引用的模块
-module point from "/point.js";
-//这里可以看出,尽管声明了引用的模块,还是可以通过指定需要的部分进行导入
-import Point from "point";
-var origin = new Point(0, 0);
-console.log(origin);
+const rec = new Rectangle();
+
+Object.getPrototypeOf(rec) === Rectangle.prototype
+// true
 ~~~
 
-## Map,Set和WeakMap,WeakSet
+#### Object.create()
 
-    这些是新加的集合类型,提供了更加方便的获取属性值的方法,不用像以前一样用hasOwnProperty来检查某个属性是属于原型链还是当前对象;同时,在进行属性值添加与获取时有专门的get,set方法
+      创建一个新对象,使用现有的对象来提供新创建的对象的__proto__
 
 ~~~js
-// Sets
-var s = new Set();
-s.add("hello").add("goodbye").add("hello");
-s.size === 2;
-s.has("hello") === true;
-
-// Maps
-var m = new Map();
-m.set("hello", 42);
-m.set(s, 34);
-m.get(s) == 34;
+const person = {
+  isPerson: 'true',
+  breath() {
+    console.log(`Breathing!`);
+  },
+};
+const me = Object.create(person);
+console.log(me.breath());   //Breathing!
 ~~~
 
-    有时候我们会把对象作为一个对象的键用来存放属性值,普通集合类型比如简单对象会阻止垃圾回收器对这些作为属性键存在的对象的回收,有造成内存泄漏的危险;而WeakMap,WeakSet则更加安全些,这些作为属性键的对象如果没有别的变量在引用它们,则会被回收释放掉
+### 几个新方法
 
-~~~js
-// Weak Maps
-var wm = new WeakMap();
-wm.set(s, { extra: 42 });
-wm.size === undefined
+      Object.keys():
+      返回一个数组,成员是参数对象自身的(不含继承的)所有可遍历(enumerable)属性的键名
 
-// Weak Sets
-var ws = new WeakSet();
-ws.add({ data: 42 });//因为添加到ws的这个临时对象没有其他变量引用它,所以ws不会保存它的值,也就是说这次添加其实没有意思
-~~~
+      Object.values():
+      返回一个数组,成员是参数对象自身的(不含继承的)所有可遍历(enumerable)属性的键值
+
+      Object.entries():
+      返回一个数组,成员是参数对象自身的(不含继承的)所有可遍历(enumerable)属性的键值对数组
+
+      Object.fromEntries():
+      Object.entries()的逆操作,用于将一个键值对数组转为对象
 
 ## Proxy
 
-    http://es6.ruanyifeng.com/#docs/proxy
     意为代理;用于修改某些操作的默认行为;也可理解为在目标对象之前架设一层拦截,外部所有访问必须通过这层拦截;因此提供了一种机制,可以对外部的访问进行过滤和修改
 
 ### 关于侦听
@@ -1658,53 +1746,6 @@ console.log(proxy.getDate());
 ### Web服务的客户端
 
       Proxy可以拦截目标对象的任意属性,所以很适合用来编写Web服务器的客户端
-
-## Symbols
-
-    我们知道对象其实是键值对的集合,而键通常来说是字符串;而现在除了字符串外,我们还可以用symbol这种值来做为对象的键;Symbol是一种基本类型,像数字,字符串还有布尔一样,它不是一个对象;Symbol通过调用symbol函数产生,它接收一个可选的名字参数,该函数返回的symbol是唯一的;之后就可以用这个返回值做为对象的键了;Symbol还可以用来创建私有属性,外部无法直接访问由symbol做为键的属性值
-
-~~~js
-(function() {
-  // 创建symbol
-  var key = Symbol("key");
-  function MyClass(privateData) {
-    this[key] = privateData;
-  }
-  MyClass.prototype = {
-    doStuff: function() {
-      ... this[key] ...
-    }
-  };
-})();
-
-var c = new MyClass("hello")
-c["key"] === undefined//无法访问该属性,因为是私有的
-~~~
-
-## Math,Number,String,Object的新API
-
-~~~js
-Number.EPSILON
-Number.isInteger(Infinity) // false
-Number.isNaN("NaN") // false
-
-Math.acosh(3) // 1.762747174039086
-Math.hypot(3, 4) // 5
-Math.imul(Math.pow(2, 32) - 1, Math.pow(2, 32) - 2) // 2
-
-"abcde".contains("cd") // true
-"abc".repeat(3) // "abcabcabc"
-
-Array.from(document.querySelectorAll('##')) // Returns a real Array
-Array.of(1, 2, 3) // Similar to new Array(...), but without special one-arg behavior
-[0, 0, 0].fill(7, 1) // [0,7,7]
-[1,2,3].findIndex(x => x == 2) // 1
-["a", "b", "c"].entries() // iterator [0, "a"], [1,"b"], [2,"c"]
-["a", "b", "c"].keys() // iterator 0, 1, 2
-["a", "b", "c"].values() // iterator "a", "b", "c"
-
-Object.assign(Point, { origin: new Point(0,0) })
-~~~
 
 ## Promises
 
