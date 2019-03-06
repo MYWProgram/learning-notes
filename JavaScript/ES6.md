@@ -860,6 +860,315 @@ function f(x) {
 
       尾递归: 函数递归是自调用,尾递归就是函数最后一步执行调用函数本身(耗费内存,不建议使用)
 
+## 数组的扩展
+
+### 扩展运算符
+
+#### 含义
+
+      扩展运算符用三个点(...)表示,将一个数组转为用逗号分隔的参数序列;多用于函数调用,扩展运算符如果放在括号中,JavaScript引擎就会认为这是函数调用;如果这时不是函数调用,就会报错
+
+#### 替代函数的apply方法
+
+~~~js
+//下面是利用push将一个数组添加到另外一个数组尾部的例子
+
+//ES5写法
+
+var arr1 = [1, 2, 3];
+var arr2 = [4, 5, 6];
+Array.prototype.push.apply(arr1, arr2);
+
+//ES6写法
+
+let arr1 = [1, 2, 3];
+let arr2 = [4, 5, 6];
+arr1.push(...arr2);
+~~~
+
+#### 扩展运算符的应用
+
+      1. 复制数组
+
+      数组是复合的数据类型,直接复制的话,只是复制了指向底层数据结构的指针,而不是克隆一个全新的数组
+
+~~~js
+//ES5通过取巧的方法复制数组
+
+var arr1 = [1, 2, 3];
+var arr2 = arr1.concat();   //concat()方法用于拼接两个数组并返回一个新的数组
+
+//ES6
+
+let arr1 = [1, 2, 3];
+let arr2 = [...arr1];   //等同于 let [arr2] = arr1;
+~~~
+
+      2. 合并数组
+
+~~~js
+let arr1 = [1, 2, 3];
+let arr2 = [4, 5, 6];
+let arr3 = arr1.concat(arr2);
+let arr4 = [...arr1, ...arr2];
+
+a3[0] === a1[0] // true
+a4[0] === a1[0] // true
+~~~
+
+      由上面最后两个步骤可以知道两种方法都是浅拷贝(新数组的成员都是原数组成员的引用);如果修改了原数组成员,新数组也会对应改变
+
+      3. 与解构赋值结合
+
+      参见变量的解构赋值-数组的解构赋值
+
+      4. 字符串转数组
+
+~~~js
+let arr = [...'hello'];
+console.log(arr);   //[h, e, l, l, o]
+~~~
+
+      5. 实现了Iterator接口的对象
+
+      任何定义了遍历器(Iterator)接口的对象,都可以用扩展运算符转为真正的数组
+
+~~~js
+Number.prototype[Symbol.iterator] = function*() {
+  let i = 0;
+  let num = this.valueOf();
+  while(i < num) {
+    yield i++;
+  }
+};
+
+console.log([...5]);    //[0, 1, 2, 3, 4]
+~~~
+
+      6. Map和set解构,Generator函数
+
+      扩展运算符内部调用的是数据结构的Iterator接口,因此只要具有Iterator接口的对象,都可以使用扩展运算符
+
+~~~js
+//Map解构使用扩展运算符
+
+let map = new Map([
+  [1, 'one'],
+  [2, 'two'],
+  [3, 'three'],
+]);
+let arr = [...map.keys()];
+console.log(arr);   //[1, 2, 3]
+
+//Generator函数使用扩展运算符
+
+let go = function*() {
+  yield 1;
+  yield 2;
+  yield 3;
+};
+console.log([...go()]);   //[1, 2, 3]
+~~~
+
+      PS. 没有Iterator接口的对象,使用扩展运算符,将会报错
+
+### Array.from()
+
+      将两类对象转为真正的数组:类似数组的对象(array-like object)和可遍历(iterable)的对象(包括 ES6 新增的数据结构 Set 和 Map)
+      作用与扩展运算符类似,但是扩展运算符背后调用的是遍历器接口(Symbol.iterator),如果一个对象没有部署这个接口,就无法转换;Array.from方法还支持类似数组的对象;所谓类似数组的对象,本质特征只有一点,即必须有length属性
+
+~~~js
+//ES5的代替代码
+
+let toArray = ( ()=>  
+  Array.from ? Array.from : obj => [].slice.call(obj);
+)();
+~~~
+
+      Array.from()接收三个参数:依次为目标对象,类似于map的回调函数(可选),绑定this的参数(可选)
+
+~~~js
+function typesOf () {
+  return Array.from(arguments, value => typeof value);
+}
+typesOf(null, [], NaN)
+// ['object', 'object', 'number']
+~~~
+
+### Array.of()
+
+      将一组值,转换为数组
+      主要目的,是弥补数组构造函数Array()的不足
+
+~~~js
+//参数个数的不同导致Array()方法行为差异
+
+Array() // []
+Array(3) // [, , ,]
+Array(3, 11, 8) // [3, 11, 8]
+
+//ES5代替代码
+
+function ArrayOf(){
+  return [].slice.call(arguments);
+};
+~~~
+
+### 数组实例的copyWithin()
+
+      当前数组内部,将指定位置的成员复制到其他位置(会覆盖原有成员),然后返回当前数组
+      使用此方法会修改当前数组
+      接收三个参数依次为:
+      target: 从该位置开始替换数据;如果为负值,表示倒数
+      start(可选): 从该位置开始读取数据,默认为0;如果为负值,表示倒数
+      end(可选): 到该位置前停止读取数据,默认等于数组长度;如果为负值,表示倒数
+
+~~~js
+//ES5代替代码
+
+[].copyWithin.call(new Int32Array([1, 2, 3, 4, 5]), 0, 3, 4);
+// Int32Array [4, 2, 3, 4, 5]
+~~~
+
+### 数组实例的find()与findIndex()
+
+      找出第一个符合条件的数组成员,两者第一个参数都是一个回调函数(包括当前遍历元素,当前遍历索引,数组本身),第二个参数是绑定的this(可选)
+      两个方法都可以发现NaN,弥补了数组的indexOf方法的不足
+
+~~~js
+[1, 5, 10, 15].find(function(value, index, arr) {
+  return value > 9;
+}); // 10
+
+[1, 5, 10, 15].findIndex(function(value, index, arr) {
+  return value > 9;
+}); // 2
+~~~
+
+### 数组实例的fill()
+
+      给定值填充一个数组;接收三个参数:用来填充的值,起始索引(可选),终止索引(可选)
+
+~~~js
+new Array(3).fill(7);   //[7, 7, 7]
+~~~
+
+      PS. 如果填充的类型为对象,那么被赋值的是同一个内存地址的对象,而不是深拷贝对象
+
+~~~js
+let arr = new Array(3).fill({name: "Mike"});
+arr[0].name = "Ben";
+arr
+// [{name: "Ben"}, {name: "Ben"}, {name: "Ben"}]
+
+let arr = new Array(3).fill([]);
+arr[0].push(5);
+arr
+// [[5], [5], [5]]
+~~~
+
+### 数组实例的entries(),keys(),values()
+
+      keys()是对键名的遍历,values()是对键值的遍历,entries()是对键值对的遍历
+      都返回一个遍历器对象,可以用for...of循环进行遍历
+
+~~~js
+for (let index of ['a', 'b'].keys()) {
+  console.log(index);
+}
+// 0
+// 1
+
+for (let elem of ['a', 'b'].values()) {
+  console.log(elem);
+}
+// 'a'
+// 'b'
+
+for (let [index, elem] of ['a', 'b'].entries()) {
+  console.log(index, elem);
+}
+// 0 "a"
+// 1 "b"
+~~~
+
+      如果不使用for...of循环,可以手动调用遍历器对象的next方法,进行遍历
+
+~~~js
+let letter = ['a', 'b', 'c'];
+let entries = letter.entries();
+console.log(entries.next().value); // [0, 'a']
+console.log(entries.next().value); // [1, 'b']
+console.log(entries.next().value); // [2, 'c']
+~~~
+
+### 数组实例的includes()
+
+      方法返回一个布尔值,表示某个数组是否包含给定的值,与字符串的includes方法类似
+      第一个参数为需要查找的元素,第二个是查找开始的索引(可选,为负时表示倒数的位置)
+      indexOf()内部使用严格相等运算符(===)进行判断,这会导致对NaN的误判
+
+~~~js
+//ES5代替代码
+
+const contains = (() =>
+  Array.prototype.includes
+    ? (arr, value) => arr.includes(value)
+    : (arr, value) => arr.some(el => el === value)
+)();
+contains(['foo', 'bar'], 'baz'); // => false
+~~~
+
+      PS. Map和Set数据结构有一个has方法,需要注意与includes区分:
+
+      Map结构的has方法,是用来查找键名的,比如Map.prototype.has(key),WeakMap.prototype.has(key),Reflect.has(target,propertyKey)
+
+      Set 结构的has方法,是用来查找值的,比如Set.prototype.has(value),WeakSet.prototype.has(value)
+
+### 数组实例的flat(),flatMap()
+
+      Array.prototype.flat()用于将嵌套的数组"拉平",变成一维的数组
+
+      如果原数组有空位,flat()方法会跳过空位
+
+      flat()默认只会"拉平"一层，如果想要"拉平"多层的嵌套数组,可以将flat()方法的参数写成一个整数,表示想要拉平的层数,默认为1
+
+      如果不管有多少层嵌套,都要转成一维数组,可以用Infinity关键字作为参数
+
+~~~js
+[1, [2, [3]]].flat(Infinity);
+// [1, 2, 3]
+~~~
+
+      flatMap()方法对原数组的每个成员执行一个函数(相当于执Array.prototype.map()),然后对返回值组成的数组执行flat()方法;该方法返回一个新数组,不改变原数组
+
+      flatMap()方法的参数是一个遍历函数,该函数可以接受三个参数:分别是当前数组成员,当前数组成员的位置(从零开始),原数组;第二个参数是绑定遍历函数里的this
+
+~~~js
+// 相当于 [[2, 4], [3, 6], [4, 8]].flat()
+[2, 3, 4].flatMap((x) => [x, x * 2])
+// [2, 4, 3, 6, 4, 8]
+
+//flatMap()只能展开一层数组;下面代码遍历函数返回的是一个双层的数组,但是默认只能展开一层,因此flatMap()返回的还是一个嵌套数组
+// 相当于 [[[2]], [[4]], [[6]], [[8]]].flat()
+[1, 2, 3, 4].flatMap(x => [[x * 2]])
+// [[2], [4], [6], [8]]
+~~~
+
+### 数组的空位
+
+      数组的空位指:数组的某一个位置没有任何值
+      空位不是undefined,一个位置的值等于undefined,依然是有值的;空位是没有任何值
+
+~~~js
+//用in运算符证明上面的结论
+
+0 in [undefined, undefined, undefined] // true
+0 in [, , ,] // false
+~~~
+
+      PS. 不管ES5还是ES6的方法对数组空位的处理都不一致,所以应该避免出现空位
+
 ## 类的支持
 
     引入了class关键字;JS本身就是面向对象的,ES6中提供的类实际上只是JS原型模式的包装
