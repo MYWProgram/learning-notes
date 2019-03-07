@@ -612,9 +612,9 @@ Math.cbrt = Math.cbrt || function(x) {
 ### 对数方法
 
       Math.expm1(): Math.expm1(x)返回ex - 1,即Math.exp(x) - 1
-      Math.log1p(): Math.log1p(x)方法返回1 + x的自然对数,即Math.log(1 + x)。如果x小于-1,返回NaN
-      Math.log10(): Math.log10(x)返回以 10 为底的x的对数。如果x小于 0,则返回 NaN
-      Math.log2(): Math.log2(x)返回以 2 为底的x的对数。如果x小于 0,则返回 NaN
+      Math.log1p(): Math.log1p(x)方法返回1 + x的自然对数,即Math.log(1 + x);如果x小于-1,返回NaN
+      Math.log10(): Math.log10(x)返回以 10 为底的x的对数;如果x小于 0,则返回 NaN
+      Math.log2(): Math.log2(x)返回以 2 为底的x的对数;如果x小于 0,则返回 NaN
 
 ~~~js
 //ES5模拟代码
@@ -802,7 +802,7 @@ setTimeout( () => {console.log('b:', this.b)}, 3100);   //b:0
 
 //绑定箭头函数的this指向可以解决这个问题,同时这种特性很有利于封装回调函数
 
-//下面代码的init方法中,使用了箭头函数,这导致这个箭头函数里面的this,总是指向handler对象。否则,回调函数运行时,this.doSomething这一行会报错,因为此时this指向document对象
+//下面代码的init方法中,使用了箭头函数,这导致这个箭头函数里面的this,总是指向handler对象;否则,回调函数运行时,this.doSomething这一行会报错,因为此时this指向document对象
 
 var handler = {
   id: '123456',
@@ -1131,7 +1131,7 @@ contains(['foo', 'bar'], 'baz'); // => false
 
       如果原数组有空位,flat()方法会跳过空位
 
-      flat()默认只会"拉平"一层，如果想要"拉平"多层的嵌套数组,可以将flat()方法的参数写成一个整数,表示想要拉平的层数,默认为1
+      flat()默认只会"拉平"一层,如果想要"拉平"多层的嵌套数组,可以将flat()方法的参数写成一个整数,表示想要拉平的层数,默认为1
 
       如果不管有多少层嵌套,都要转成一维数组,可以用Infinity关键字作为参数
 
@@ -1443,6 +1443,80 @@ console.log(me.breath());   //Breathing!
 
       Object.fromEntries():
       Object.entries()的逆操作,用于将一个键值对数组转为对象
+
+## Symbol
+
+### 概述
+
+      JS的第7种原始数据类型(String,Number,Boolean,Object,Undefined,Null)
+
+~~~js
+let s1 = Symbol('qqq');
+let s2 = Symbol('qqq');
+console.log(s1 === s2);   //flase
+~~~
+
+      上面代码结果为false,表明Symbol类型数据是独一无二的
+
+      PS.
+      1. 如果Symbol的参数是一个对象,就会调用该对象的toString方法,将其转为字符串,然后才生成一个Symbol值
+      2. Symbol值不能与其他类型的值进行运算
+      3. Symbol值可以显式转为字符串和布尔值
+
+### 作为属性名的Symbol
+
+      Symbol值的唯一性,保证它可以作为标识符不可能重复
+      Symbol作为属性名时,不能用点运算符获取属性;同时使用Symbol值定义属性时,必须在方括号之内
+
+~~~js
+let name = Symbol();
+const person = {
+  [name]: 'Mike',
+};
+console.log(person.name);   //undefined
+console.log(person['name']);    //undefined
+console.log(person[name]);    //undefined
+~~~
+
+      PS. Symbol值作为属性名时,该属性还是公开属性,不是私有属性
+
+### Symbol属性名的遍历
+
+      Symbol作为属性名时,只有Object.getOwnPropertySymbols(obj)和Reflect.ownKeys(obj)方法可以获取它;所以可以在一些仅内部使用的成员上使用Symbol属性名
+
+### Symbol.for()与Symbol.keyFor
+
+      前者用于重新使用同一个Symbol值,即可以达到Symbol值相等的操作
+
+~~~js
+let s1 = Symbol.for('qqq');
+let s2 = Symbol.for('qqq');
+console.log(s1 === s2);   //true
+~~~
+
+      后者返回一个已登记的Symbol类型值的key
+
+~~~js
+let s1 = Symbol.for("foo");
+Symbol.keyFor(s1) // "foo"
+
+let s2 = Symbol("foo");
+Symbol.keyFor(s2) // undefined
+~~~
+
+### 内置的Symbol值
+
+      1. 对象的Symbol.hasInstance属性,指向一个内部方法;当其他对象使用instanceof运算符,判断是否为该对象的实例时,会调用这个方法
+      2. 对象的Symbol.isConcatSpreadable属性等于一个布尔值,表示该对象用于Array.prototype.concat()时,是否可以展开
+      3. 对象的Symbol.species属性,指向一个构造函数;创建衍生对象时,会使用该属性
+      4. 对象的Symbol.match属性,指向一个函数;当执行str.match(myObject)时,如果该属性存在,会调用它,返回该方法的返回值
+      5. 对象的Symbol.replace属性,指向一个方法,当该对象被String.prototype.replace方法调用时,会返回该方法的返回值
+      6. 对象的Symbol.search属性,指向一个方法,当该对象被String.prototype.search方法调用时,会返回该方法的返回值
+      7. 对象的Symbol.split属性,指向一个方法,当该对象被String.prototype.split方法调用时,会返回该方法的返回值
+      8. 对象的Symbol.iterator属性,指向该对象的默认遍历器方法
+      9. 对象的Symbol.toPrimitive属性,指向一个方法;该对象被转为原始类型的值时,会调用这个方法,返回该对象对应的原始类型值
+      10. 对象的Symbol.toStringTag属性,指向一个方法;在该对象上面调用Object.prototype.toString方法时,如果这个属性存在,它的返回值会出现在toString方法返回的字符串之中,表示对象的类型;也就是说,这个属性可以用来定制[object Object]或[object Array]中object后面的那个字符串
+      11. 对象的Symbol.unscopables属性,指向一个对象;该对象指定了使用with关键字时,哪些属性会被with环境排除
 
 ## Proxy
 
