@@ -154,7 +154,7 @@ console.log(foo.prop);    //undefined
       同一段代码为了能够在各种环境,都能取到顶层对象,现在一般是使用this变量,但是有局限性:
       1. 全局环境中,this会返回顶层对象;但是,Node模块和ES6模块中,this返回的是当前模块
       2. 函数里面的this,如果函数不是作为对象的方法运行,而是单纯作为函数运行,this会指向顶层对象;但是,严格模式下,这时this会返回undefined
-      3. 不管是严格模式,还是普通模式,new Function('return this')(),总是会返回全局对象;但是,如果浏览器用了CSP(Content Security Policy,内容安全策略),那么eval、new Function这些方法都可能无法使用
+      3. 不管是严格模式,还是普通模式,new Function('return this')(),总是会返回全局对象;但是,如果浏览器用了CSP(Content Security Policy,内容安全策略),那么eval,new Function这些方法都可能无法使用
 
       下面是两种解决方法:
 
@@ -573,7 +573,7 @@ Math.trunc = Math.trunc || function(x) {
 
 ### Math.sign()
 
-      判断一个数到底是正数、负数、还是零;非数值会先转换为数值,无法转换的返回NaN
+      判断一个数到底是正数,负数,还是零;非数值会先转换为数值,无法转换的返回NaN
       参数为正数,返回+1
       参数为负数,返回-1
       参数为 0,返回0
@@ -780,7 +780,7 @@ var f = () => {
       3. 不可以使用arguments对象,该对象在函数体内不存在;如果要用,可以用rest参数代替
       4. 不可以使用yield命令,因此箭头函数不能用作Generator函数
 
-      PS. 由于箭头函数没有自己的this,所以当然也就不能用call()、apply()、bind()这些方法去改变this的指向
+      PS. 由于箭头函数没有自己的this,所以当然也就不能用call(),apply(),bind()这些方法去改变this的指向
 
 ~~~js
 //两个定时器前者this绑定定义时的作用域(即Timer函数),后者this指向执行时的作用域(全局对象)
@@ -1517,6 +1517,370 @@ Symbol.keyFor(s2) // undefined
       9. 对象的Symbol.toPrimitive属性,指向一个方法;该对象被转为原始类型的值时,会调用这个方法,返回该对象对应的原始类型值
       10. 对象的Symbol.toStringTag属性,指向一个方法;在该对象上面调用Object.prototype.toString方法时,如果这个属性存在,它的返回值会出现在toString方法返回的字符串之中,表示对象的类型;也就是说,这个属性可以用来定制[object Object]或[object Array]中object后面的那个字符串
       11. 对象的Symbol.unscopables属性,指向一个对象;该对象指定了使用with关键字时,哪些属性会被with环境排除
+
+## Set和Map数据结构
+
+### Set
+
+      新的数据结构Set;它类似于数组,但是成员的值都是唯一的,没有重复的值(Set本身是一个构造函数)
+      接收一个参数:如果传递一个可迭代对象,它的所有元素将不重复地被添加到新的Set中;如果不指定此参数或其值为null,则新的Set为空
+      当接收对象时,Set认为他们总是不相等的
+
+#### 基础用法
+
+~~~js
+//数组去重
+
+let arr = [1, 1, 2, 2, 3, 3];
+let newArr = [...new Set(arr)];   //[1, 2, 3]
+
+//字符串去重
+
+let str = "aaabbbccc";
+let newStr = [...new Set(str)].join('');    //abc
+~~~
+
+#### Set实例的属性和方法
+
+      1. Set.prototype.constructor: 构造函数,默认就是Set函数
+      2. Set.prototype.size: 返回Set实例的成员总数
+
+##### Set的操作方法
+
+      add(value): 添加某个值,返回Set结构本身
+      delete(value): 删除某个值,返回一个布尔值,表示删除是否成功
+      has(value): 返回一个布尔值,表示该值是否为Set的成员
+      clear(): 清除所有成员,没有返回值
+
+~~~js
+let s = new Set();
+
+s.add(1).add(2).add(2);
+// 注意2被加入了两次
+
+s.size;    // 2
+
+s.has(1);   // true
+s.has(2);   // true
+s.has(3);   // false
+
+s.delete(2);    //true
+s.has(2);   // false
+~~~
+
+      Array.from方法可以将Set结构转为数组
+
+~~~js
+//另外的数组去重方法
+
+function dedupe(array) {
+  return Array.from(new Set(array));
+}
+
+dedupe([1, 1, 2, 3]) // [1, 2, 3]
+~~~
+
+##### Set的遍历方法
+
+      keys(): 返回键名的遍历器
+      values(): 返回键值的遍历器
+      entries(): 返回键值对的遍历器
+      forEach(): 使用回调函数遍历每个成员
+
+      for...of也可以遍历Set结构
+
+~~~js
+let set = new Set(['red', 'green', 'blue']);
+
+for (let item of set.keys()) {
+  console.log(item);
+}
+// red
+// green
+// blue
+
+for (let item of set.values()) {
+  console.log(item);
+}
+// red
+// green
+// blue
+
+for (let item of set.entries()) {
+  console.log(item);
+}
+// ["red", "red"]
+// ["green", "green"]
+// ["blue", "blue"]
+
+//forEach没有返回值
+
+let set = new Set([1, 4, 9]);
+set.forEach((value, key) => console.log(key + ' : ' + value))
+// 1 : 1
+// 4 : 4
+// 9 : 9
+~~~
+
+      Set应用集合
+
+~~~js
+let a = new Set([1, 2, 3]);
+let b = new Set([4, 3, 2]);
+
+// 并集
+let union = new Set([...a, ...b]);
+// Set {1, 2, 3, 4}
+
+// 交集
+let intersect = new Set([...a].filter(x => b.has(x)));
+// set {2, 3}
+
+// 差集
+let difference = new Set([...a].filter(x => !b.has(x)));
+// Set {1}
+~~~
+
+### WeakSet
+
+      成员只能是对象的不重复集合;WeakSet中的对象都是弱引用的,会因为被引用而被垃圾回收机制回收掉,所以WeakSet是不可遍历的
+
+      也是一个构造函数,可以接受一个数组或类似数组的对象作为参数
+
+      注意下面两段代码的区别:
+      前者是a数组的成员作为WeakSet的成员,输出还是对象;后者是b数组本身作为成员,因为不是对象,所以报错
+
+~~~js
+const a = [[1, 2], [3, 4]];
+const ws = new WeakSet(a);    //WeakSet {[1, 2], [3, 4]}
+
+const b = [3, 4];
+const ws = new WeakSet(b);    //报错
+~~~
+
+      WeakSet的一个用处是储存DOM节点,而不用担心这些节点从文档移除时,会引发内存泄漏
+
+      另外一个用法: 保证了Foo的实例方法,只能在Foo的实例上调用(使用WeakSet的好处是,foos对实例的引用,不会被计入内存回收机制,所以删除实例的时候,不用考虑foos,也不会出现内存泄漏)
+
+~~~js
+const foos = new WeakSet()
+class Foo {
+  constructor() {
+    foos.add(this)
+  }
+  method () {
+    if (!foos.has(this)) {
+      throw new TypeError('Foo.prototype.method 只能在Foo的实例上调用！');
+    }
+  }
+}
+~~~
+
+### Map
+
+#### 含义和基本用法
+
+      类似于对象,也是键值对的集合,但是"键"的范围不限于字符串,各种类型的值(包括对象)都可以当作键
+      Object结构提供了"字符串—值"的对应,Map结构提供了"值—值"的对应
+
+      Map构造函数接收一个数组或者可迭代对象;当接受数组为参数,按以下算法执行
+
+~~~js
+const items = [
+  ['name': 'Mike'],
+  ['title': 'Author'],
+];
+const map = new Map();
+items.forEach(
+  ([key, value]) => map.set(key, value);
+);
+~~~
+
+      如果对同一个键多次赋值,后面的值将覆盖前面的值;Map的键实际上是跟内存地址绑定的,只要内存地址不一样,就视为两个键;如果Map的键是一个简单类型的值(数字,字符串,布尔值),则只要两个值严格相等,Map将其视为一个键(0和-0是一个键,布尔值true和字符串true不是一个键,undefined与null不是一个键,NaN是一个键)
+
+~~~js
+const map = new Map();
+map.set(['a'], 555);
+map.get(['a']);   //undefined
+
+//set和get所针对的键内存地址不同
+
+const map = new Map();
+const k1 = ['a'];
+const k2 = ['a'];
+map
+.set(k1, 111);
+.set(k2, 222);
+map.get(k1);
+map.get(k2);
+
+//变量k1和k2的值是一样的,但是它们在Map结构中被视为两个键
+~~~
+
+#### 实例的属性和操作方法
+
+##### size属性
+
+      返回Map结构的成员总数(map.size)
+
+##### set(key, value)
+
+      设置键名key对应的键值为value,然后返回整个Map结构;如果key已经有值,则键值会被更新
+
+      链式写法
+
+~~~js
+let map = new Map()
+  .set(1, 'a')
+  .set(2, 'b')
+  .set(3, 'c');
+~~~
+
+##### set(key)
+
+      读取key对应的键值,如果找不到key,返回undefined
+
+##### has(key)
+
+      返回一个布尔值,表示某个键是否在当前Map对象之中
+
+##### deletd(key)
+
+      返回一个布尔值,true表示删除成功,false表示删除失败
+
+##### clear()
+
+      清除所有成员,没有返回值
+
+#### 遍历方法
+
+      keys(): 返回键名的遍历器
+      values(): 返回键值的遍历器
+      entries(): 返回所有成员的遍历器
+      forEach(): 遍历Map的所有成员
+
+      Map结构转为数组最快的就是...运算符
+
+~~~js
+const map = new Map([
+  [1, 'one'],
+  [2, 'two'],
+  [3, 'three'],
+]);
+
+[...map.keys()]   // [1, 2, 3]
+[...map.values()]   // ['one', 'two', 'three']
+[...map.entries()]    // [[1,'one'], [2, 'two'], [3, 'three']]
+[...map]    // [[1,'one'], [2, 'two'], [3, 'three']]
+~~~
+
+#### 与其他数据结构的相互转换
+
+##### Map转为数组
+
+~~~js
+const myMap = new Map()
+  .set(true, 7)
+  .set({foo: 3}, ['abc']);
+[...myMap]
+// [ [ true, 7 ], [ { foo: 3 }, [ 'abc' ] ] ]
+~~~
+
+##### 数组转为Map
+
+      将数组传入Map构造函数,就可以转为 Map
+
+~~~js
+new Map([
+  [true, 7],
+  [{foo: 3}, ['abc']]
+])
+~~~
+
+##### Map转为对象
+
+      如果所有Map的键都是字符串,它可以无损地转为对象
+      如果有非字符串的键名,那么这个键名会被转成字符串,再作为对象的键名
+
+~~~js
+function strMapToObj(strMap) {
+  let obj = Object.create(null);
+  for (let [k,v] of strMap) {
+    obj[k] = v;
+  };
+  return obj;
+};
+
+const myMap = new Map()
+  .set('yes', true)
+  .set('no', false);
+strMapToObj(myMap);    //{yes: true, no: false}
+~~~
+
+##### 对象转为Map
+
+~~~js
+function objToStrMap(obj) {
+  let strMap = new Map();
+  for (let k of Object.keys(obj)) {
+    strMap.set(k, obj[k]);
+  }
+  return strMap;
+}
+
+objToStrMap({yes: true, no: false});   //Map{"yes" => true, "no" => false}
+~~~
+
+##### Map转为JSON
+
+~~~js
+//Map键名都是字符串,转为对象JSON
+
+function strMapToJson(strMap) {
+  return JSON.stringify(strMapToObj(strMap));
+};
+
+let myMap = new Map().set('yes', true).set('no', false);
+strMapToJson(myMap);   // '{"yes":true,"no":false}'
+
+//Map键名有非字符串,转为数组JSON
+
+function mapToArrayJson(map) {
+  return JSON.stringify([...map]);
+};
+
+let myMap = new Map().set(true, 7).set({foo: 3}, ['abc']);
+mapToArrayJson(myMap);   // '[[true,7],[{"foo":3},["abc"]]]'
+~~~
+
+##### JSON转为Map
+
+~~~js
+//对象JSON
+
+function jsonToStrMap(jsonStr) {
+  return objToStrMap(JSON.parse(jsonStr));
+};
+
+jsonToStrMap('{"yes": true, "no": false}');   // Map {'yes' => true, 'no' => false}
+
+//数组JSON
+
+function jsonToMap(jsonStr) {
+  return new Map(JSON.parse(jsonStr));
+};
+
+jsonToMap('[[true,7],[{"foo":3},["abc"]]]');    // Map {true => 7, Object {foo: 3} => ['abc']}
+~~~
+
+### WeakMap
+
+      WeakMap只接受对象作为键名(null除外),不接受其他类型的值作为键名
+      WeakMap里面的键名对象和所对应的键值对会自动消失
+
+      WeakMap只有四个方法可用: get(),set(),has(),delete()
+
+      WeakMap应用的典型场合就是DOM节点作为键名
 
 ## Proxy
 
