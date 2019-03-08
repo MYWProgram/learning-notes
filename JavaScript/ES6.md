@@ -2185,6 +2185,197 @@ console.log(proxy.getDate());
 
       Proxy可以拦截目标对象的任意属性,所以很适合用来编写Web服务器的客户端
 
+## Reflect
+
+### Reflect概述
+
+      Reflect对象与Proxy对象一样,也是ES6为了操作对象而提供的新API
+      特性:
+      1. 将Object对象的一些明显属于语言内部的方法(比如Object.defineProperty)放到Reflect对象上
+      2.  修改某些Object方法的返回结果,让其变得更合理
+      3. 让Object操作都变成函数行为
+         比如: name in obj和delete obj[name],而Reflect.has(obj, name)和Reflect.deleteProperty(obj, name)让它们变成了函数行为
+      4. Reflect对象的方法与Proxy对象的方法一一对应,只要是Proxy对象的方法,就能在Reflect对象上找到对应的方法
+
+### 静态方法
+
+#### Reflect.get(target, name, receiver)
+
+      查找并返回target对象的name属性,如果没有该属性,则返回undefined
+
+      如果name属性部署了读取函数(getter),则读取函数的this绑定receiver
+
+~~~js
+//下面代码this绑定到myReceiverObject上
+
+var myObject = {
+  foo: 1,
+  bar: 2,
+  get baz() {
+    return this.foo + this.bar;
+  },
+};
+
+var myReceiverObject = {
+  foo: 4,
+  bar: 4,
+};
+
+Reflect.get(myObject, 'baz', myReceiverObject);   //8
+~~~
+
+      如果第一个参数不是对象,Reflect.get方法会报错
+
+#### Reflect.set(target, name, value, receiver)
+
+      设置target对象的name属性等于value
+
+      如果name属性设置了赋值函数,则赋值函数的this绑定receiver
+
+~~~js
+var myObject = {
+  foo: 4,
+  set bar(value) {
+    return this.foo = value;
+  },
+};
+
+var myReceiverObject = {
+  foo: 0,
+};
+
+Reflect.set(myObject, 'bar', 1, myReceiverObject);
+myObject.foo;   // 4
+myReceiverObject.foo;   // 1
+~~~
+
+      如果Proxy对象和Reflect对象联合使用,前者拦截赋值操作,后者完成赋值的默认行为,而且传入了receiver,那么Reflect.set会触发Proxy.defineProperty拦截
+
+~~~js
+let p = {
+  a: 'a'
+};
+
+let handler = {
+  set(target, key, value, receiver) {
+    console.log('set');
+    //如果没有传入recriver则不会触发defineProperty拦截
+    Reflect.set(target, key, value, receiver);
+  },
+  defineProperty(target, key, attribute) {
+    console.log('defineProperty');
+    Reflect.defineProperty(target, key, attribute);
+  },
+};
+
+let obj = new Proxy(p, handler);
+obj.a = 'A';
+// set
+// defineProperty
+~~~
+
+      如果第一个参数不是对象,Reflect.set会报错
+
+#### Reflect.has(obj, name)
+
+      对应name in obj里面的in运算符
+
+#### Reflect.deleteProperty(obj, name)
+
+      等同于delete obj[name],用于删除对象的属性
+
+#### Reflect.construct(target, args)
+
+      等同于new target(...args),这提供了一种不使用new来调用构造函数的方法
+
+~~~js
+function Greeting(name) {
+  this.name = name;
+};
+// new 的写法
+const instance = new Greeting('张三');
+// Reflect.construct 的写法
+const instance = Reflect.construct(Greeting, ['张三']);
+~~~
+
+#### Reflect.getPrototypeOf()
+
+      用于读取对象的__proto__属性
+      与Object.getPrototypeOf()的区别:
+      如果参数不是对象,Object.getPrototypeOf会将这个参数转为对象,然后再运行,而Reflect.getPrototypeOf会报错
+
+#### Reflect.setPrototypeOf(obj, newProto)
+
+      设置目标对象的原型(prototype),返回一个布尔值表示设置成功与否
+      如果第一个参数不是对象,Object.setPrototypeOf会返回第一个参数本身,而Reflect.setPrototypeOf会报错
+      如果第一个参数是undefined或null,Object.setPrototypeOf和Reflect.setPrototypeOf都会报错
+
+#### Reflect.apply(func, thisArg, args)
+
+      等同于Function.prototype.apply.call(func, thisArg, args),用于绑定this对象后执行给定函数
+
+      如果要绑定一个函数的this对象,可以这样写fn.apply(obj, args),但是如果函数定义了自己的apply方法,就只能写成Function.prototype.apply.call(fn, obj, args),采用Reflect对象可以简化这种操作
+
+~~~js
+const ages = [11, 33, 12, 54, 18, 96];
+
+// 旧写法
+const youngest = Math.min.apply(Math, ages);
+const oldest = Math.max.apply(Math, ages);
+const type = Object.prototype.toString.call(youngest);
+
+// 新写法
+const youngest = Reflect.apply(Math.min, Math, ages);
+const oldest = Reflect.apply(Math.max, Math, ages);
+const type = Reflect.apply(Object.prototype.toString, youngest, []);
+~~~
+
+#### Reflect.defineProperty(target, propertyKey, attributes)
+
+      为对象定义属性
+
+      第一个参数不是对象,就会抛出错误
+
+      与Proxy配合使用
+
+~~~js
+//Proxy.defineProperty对属性赋值设置了拦截,然后使用Reflect.defineProperty完成了赋值
+
+const p = new Proxy({}, {
+  defineProperty(target, prop, descriptor) {
+    console.log(descriptor);
+    return Reflect.defineProperty(target, prop, descriptor);
+  }
+});
+
+p.foo = 'bar';
+// {value: "bar", writable: true, enumerable: true, configurable: true}
+
+p.foo;    // "bar"
+~~~
+
+#### Reflect.getOwnPropertyDescriptor(target, propertyKey)
+
+      用于得到指定属性的描述对象
+
+      如果第一个参数不是对象,Object.getOwnPropertyDescriptor(1, 'foo')不报错,返回undefined,而Reflect.getOwnPropertyDescriptor(1, 'foo')会抛出错误,表示参数非法
+
+#### Reflect.isExtensible(target)
+
+      返回一个布尔值,表示当前对象是否可扩展
+
+      如果参数不是对象,Object.isExtensible会返回false,因为非对象本来就是不可扩展的,而Reflect.isExtensible会报错
+
+#### Reflect.preventExtensible(target)
+
+      让一个对象变为不可扩展;它返回一个布尔值,表示是否操作成功
+
+      如果参数不是对象,Object.preventExtensions在ES5环境报错,在ES6环境返回传入的参数,而Reflect.preventExtensions会报错
+
+#### Reflect.ownKeys(target)
+
+      用于返回对象的所有属性,基本等同于Object.getOwnPropertyNames与Object.getOwnPropertySymbols之和
+
 ## Promises
 
     Promises是处理异步操作的一种模式,之前在很多三方库中有实现,比如jQuery的deferred对象;当你发起一个异步请求,并绑定了.when()或.do  ()等事件处理程序时,其实就是在应用promise模式
