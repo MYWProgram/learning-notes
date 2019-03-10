@@ -2570,3 +2570,140 @@ Promise
     console.log(data);
   })
 ~~~
+
+## Iterator和for...of循环
+
+### Iterrator的概念
+
+      JS的四种数据集合: Array,Object,Map,Set
+
+      是一种接口,为各种不同的数据结构提供统一的访问机制
+      任何数据结构只要部署Iterator接口,就可以完成遍历操作(即依次处理该数据结构的所有成员)
+
+      作用:
+      1. 为各种数据结构,提供一个统一的,简便的访问接口
+      2. 使得数据结构的成员能够按某种次序排列
+      3. 主要供for...of消费
+
+      遍历过程:
+      1. 创建一个指针对象,指向当前数据结构的起始位置;遍历器对象本质上就是一个指针对象
+      2. 第一次调用指针对象的next方法,可以将指针指向数据结构的第一个成员
+      3. 第二次调用指针对象的next方法,指针就指向数据结构的第二个成员
+      4. 不断调用指针对象的next方法,直到它指向数据结构的结束位置
+
+      模拟调用next进行遍历的操作
+
+~~~js
+function makeIterator(array) {
+  var nextIndex = 0;
+  return {
+    next: function() {
+      return nextIndex < array.length ?
+        {value: array[nextIndex++], done: false} :
+        {value: undefined, done: true};
+    },
+  };
+};
+
+var it = makeIterator(['a', 'b']);
+
+it.next() // { value: "a", done: false }
+it.next() // { value: "b", done: false }
+it.next() // { value: undefined, done: true }
+~~~
+
+#### 默认Iterator接口
+
+      一个数据结构只要具有Symbol.iterator属性,就可以认为是"可遍历的",就可以使用for...of循环遍历;同时也可以使用while循环遍历
+
+      Symbol.iterator是一个表达式,返回Symbol对象的Iterator属性,这是一个预定义好的类型为Symbol的特殊值,所以要放在方括号之内
+
+      自带Iterator接口的数据结构:
+      Array,Map,Set,String,TypedArray,函数的arguments对象,NodeList对象
+
+~~~js
+//为对象添加Iterator接口
+
+let obj = {
+  data: [ 'hello', 'world' ],
+  [Symbol.iterator]() {
+    const self = this;
+    let index = 0;
+    return {
+      next() {
+        if (index < self.data.length) {
+          return {
+            value: self.data[index++],
+            done: false
+          };
+        } else {
+          return { value: undefined, done: true };
+        }
+      }
+    };
+  }
+};
+~~~
+
+      类数组对象可以直接调用Symbol.iterator方法;普通对象不可以
+
+~~~js
+let iterable = {
+  0: 'a',
+  1: 'b',
+  2: 'c',
+  length: 3,
+  [Symbol.iterator]: Array.prototype[Symbol.iterator]
+};
+for (let item of iterable) {
+  console.log(item);    // 'a', 'b', 'c'
+};
+~~~
+
+#### 调用Iterator的场合
+
+      1. 解构赋值
+      2. 扩展运算符(...)
+      3. yield*: 其后跟的是一个可遍历的结构,会调用该结构的遍历器接口
+
+~~~js
+let generator = function* () {
+  yield 1;
+  yield* [2,3,4];
+  yield 5;
+};
+
+var iterator = generator();
+
+iterator.next();    //{ value: 1, done: false }
+iterator.next();    //{ value: 2, done: false }
+iterator.next();    //{ value: 3, done: false }
+iterator.next();    //{ value: 4, done: false }
+iterator.next();    //{ value: 5, done: false }
+iterator.next();    //{ value: undefined, done: true }
+~~~
+
+      4. 其他场合:
+      for...of
+      Array.from()
+      Map(), Set(), WeakMap(), WeakSet()
+      Promise.all()
+      Promise.race()
+
+#### 遍历器对象的return()和throw()
+
+      return()方法通常是在for...of提前退出(报错或是break语句)时,就会调用return方法;如果一个对象在完成遍历之前,可以部署return()方法来清理或释放资源
+
+      throw方法主要是配合Generator函数使用,一般的遍历器对象用不到这个方法
+
+### for...of循环
+
+      与其他遍历语法的比较:
+
+      forEach:
+      无法中途跳出forEach循环,break命令或return命令都不能奏效
+
+      for...in:
+      1. 数组的键名是数字,但是for...in循环是以字符串作为键名
+      2. for...in循环不仅遍历数字键名,还会遍历手动添加的其他键,甚至包括原型链上的键
+      3. 某些情况下,for...in循环会以任意顺序遍历键名
