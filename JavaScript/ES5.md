@@ -531,7 +531,7 @@ console.log(formaDate);
 ## 获取随机数组,要求是长度一致的字符串格式
 
 ~~~js
-var rabdom = Math.random();
+var random = Math.random();
 random = random + '0000000000';
 random = random.slice(0, 10); //从数组截取选定的起始位置到结束位置
 console.log(random);
@@ -689,10 +689,10 @@ var body = document.body;
 bindEvent(p1, 'click', function(e) {
   e.stopPropagation(e); //阻止事件冒泡
   alett("激活");
-})
+});
 bindEvent(body, 'click', function(e) {
   alert("取消");
-})
+});
 ~~~
 
 ## 代理(代码简介,减少浏览器内存占用)html中有若干a1-an的a标签在div1中
@@ -875,13 +875,13 @@ module.exports = {
 ### JS压缩字符串
 
 ~~~js
-const zip = arr => {
+const zip = (arg) => {
   let strList;
-  let arrStr = '';
+  let newStr = '';
   let count = 1;
 
-  if(Array.isArray(arr)) strList = arr;
-  else if(typeof arr === 'string') strList = arr.split('');
+  if(Array.isArray(arg)) strList = arg;
+  else if(typeof arg === 'string') strList = arg.split('');
   else throw new Error('Wrong type!!!');
 
   for(let i = 0; i < strList.length; i++) {
@@ -889,16 +889,16 @@ const zip = arr => {
       count++;
     }
     else{
-      if(count === 1) arrStr += `${strList[i]}`;
-      else arrStr += count + `${strList[i]}`;
+      if(count === 1) newStr += `${strList[i]} `;
+      else newStr += count + `${strList[i]} `;
       count = 1;
     }
   }
-  return arrStr;
+  return newStr;
 }
 
-var arr = "aaa1ccbvvvv'''mmmmm";
-console.log(zip(arr));
+var str = "aaa1ccbvvvv'''mmmmm";
+console.log(zip(str));
 ~~~
 
 ### 截取url中的键值对
