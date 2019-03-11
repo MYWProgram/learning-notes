@@ -2707,3 +2707,542 @@ iterator.next();    //{ value: undefined, done: true }
       1. 数组的键名是数字,但是for...in循环是以字符串作为键名
       2. for...in循环不仅遍历数字键名,还会遍历手动添加的其他键,甚至包括原型链上的键
       3. 某些情况下,for...in循环会以任意顺序遍历键名
+
+## Generator函数
+
+### Generator函数的语法
+
+#### 基本概念
+
+      Generator函数是ES6提供的一种异步编程解决方案,有两个特征: 一是function关键字与函数名之间有一个星号;二是函数体内部使用yield表达式
+
+      Generator函数可以看作是一个状态机,封装了多个内部状态;执行函数会返回一个遍历器对象,返回的遍历器对象可以依次遍历Generator函数内的每一个状态,也就是说它还是一个遍历器对象生成函数
+
+      调用Generator函数后,该函数并不执行,返回的也不是函数运行结果,而是一个指向内部状态的指针对象(也就是遍历器)
+
+~~~js
+function* helloWorldGenerator() {
+  yield 'hello';
+  yield 'world';
+  return 'ending';
+};
+var hw = helloWorldGenerator();
+
+hw.next()
+// { value: 'hello', done: false }
+
+hw.next()
+// { value: 'world', done: false }
+
+hw.next()
+// { value: 'ending', done: true }
+
+hw.next()
+// { value: undefined, done: true }
+~~~
+
+#### yield表达式
+
+      Generator函数只有调用next()方法才会进行遍历下一个状态,yield就是这个函数的暂停标志
+
+      调用next()方法之后执行步骤:
+      遇到yield就暂停执行并将紧跟着yield后面的表达式的值作为value返回;如果没有遇到yield就会找到return语句并返回return后面的值;如果函数没有return语句,就返回undefined
+
+      return与yield:
+      相似之处在于,都能返回紧跟在语句后面的那个表达式的值
+      区别在于每次遇到yield,函数暂停执行,下一次再从该位置继续向后执行,而return语句不具备位置记忆的功能;一个函数里面,只能执行一次(或者说一个)return语句,但是可以执行多次(或者说多个)yield表达式;正常函数只能返回一个值,因为只能执行一次return,Generator函数可以返回一系列的值,因为可以有任意多个yield
+
+      yield表达式如果用在另一个表达式之中,必须放在圆括号里面
+
+~~~js
+function* demo() {
+  console.log('Hello' + yield); // SyntaxError
+  console.log('Hello' + yield 123); // SyntaxError
+
+  console.log('Hello' + (yield)); // OK
+  console.log('Hello' + (yield 123)); // OK
+}
+~~~
+
+      yield在普通函数之中使用会报错,只能在Generator函数中使用
+
+~~~js
+var arr = [1, [[2, 3], 4], [5, 6]];
+
+var flat = function* (a) {
+  var length = a.length;
+  for (var i = 0; i < length; i++) {
+    var item = a[i];
+    if (typeof item !== 'number') {
+      yield* flat(item);
+    } else {
+      yield item;
+    };
+  };
+};
+
+for (var f of flat(arr)) {
+  console.log(f);   // 1, 2, 3, 4, 5, 6
+};
+~~~
+
+#### next()方法的参数
+
+      yield表达式本身没有返回值,或者说总是返回undefined;next方法可以带一个参数,该参数就会被当作上一个yield表达式的返回值
+
+~~~js
+function* foo(x) {
+  var y = 2 * (yield (x + 1));
+  var z = yield (y / 3);
+  return (x + y + z);
+}
+
+var a = foo(5);
+a.next() // Object{value:6, done:false}
+a.next() // Object{value:NaN, done:false}
+a.next() // Object{value:NaN, done:true}
+
+var b = foo(5);
+b.next() // { value:6, done:false }
+b.next(12) // { value:8, done:false }
+b.next(13) // { value:42, done:true }
+
+//next传入的参数(第一次除外)是上一次yield执行时的返回值
+~~~
+
+#### 结合for...of循环
+
+      for...of循环可以自动遍历Generator函数运行时生成的Iterator对象,且此时不再需要调用next方法;一旦next()方法返回对象的done属性为true,for...of循环就会终止
+
+~~~js
+function* foo() {
+  yield 1;
+  yield 2;
+  yield 3;
+  yield 4;
+  yield 5;
+  return 6;
+};
+
+for (let v of foo()) {
+  console.log(v);   //1 2 3 4 5
+};
+
+//return语句之后的done属性为true,此时for...of循环终止了
+~~~
+
+      Generator函数遍历对象的方法
+
+~~~js
+//方法一
+
+function* objectEntries(obj) {
+  let propKeys = Reflect.ownKeys(obj);
+
+  for (let propKey of propKeys) {
+    yield [propKey, obj[propKey]];
+  }
+}
+
+let jane = { first: 'Jane', last: 'Doe' };
+
+for (let [key, value] of objectEntries(jane)) {
+  console.log(`${key}: ${value}`);
+}
+// first: Jane
+// last: Doe
+
+//方法二
+
+function* objectEntries() {
+  let propKeys = Object.keys(this);
+
+  for (let propKey of propKeys) {
+    yield [propKey, this[propKey]];
+  }
+}
+
+let jane = { first: 'Jane', last: 'Doe' };
+
+jane[Symbol.iterator] = objectEntries;
+
+for (let [key, value] of jane) {
+  console.log(`${key}: ${value}`);
+}
+// first: Jane
+// last: Doe
+~~~
+
+#### Generator.prototype.throw()
+
+      可以在函数体外抛出错误,然后在Generator函数体内捕获
+
+      throw方法可以接受一个参数,该参数会被catch语句接收
+
+      Generator的throw方法被捕获之后,会附带执行一次next()方法
+
+#### Generator.prototype.return()
+
+      返回括号内给定的值,之后再次调用next方法done属性总是返回true,并且终结遍历Generator函数;括号内不指定值则返回undefined
+
+      如果Generator函数内部有try...finally代码块,且正在执行try代码块,那么return方法会推迟到finally代码块执行完再执行
+
+~~~js
+function* numbers () {
+  yield 1;
+  try {
+    yield 2;
+    yield 3;
+  } finally {
+    yield 4;
+    yield 5;
+  }
+  yield 6;
+}
+var g = numbers();
+g.next();   // { value: 1, done: false }
+g.next();   // { value: 2, done: false }
+g.return(7);    // { value: 4, done: false }
+g.next();   // { value: 5, done: false }
+g.next();   // { value: 7, done: true }
+g.next();   // { value: undefined, done: true }
+
+//不调用next()方法直接调用return()方法,后面再调用next()方法返回值一致为: {value: undefined, done: true}
+~~~
+
+#### yield*表达式
+
+      如果在Generator函数内部调用另一个Generator函数,默认情况下是没有效果的
+      使用yield*调用就可以执行
+      而使用yield*调用没有return语句的Generator函数等同于部署一个for...of方法;如果被调用函数内有return语句,需要使用yield*进行调用
+
+~~~js
+function* foo() {
+  yield 'a';
+  yield 'b';
+};
+
+function* bar() {
+  yield 'c';
+  yield* foo();
+  //等同于: for(let i of foo()) {yield i};
+  yield 'd';
+};
+
+let A = bar();
+
+A.next();   //{value: 'c', done: false}
+A.next();   //{value: 'a', done: false}
+A.next();   //{value: 'b', done: false}
+A.next();   //{value: 'd', done: false}
+A.next();   //{value: undefined, done: true}
+~~~
+
+      任何数据只要具有Iterator接口就可以被yield*遍历
+
+~~~js
+let read = (function* () {
+  yield 'hello';
+  yield* 'hello';
+})();
+
+read.next().value // "hello"
+read.next().value // "h"
+read.next().value // "e"
+read.next().value // "l"
+~~~
+
+      yield*取出嵌套数组成员
+
+~~~js
+function* iterTree(tree) {
+  if (Array.isArray(tree)) {
+    for(let i=0; i < tree.length; i++) {
+      yield* iterTree(tree[i]);
+    }
+  } else {
+    yield tree;
+  }
+}
+
+const tree = [ 'a', ['b', 'c'], ['d', 'e'] ];
+
+for(let x of iterTree(tree)) {
+  console.log(x);   //a, b, c, d, e
+};
+~~~
+
+#### Generator函数的this
+
+      通过Generator函数new出的或是字面量方式命名的其实例不能继承this的属性或方法
+
+      解决办法
+
+~~~js
+//字面量命名
+
+function* F() {
+  this.a = 1;
+  yield this.b = 2;
+  yield this.c = 3;
+}
+var f = F.call(F.prototype);
+
+f.next();  // Object {value: 2, done: false}
+f.next();  // Object {value: 3, done: false}
+f.next();  // Object {value: undefined, done: true}
+
+f.a // 1
+f.b // 2
+f.c // 3
+
+//构造函数方式
+
+function* gen() {
+  this.a = 1;
+  yield this.b = 2;
+  yield this.c = 3;
+}
+
+function F() {
+  return gen.call(gen.prototype);
+}
+
+var f = new F();
+
+f.next();  // Object {value: 2, done: false}
+f.next();  // Object {value: 3, done: false}
+f.next();  // Object {value: undefined, done: true}
+
+f.a // 1
+f.b // 2
+f.c // 3
+~~~
+
+#### Generator函数的应用
+
+      由于可以暂停函数执行,返回任意表达式的值这些特点
+
+##### 异步操作的同步化表达
+
+      不需要写回调函数
+
+~~~js
+//上面代码中,第一次调用loadUI函数时,该函数不会执行,仅返回一个遍历器。下一次对该遍历器调用next方法,则会显示Loading界面(showLoadingScreen),并且异步加载数据(loadUIDataAsynchronously);等到数据加载完成,再一次使用next方法,则会隐藏Loading界面
+
+function* loadUI() {
+  showLoadingScreen();
+  yield loadUIDataAsynchronously();
+  hideLoadingScreen();
+}
+var loader = loadUI();
+// 加载UI
+loader.next()
+
+// 卸载UI
+loader.next()
+
+//上面代码的main函数,就是通过 Ajax 操作获取数据;可以看到,除了多了一个yield,它几乎与同步操作的写法完全一样;注意,makeAjaxCall函数中的next方法,必须加上response参数,因为yield表达式,本身是没有值的,总是等于undefined
+
+function* main() {
+  var result = yield request("http://some.url");
+  var resp = JSON.parse(result);
+    console.log(resp.value);
+}
+
+function request(url) {
+  makeAjaxCall(url, function(response){
+    it.next(response);
+  });
+}
+
+var it = main();
+it.next();
+~~~
+
+##### 控制流管理
+
+~~~js
+//如果有一个多步操作非常耗时,采用回调函数,可能会写成下面这样
+
+step1(function (value1) {
+  step2(value1, function(value2) {
+    step3(value2, function(value3) {
+      step4(value3, function(value4) {
+        // Do something with value4
+      });
+    });
+  });
+});
+
+//采用Generator函数的写法
+
+function* longRunningTask(value1) {
+  try {
+    var value2 = yield step1(value1);
+    var value3 = yield step2(value2);
+    var value4 = yield step3(value3);
+    var value5 = yield step4(value4);
+    // Do something with value4
+  } catch (e) {
+    // Handle any error from step1 through step4
+  };
+};
+~~~
+
+##### 部署Iterator接口
+
+      参考结合for...of循环-Generator函数遍历对象的方法
+
+### Generator函数的异步应用
+
+#### 传统方法
+
+      由于JavaScript语言的执行环境是"单线程"的,所以异步很重要
+
+      JS的异步:
+      setTimeout(setInterval)
+      回调函数
+      时间监听
+      发布/订阅
+      Promise对象
+      Generator
+
+#### Thunk函数
+
+      把多参数函数替换为一个只接受回调函数作为参数的单参数函数
+
+~~~js
+// 正常版本的readFile(多参数版本)
+
+fs.readFile(fileName, callback);
+
+// Thunk版本的readFile(单参数版本)
+
+var Thunk = function (fileName) {
+  return function (callback) {
+    return fs.readFile(fileName, callback);
+  };
+};
+
+var readFileThunk = Thunk(fileName);
+readFileThunk(callback);
+~~~
+
+      Thunk函数转换器
+
+~~~js
+// ES5版本
+
+var Thunk = function(fn){
+  return function (){
+    var args = Array.prototype.slice.call(arguments);
+    return function (callback){
+      args.push(callback);
+      return fn.apply(this, args);
+    }
+  };
+};
+
+// ES6版本
+
+const Thunk = function(fn) {
+  return function (...args) {
+    return function (callback) {
+      return fn.call(this, ...args, callback);
+    }
+  };
+};
+~~~
+
+#### Thunkify模块
+
+      安装: $ npm install thunkify
+
+~~~js
+//使用方式
+
+var thunkify = require('thunkify');
+var fs = require('fs');
+
+var read = thunkify(fs.readFile);
+read('package.json')(function(err, str){
+  // ...
+});
+~~~
+
+#### Generator函数的流程管理
+
+~~~js
+//下面的代码会自动执行
+
+function* gen() {
+  yield 1;
+  yield 2;
+  yield 3;
+};
+
+var g = gen();
+var res = g.next();
+
+while(!res.done) {
+  console.log(res.value);   //1 2 3
+  res = g.next();
+};
+~~~
+
+      上面的代码不适合异步,因为如果必须保证前一步执行完毕(这时使用Thunk函数,可以把执行权交给Generator函数)
+
+~~~js
+var fs = require('fs');
+var thunkify = require('thunkify');
+var readFileThunk = thunkify(fs.readFile);
+
+var gen = function* (){
+  var r1 = yield readFileThunk('/etc/fstab');
+  console.log(r1.toString());
+  var r2 = yield readFileThunk('/etc/shells');
+  console.log(r2.toString());
+};
+
+var g = gen();
+
+var r1 = g.next();
+r1.value(function (err, data) {
+  if (err) throw err;
+  var r2 = g.next(data);
+  r2.value(function (err, data) {
+    if (err) throw err;
+    g.next(data);
+  });
+});
+~~~
+
+#### Thunk函数的自动流程管理
+
+      下面代码实现的关键: 每一个异步操作,都要是Thunk函数,也就是说跟在yield命令后面的必须是Thunk函数
+
+~~~js
+function run(fn) {
+  var gen = fn();
+  function next(err, data) {
+    var result = gen.next(data);
+    if (result.done) return;
+    result.value(next);
+  };
+  next();
+};
+
+function* g() {
+  var f1 = yield readFileThunk('fileA');
+  var f2 = yield readFileThunk('fileB');
+  // ...
+  var fn = yield readFileThunk('fileN');
+};
+
+run(g);
+~~~
+
+#### co模块
+
+      也是自动执行Generator的小工具
