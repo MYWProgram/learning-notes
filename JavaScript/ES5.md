@@ -375,11 +375,15 @@ console.log(5);
 
       遍历数组
 
+      接收两个参数:
+      1. 回调函数(又包含数组中正处理的当前元素,当前元素索引(可选),正在操作的数组(可选))
+      2. 执行回调函数时用作this的值(可选)
+
 ~~~js
 var arr = [1, 2, 3];
 arr.forEach(function(item, index) {
   console.log(index, item);
-})
+});
 ~~~
 
 ### every
@@ -394,62 +398,73 @@ var result = arr.every(function(item, index) {
   }
 })
 console.log(result);
+~~~
 
-//some 判断是否至少一个元素符合条件
+### some
+
+      判断是否至少一个元素符合条件
+
+~~~js
 var arr = [1, 2, 3];
 var result = arr.some(function(item, index){
-  //判断所有数组元素,只有一个满足条件即可
   if(item < 2) {
     return true;
   }
 })
 console.log(result);
+~~~
 
-//数组添加删除元素
+### 数组元素的添加与删除
+
+~~~js
 var arr = [1, 2, 3, 5];
+
+//以下操作会改变原数组
+
 arr.pop(); //末尾删除
 arr.shift(); //开头删除
 arr.push(0); //末尾添加
 arr.unshift(0); //开头添加
-var arr1 = arr.slice(1, 3); //返回指定区间数组
-var arr2 = arr.splice(1,2,3); //从指定位置开始,删除几个元素,添加什么元素
+~~~
 
-//sort 排序
+### slice与splice
+
+      slice: 接收两个参数,开始索引与结束索引(负值表示从倒数开始);返回两个索引之间的新数组
+
+      splice: 接收三个参数,开始索引,要移除的元素个数,要添加的元素;直接对原数组进行修改
+
+~~~js
+var arr1 = arr.slice(0, 2); //返回指定区间数组
+arr.splice(1,2,3); //从指定位置开始,删除几个元素,添加什么元素
+~~~
+
+### sort
+
+      排序
+
+      接收一个回调函数为参数(又包括两个用于比较的元素)
+
+~~~js
 var arr = [1, 4, 2, 3, 5];
-var arr2 = arr.sort(function(a, b) {
+arr.sort(function(a, b) {
   //从小到大排序
   return a - b;
   //从大到小排序
   //return b - a;
 })
-console.log(arr2);
+console.log(arr);
 
 //实现数组随机排序,排序之后原数组被改变
+
 function randomSort(a, b) {
   return Math.random() >.5 ? -1:1;
-}
+};
 var arr = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 arr.sort(randomSort);
-
-//map 对元素重新组装,生成新数组
-var arr = [1, 2, 3, 4];
-var arr2 = arr.map(function(item, index) {
-  //将元素重新组装并返回
-  return '< b >' + item + '< /b >';
-})
-console.log(arr2);
-
-//filter 过滤符合条件的元素
-var arr = [1, 2, 3];
-var arr2 = arr.filter(function(item, index) {
-  //通过某一个条件过滤数组
-  if(item >= 2) {
-    return true;
-  }
-})
-console.log(arr2);
+console.log(arr);
 
 //有一个数组对象,进行升序降序,优先级age>sex>id
+
 var urls = [
   {id:1, sex:1, age:25},
   {id:3, sex:1, age:25},
@@ -460,27 +475,16 @@ var urls = [
   {id:8, sex:0, age:29},
   {id:7, sex:0, age:20},
 ];
-urls.sort((a, b) => {
-  let updown = 1;
-  if(updown === 1) {
-    if(a.age === b.age) {
-      if(a.sex === b.sex) {
-        return a.id - b.id;
-      }
-      return a.sex - b.sex;
+urls.sort(function(a, b) {
+  var updown = 1;
+  if(a.age === b.age) {
+    if(a.sex === b.sex) {
+      return updown * (a.id - b.id);
     }
-    return a.age - b.age;
+    return updown * (a.sex - b.sex);
   }
-  if(updown === -1) {
-    if(a.age === b.age) {
-      if(a.sex === b.sex) {
-        return b.id - a.id;
-      }
-      return b.sex - a.sex;
-    }
-    return b.age - a.age;
-  }
-})
+  return updown * (a.age - b.age);
+});
 consoe.log(urls);
 ~~~
 
@@ -492,8 +496,7 @@ var obj = {
   y: 200,
   z: 300
 }
-var key;
-for(key in obj) {
+for(var key in obj) {
   //注意这里的hasOwnProperty,原型链知识
   if(obj.hasOwnProperty(key)) {
     console.log(key, obj[key]);
