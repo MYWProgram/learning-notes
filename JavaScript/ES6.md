@@ -207,7 +207,7 @@ console.log(x, y, z);   //a, undefined, []
 //不完全解构
 
 let [a, [b], d] = [1, [2, 3], 4];
-console.log(a, bb, d);    //1, 2, 4
+console.log(a, b, d);    //1, 2, 4
 
 //set结构的解构
 
