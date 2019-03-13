@@ -3246,3 +3246,383 @@ run(g);
 #### co模块
 
       也是自动执行Generator的小工具
+
+## async函数
+
+### 基础含义
+
+      就是Generator函数的语法糖
+
+      语法糖: 让代码书写更简便易读的一种方式
+
+~~~js
+//读文件的Generator函数操作
+
+const gen = function* () {
+  const f1 = yield readFile('/etc/fstab');
+  const f2 = yield readFile('/etc/shells');
+  console.log(f1.toString());
+  console.log(f2.toString());
+};
+
+//改写为async函数
+
+const asyncReadFile = async function () {
+  const f1 = await readFile('/etc/fstab');
+  const f2 = await readFile('/etc/shells');
+  console.log(f1.toString());
+  console.log(f2.toString());
+};
+~~~
+
+      async函数对Generator函数的改进:
+      1. 内置执行器: Generator函数执行必须依靠执行器(co模块),async函数执行只需要一行函数调用代码
+      2. 实用性: co模块约定yield命令之后只能是Thunk函数或Promise对象,而async函数的await后面可以是Promise对象或原始类型的值(Number,String,Boolean,但是这时会转为立即resolved的Promise对象)
+      3. 返回值是Promise: async函数的返回值是Promise对象,这比 Generator函数的返回值是Iterator对象方便多了;可以用then方法指定下一步的操作
+
+### 函数基本用法
+
+      async函数返回一个Promise对象,可以使用then方法添加回调函数;当函数执行的时候,一旦遇到await就会先返回,等到异步操作完成,再接着执行函数体内后面的语句
+
+      几种声明方式:
+
+~~~js
+// 函数声明
+async function foo() {};
+
+// 函数表达式
+const foo = async function () {};
+
+// 对象的方法
+let obj = { async foo() {} };
+obj.foo().then(...)
+
+// Class 的方法
+class Storage {
+  constructor() {
+    this.cachePromise = caches.open('avatars');
+  }
+
+  async getAvatar(name) {
+    const cache = await this.cachePromise;
+    return cache.match(`/avatars/${name}.jpg`);
+  }
+}
+
+const storage = new Storage();
+storage.getAvatar('jake').then(…);
+
+// 箭头函数
+const foo = async () => {};
+~~~
+
+      例子(指定时间打印值)
+
+~~~js
+async function timeout(ms) {
+  await new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
+}
+async function asyncPrint(value, ms) {
+  await timeout(ms);
+  console.log(value);
+}
+
+asyncPrint('hello', 1000);    //一秒之后打印: hello
+~~~
+
+### async函数的语法
+
+#### 返回Promise对象
+
+      async函数内部的return语句返回的值,会成为then方法回调函数的参数
+
+~~~js
+//async函数的返回值hello传入了then方法的回调函数,此时v = hello
+
+async function f() {
+  return 'hello';
+};
+f().then( (v) => {console.log(v);} );    //hello
+~~~
+
+      async函数内部抛出错误,会导致返回的Promise对象变为reject状态;抛出的错误对象会被catch方法回调函数接收到
+
+~~~js
+async function f() {
+  throw new Error('error');
+};
+f().then(
+  v => console.log(v);
+  g => console.log(g);
+);
+//Error: error
+~~~
+
+#### Promise对象的状态变化
+
+      async函数内部的异步操作执行完,才会执行then方法指定的回调函数(除非遇到return语句或抛出错误)
+
+~~~js
+async function asyncPrint() {
+  let a = await console.log(1);
+  let b = await console.log(2);
+  return 3;
+};
+asyncPrint().then( (v) => {console.log(v);} );    //1 2 3
+~~~
+
+#### await命令
+
+      正常情况下,await命令后面是一个Promise对象,返回该对象的结果;如果不是Promise对象,就直接返回对应的值
+
+      另一种情况await命令后面是一个thenable对象(即定义then方法的对象),那么await会将其等同于Promise对象
+
+~~~js
+class Sleep {
+  constructor(timeout) {
+    this.timeout = timeout;
+  }
+  then(resolve, reject) {
+    const startTime = Date.now();
+    setTimeout(
+      () => resolve(Date.now() - startTime),
+      this.timeout
+    );
+  };
+};
+
+(async () => {
+  const actualTime = await new Sleep(1000);
+  console.log(actualTime);
+})();
+~~~
+
+      await命令后面的Promise对象如果变为reject状态,则reject的参数会被catch方法的回调函数接收到
+
+~~~js
+async function f() {
+  await Promise.reject('出错了');
+}
+
+f()
+.then(v => console.log(v))
+.catch(e => console.log(e))
+//出错了
+~~~
+
+#### 错误处理
+
+      任何一个await语句后面的Promise对象变为reject状态,那么整个async函数都会中断执行
+
+      将第一个await放在try...catch结构里,这样不管第一个异步操作成功与否后面的操作都会继续执行
+
+~~~js
+async function f() {
+  try {
+    await Promise.reject('出错了');
+  }
+  catch(e) {console.log('前面报错了')};
+  return await Promise.resolve('hello world');
+}
+
+f()
+.then(v => console.log(v))
+//前面报错了
+// hello world
+~~~
+
+      另一种方法是await后面的Promise对象再跟一个catch方法,处理前面可能出现的错误
+
+~~~js
+async function f() {
+  await Promise.reject('出错了')
+    .catch(e => console.log(e));
+  return await Promise.resolve('hello world');
+}
+
+f()
+.then(v => console.log(v))
+// 出错了
+// hello world
+~~~
+
+      await命令只能用在async函数中,在普通函数中会报错
+
+~~~js
+async function dbFuc(db) {
+  let docs = [{}, {}, {}];
+  // 报错
+  docs.forEach(function (doc) {
+    await db.post(doc);
+  });
+};
+
+//forEach方法的参数改成async函数也有问题
+
+function dbFuc(db) { //这里不需要 async
+  let docs = [{}, {}, {}];
+  // 可能得到错误结果
+  docs.forEach(async function (doc) {
+    await db.post(doc);
+  });
+};
+
+//正确的写法: 采用for循环
+
+async function dbFuc(db) {
+  let docs = [{}, {}, {}];
+  for (let doc of docs) {
+    await db.post(doc);
+  };
+};
+~~~
+
+      希望多个请求并发执行时,可以使用Promise.all()
+
+~~~js
+async function dbFuc(db) {
+  let docs = [{}, {}, {}];
+  let promises = docs.map((doc) => db.post(doc));
+  let results = await Promise.all(promises);
+  console.log(results);
+};
+~~~
+
+### async函数的实现原理
+
+      将Generator函数和自动执行器包装在一个函数内
+
+### 异步遍历器
+
+#### 异步遍历的接口
+
+      语法特点: 调用遍历器的next()方法,返回一个Promise对象
+
+      不管是什么样的对象,只要它的Symbol.asyncIterator属性有值,就表示可以对它进行异步遍历
+
+~~~js
+/* *
+异步遍历器其实返回了两次值: 第一次调用返回一个Promise对象,等到对象resolve了再返回一个表示当前数据成员的信息的对象;也就是说异步遍历器和同步遍历器行为是一致的,只是会先返回Promise对象作为中介
+ * */
+
+const asyncIterable = createAsyncIterable(['a', 'b']);
+const asyncIterator = asyncIterable[Symbol.asyncIterator]();
+
+asyncIterator
+.next()
+.then(iterResult1 => {
+  console.log(iterResult1); // { value: 'a', done: false }
+  return asyncIterator.next();
+})
+.then(iterResult2 => {
+  console.log(iterResult2); // { value: 'b', done: false }
+  return asyncIterator.next();
+})
+.then(iterResult3 => {
+  console.log(iterResult3); // { value: undefined, done: true }
+});
+
+/* *由于异步遍历器的next()方法返回一个Promise对象,可以把它放在await后;next()方法处理之后就不必使用then方法了;整个流程接近了同步处理
+ * */
+
+async function f() {
+  const asyncIterable = createAsyncIterable(['a', 'b']);
+  const asyncIterator = asyncIterable[Symbol.asyncIterator]();
+  console.log(await asyncIterator.next());
+  // { value: 'a', done: false }
+  console.log(await asyncIterator.next());
+  // { value: 'b', done: false }
+  console.log(await asyncIterator.next());
+  // { value: undefined, done: true }
+};
+~~~
+
+      异步遍历器的next方法是可以连续调用的,不必等到上一步产生的Promise对象resolve以后再调用;这种情况下,next方法会累积起来,自动按照每一步的顺序运行下去
+
+~~~js
+//可以把所有的next方法都放在Promise.all中
+
+const asyncIterable = createAsyncIterable(['a', 'b']);
+const asyncIterator = asyncIterable[Symbol.asyncIterator]();
+const [{value: v1}, {value: v2}] = await Promise.all([
+  asyncIterator.next(), asyncIterator.next()
+]);
+console.log(v1, v2); // a b
+
+//另外一种方法是一次性调用所有的next方法,然后await最后一步操作
+
+async function runner() {
+  const writer = openFile('someFile.txt');
+  writer.next('hello');
+  writer.next('world');
+  await writer.return();
+};
+runner();
+~~~
+
+#### for await...of
+
+      用于遍历异步的Iterator接口
+
+~~~js
+async function f() {
+  for await (const x of createAsyncIterable(['a', 'b'])) {
+    console.log(x);
+  }
+}
+// a
+// b
+~~~
+
+      也可用于同步遍历器
+
+~~~js
+(async function() {
+  for await (let x of ['a', 'b']) {
+    console.log(x);
+  }
+})();
+//a
+//b
+~~~
+
+### 异步Generator函数
+
+      返回一个异步遍历器对象
+
+~~~js
+async function* gen() {
+  yield 'hello';
+}
+const genObj = gen();
+genObj.next().then(x => console.log(x));
+// { value: 'hello', done: false }
+~~~
+
+      异步遍历器的设计目的之一,就是Generator函数处理同步操作和异步操作时,能够使用同一套接口
+
+~~~js
+// 同步 Generator 函数
+
+function* map(iterable, func) {
+  const iter = iterable[Symbol.iterator]();
+  while (true) {
+    const {value, done} = iter.next();
+    if (done) break;
+    yield func(value);
+  };
+};
+
+// 异步 Generator 函数
+
+async function* map(iterable, func) {
+  const iter = iterable[Symbol.asyncIterator]();
+  while (true) {
+    const {value, done} = await iter.next();
+    if (done) break;
+    yield func(value);
+  };
+};
+~~~
