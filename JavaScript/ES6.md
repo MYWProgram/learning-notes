@@ -3626,3 +3626,668 @@ async function* map(iterable, func) {
   };
 };
 ~~~
+
+## Class
+
+### 简介
+
+#### 类的由来
+
+      JS语言中生成实例对象的传统方法是通过构造函数
+
+~~~js
+function Point(x, y) {
+  this.x = x;
+  this.y = y;
+};
+Point.prototype.toString = function () {
+  return `${this.x} ${this.y}`;
+};
+var p = new Point(1, 2);
+console.log(p.toString());    //1 2
+~~~
+
+      class可以只看做一个语法糖,新的class写法只是让对象原型的写法更加清晰,更像面向对象编程的语法而已(constructor就是构造方法)
+
+~~~js
+//改写上面的代码
+
+class Point {
+  constructor(x, y) {
+    this.x = x;
+    this.y = y;
+  };
+  toString() {
+    return `${this.x} ${this.y}`;
+  };
+};
+var p = new Point(1, 2);
+console.log(p.toString());    //1 2
+~~~
+
+      类的数据类型就是函数,类本身就指向构造函数
+
+~~~js
+class Point {
+  // ...
+};
+typeof Point; // "function"
+Point === Point.prototype.constructor; // true
+~~~
+
+      类的所有方法都定义在类的prototype属性上面;在类的实例上面调用方法,其实就是调用原型上的方法
+
+~~~js
+class B {}
+let b = new B();
+b.constructor === B.prototype.constructor; // true
+~~~
+
+      类的新方法可以添加在prototype对象上面;Object.assign方法可以很方便地一次向类添加多个方法
+
+~~~js
+class Point {
+  constructor(x, y) {
+    this.x = x;
+    this.y = y;
+  };
+  print() {
+    return `${this.x}, ${this.y}`;
+  };
+};
+Object.assign(Point.prototype, {
+  add() {
+    return this.x + this.y;
+  },
+  sub() {
+    return this.x - this.y;
+  },
+});
+let p = new Point(1, 2);
+console.log(p.print());   //1, 2
+console.log(p.add());     //3
+console.log(p.sub());     //-1
+~~~
+
+      PS. 类的内部所有定义的方法都是不可枚举的
+          ES5的构造函数内部方法是可枚举的
+
+~~~js
+//class写法
+
+class Point {
+  constructor(x, y) {
+    // ...
+  };
+  toString() {
+    // ...
+  };
+};
+Object.keys(Point.prototype)
+// []
+Object.getOwnPropertyNames(Point.prototype)
+// ["constructor","toString"]
+
+//ES5构造函数写法
+
+var Point = function (x, y) {
+  // ...
+};
+Point.prototype.toString = function() {
+  // ...
+};
+Object.keys(Point.prototype)
+// ["toString"]
+Object.getOwnPropertyNames(Point.prototype)
+// ["constructor","toString"]
+~~~
+
+#### constructor方法
+
+      constructor方法是类的默认方法,通过new命令生成对象实例时,自动调用该方法
+
+      一个类必须有constructor方法,如果没有显式定义,一个空的constructor方法会被默认添加
+
+      constructor方法默认返回实例对象(即this),也可以指定返回另外一个对象;但结果可能导致实例对象不是定义类的实例
+
+~~~js
+class Foo {
+  constructor() {
+    return Object.create(null);
+  };
+};
+new Foo() instanceof Foo;   // false
+~~~
+
+      类必须使用new调用,而普通的构造函数可以不用(但是不能使用原型链上的方法)
+
+#### 类的实例
+
+      与ES5一样,实例的属性除非显式定义在其本身(即定义在this对象上),否则都是定义在原型上(即定义在class上)
+
+~~~js
+class Point {
+  constructor(x, y) {
+    this.x = x;
+    this.y = y;
+  };
+  toString() {
+    return '(' + this.x + ', ' + this.y + ')';
+  };
+};
+
+var point = new Point(2, 3);
+
+point.toString();    // (2, 3)
+
+point.hasOwnProperty('x');    // true
+point.hasOwnProperty('y');    // true
+point.hasOwnProperty('toString');   // false
+point.__proto__.hasOwnProperty('toString');   // true
+~~~
+
+#### 取值(getter)和存值(setter)函数
+
+      与ES5一样,在"类"的内部可以使用get和set关键字,对某个属性设置存值函数和取值函数,拦截该属性的存取行为
+
+~~~js
+class MyClass {
+  constructor() {
+    // ...
+  };
+  get prop() {
+    return 'getter';
+  };
+  set prop(value) {
+    console.log('setter: '+value);
+  };
+};
+
+let inst = new MyClass();
+inst.prop = 123;    //setter: 123
+inst.prop;    //'getter'
+~~~
+
+#### 属性表达式
+
+~~~js
+let methodName = 'getArea';
+class Square {
+  constructor(length) {
+    // ...
+  };
+  [methodName]() {
+    // ...
+  };
+};
+~~~
+
+#### calss表达式
+
+~~~js
+let person = new class {
+  constructor(name) {
+    this.name = name;
+  };
+  sayName() {
+    console.log(this.name);
+  };
+}('张三');
+person.sayName(); // "张三"
+~~~
+
+### class静态方法
+
+      所有类中定义的方法都会被实例继承;但如果方法之前加上static关键字则表示该方法不会被实例继承,而可以通过类本身来调用
+
+~~~js
+class Foo {
+  static classMethod() {
+    return 'hello';
+  };
+};
+Foo.classMethod();    // 'hello'
+var foo = new Foo();
+foo.classMethod();
+// TypeError: foo.classMethod is not a function
+~~~
+
+      我们知道this是执行时才知道定义,但如果静态方法内包含this关键字,这个this指的是类而不是实例
+
+~~~js
+class Foo {
+  static bar() {
+    this.baz();
+  };
+  static baz() {
+    console.log('hello');
+  };
+  baz() {
+    console.log('world');
+  };
+};
+Foo.bar();    // hello
+~~~
+
+      父类的静态方法可以被子类继承,同时静态方法也可以从super对象上调用
+
+~~~js
+//子类继承父类静态方法
+
+class Foo {
+  static classMethod() {
+    return 'hello';
+  };
+};
+class Bar extends Foo {
+};
+Bar.classMethod();    // 'hello'
+
+//从super对象上调用static方法
+
+class Foo {
+  static sayHi() {
+    return 'hello';
+  };
+};
+class Bar extends Foo {
+  static sayHello() {
+    return super.sayHi();
+  };
+};
+Bar.sayHello();    // "hello"
+~~~
+
+### 实例属性的新写法
+
+      实例属性除了定义在constructor()方法里面的this上面,也可以定义在类的最顶层
+
+~~~js
+class foo {
+  bar = 'hello';
+  baz = 'world';
+  constructor() {
+    // ...
+  };
+};
+~~~
+
+### 静态属性
+
+      静态属性指的是class本身的属性,而不是定义在实例对象(this)上的属性
+
+~~~js
+class Foo {
+};
+Foo.prop = 1;
+Foo.prop // 1
+~~~
+
+### 私有方法和私有属性
+
+      ES6并不支持像Java一样的private来声明私有的成员,只能通过变通的方法来实现
+
+      此时可以借用Symbol的唯一性来模拟实现(获取私有属性必须写xxx[]方式);
+      此时的私有属性依然可以用Reflect.ownKeys()拿到
+
+~~~js
+class Fruit {
+  constructor () {
+    const number = Symbol('number')
+    class F {
+      constructor () {
+        this[number] = 1;
+      };
+      getNumber () {
+        return this[number];
+      };
+      setNumber (num) {
+        this[number] = num;
+      };
+    };
+    return new F()
+  };
+};
+
+const apple = new Fruit();
+apple.getNumber();    // 1
+apple.setNumber(5);
+apple.getNumber();    // 5
+apple[number];    //Uncaught ReferenceError: number is not defined
+~~~
+
+### new.target属性
+
+      返回new命令作用于的那个构造函数;如果构造函数不是通过new命令或Reflect.construct()调用的,new.target会返回undefined
+
+      可以用来确定构造函数是怎么调用的
+
+~~~js
+//以下代码确保构造函数只能通过new命令调用
+
+function Person(name) {
+  if (new.target !== undefined) {
+    this.name = name;
+  } else {
+    throw new Error('必须使用 new 命令生成实例');
+  };
+};
+
+// 另一种写法
+
+function Person(name) {
+  if (new.target === Person) {
+    this.name = name;
+  } else {
+    throw new Error('必须使用 new 命令生成实例');
+  };
+};
+
+var person = new Person('张三');    // 正确
+var notAPerson = Person.call(person, '张三');   // 报错
+~~~
+
+      class内部调用new.target,返回当前class;子类继承父类时,则会返回子类
+
+~~~js
+//自调用new.target
+
+class Rectangle {
+  constructor(length, width) {
+    console.log(new.target === Rectangle);
+    this.length = length;
+    this.width = width;
+  };
+};
+
+var obj = new Rectangle(3, 4);    // 输出 true
+
+//子类继承自调用new.target
+
+class Rectangle {
+  constructor(length, width) {
+    console.log(new.target === Rectangle);
+    // ...
+  };
+};
+
+class Square extends Rectangle {
+  constructor(length, width) {
+    super(length, width);
+  };
+};
+
+var obj = new Square(3, 4);    // 输出 false
+~~~
+
+      运用这个特点可以写出必须继承之后才能使用的类
+
+~~~js
+class Shape {
+  constructor() {
+    if (new.target === Shape) {
+      throw new Error('本类不能实例化');
+    };
+  };
+};
+class Rectangle extends Shape {
+  constructor(length, width) {
+    super();
+    // ...
+  };
+};
+var x = new Shape();    //报错
+var y = new Rectangle(3, 4);    //正确
+~~~
+
+### class的继承
+
+#### 类继承的简介
+
+      ES5中实现继承的方法是通过模拟类继承(apply,this)和原型继承实现的
+
+~~~js
+//call与apply通过修改this的作用环境使得子类具有父类的属性
+
+var father = function() {
+  this.age = 52;
+  this.say = function() {
+    console.log(`hello i am ${this.name} and i am ${this.age} years old`);
+  };
+};
+var child = function() {
+  this.name = 'bill';
+  //父类中挂在this上的属性绑在子类中来
+  father.call(this);
+};
+var man = new child();
+man.say();
+
+//原型继承
+
+var father = function() {
+  this.age = 20;
+  this.say = function() {
+    console.log(`hello i am ${this.name} and i am ${this.age} years old`);
+  };
+};
+var child = function(name) {
+  this.name = name;
+};
+//继承的关键
+child.prototype = new father();
+var man = new child('Mike');
+man.say();
+~~~
+
+      ES6的类继承用extends关键字来实现;子类必须在constructor方法中调用super方法,否则新建实例时会报错;在子类的构造函数中,只有调用super之后,才可以使用this关键字,否则会报错;并且父类的静态方法也会被子类继承
+
+      可以用Object.getPrototypeOf()来判断一个类是否继承了另一个类
+
+~~~js
+//子类继承的正确代码
+
+class Point {
+  constructor(x, y) {
+    this.x = x;
+    this.y = y;
+  };
+  static hello() {
+    console.log('Hi!');
+  };
+};
+class sonPoint extends Point {
+  constructor(x, y, name) {
+    super(x, y);
+    this.name = name;
+  };
+  print(x, y) {
+    console.log(`${this.name} make ${x} and abd ${y} to ${x+y}`);
+  }
+};
+let p = new sonPoint(1, 2, 'mike');
+sonPoint.hello();   //Hi!
+p.print(1, 2);    //mike make 1 and abd 2 to 3
+Object.getPrototypeOf(sonPoint) === Point;    //true
+~~~
+
+#### super
+
+      可以当作函数和对象使用,两种情况之下用法不同
+
+      第一种情况下super作为函数调用时,代表父类的构造函数,但是返回的是子类的实例;即super内部的this指向子类实例: super相当于(父类.prorotype.constructor.call(this))
+
+      作为函数时,super()只能用在子类的构造函数之中,用在其他地方就会报错
+
+~~~js
+//下面的例子super()执行时指向的是B的构造函数
+
+class A {
+  constructor() {
+    console.log(new.target.name);
+  };
+};
+class B extends A {
+  constructor() {
+    super();
+  };
+};
+new A();    //A
+new B();    //B
+~~~
+
+      第二种情况,super作为对象: 在普通方法中,指向父类的原型对象;在静态方法中,指向父类
+
+~~~js
+//下面子类B中的super.p()就是将super当作对象,并且这是在普通方法中;super指向A.prototype,super.p()相当于A.prototype.p();这种情况下super无法调用定义在父类实例上的方法或属性,但是可以调用定义在父类本身原型上的属性或方法
+
+class A {
+  p() {
+    return 2;
+  };
+};
+class B extends A {
+  constructor() {
+    super();
+    console.log(super.p()); // 2
+  };
+};
+let b = new B();
+console.log(b.p());   //2
+
+//ES6规定,在子类普通方法中通过super调用父类的方法时,方法内部的this指向当前的子类实例
+
+class A {
+  constructor() {
+    this.x = 1;
+  };
+  print() {
+    console.log(this.x);
+  };
+};
+class B extends A {
+  constructor() {
+    super();
+    this.x = 2;
+  };
+  m() {
+    super.print();    //实际执行super.print.call(this)
+  };
+};
+let b = new B();
+b.m();    // 2
+
+//由于this指向子类实例,所以如果通过super对某个属性赋值,这时super就是this,赋值的属性会变成子类实例的属性
+
+class A {
+  constructor() {
+    this.x = 1;
+  };
+};
+class B extends A {
+  constructor() {
+    super();
+    this.x = 2;
+    super.x = 3;    //this.x = 3
+    console.log(super.x); // A.prototype.x = undefined
+    console.log(this.x); // 3
+  };
+};
+let b = new B();
+
+//super作为对象放在静态方法中: super指向父类
+
+class Parent {
+  static myMethod(msg) {
+    console.log('static', msg);
+  };
+  myMethod(msg) {
+    console.log('instance', msg);
+  };
+};
+class Child extends Parent {
+  static myMethod(msg) {
+    super.myMethod(msg);
+  };
+  myMethod(msg) {
+    super.myMethod(msg);
+  };
+};
+Child.myMethod(1); // static 1
+var child = new Child();
+child.myMethod(2); // instance 2
+
+//在子类的静态方法中通过super调用父类的方法时,方法内部的this指向当前的子类,而不是子类的实例
+
+class A {
+  constructor() {
+    this.x = 1;
+  };
+  static print() {
+    console.log(this.x);
+  };
+};
+class B extends A {
+  constructor() {
+    super();
+    this.x = 2;
+  };
+  static m() {
+    super.print();
+  };
+};
+B.x = 3;    //修改子类的属性,下面返回3;说明this指向子类
+B.m() // 3
+~~~
+
+#### 类的prototype属性和__proto__属性
+
+      两条继承链
+
+      1. 子类的__proto__属性,表示构造函数的继承,总是指向父类
+      2. 子类prototype属性的__proto__属性,表示方法的继承,总是指向父类的prototype属性
+
+      子类实例的__proto__属性的__proto__属性,指向父类实例的__proto__属性;也就是说,子类的原型的原型,是父类的原型
+
+#### 原生构造函数继承
+
+      原生构造函数:
+      Boolean()
+      Number()
+      String()
+      Array()
+      Date()
+      Function()
+      RegExp()
+      Error()
+      Object()
+
+      ES5不允许原生构造函数的继承(运用call或apply);
+
+      原生构造函数会忽略apply方法传入的this,也就是说,原生构造函数的this无法绑定,导致拿不到内部属性
+
+~~~js
+//ES6实现方法
+
+class MyArray extends Array {
+  constructor(...args) {
+    super(...args);
+  };
+};
+var arr = new MyArray();
+arr[0] = 12;
+arr.length;   //1
+arr.length = 0;
+arr[0];   //undefined
+
+//继承Object的行为差异
+
+class NewObj extends Object{
+  constructor(){
+    super(...arguments);
+  };
+};
+var o = new NewObj({attr: true});
+o.attr === true;    // false
+//ES6改变了Object构造函数的行为,一旦发现Object方法不是通过new Object()这种形式调用,ES6规定Object构造函数会忽略参数
+~~~
