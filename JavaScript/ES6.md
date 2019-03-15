@@ -3028,7 +3028,7 @@ f.c // 3
       不需要写回调函数
 
 ~~~js
-//上面代码中,第一次调用loadUI函数时,该函数不会执行,仅返回一个遍历器。下一次对该遍历器调用next方法,则会显示Loading界面(showLoadingScreen),并且异步加载数据(loadUIDataAsynchronously);等到数据加载完成,再一次使用next方法,则会隐藏Loading界面
+//上面代码中,第一次调用loadUI函数时,该函数不会执行,仅返回一个遍历器;下一次对该遍历器调用next方法,则会显示Loading界面(showLoadingScreen),并且异步加载数据(loadUIDataAsynchronously);等到数据加载完成,再一次使用next方法,则会隐藏Loading界面
 
 function* loadUI() {
   showLoadingScreen();
@@ -4291,3 +4291,181 @@ var o = new NewObj({attr: true});
 o.attr === true;    // false
 //ES6改变了Object构造函数的行为,一旦发现Object方法不是通过new Object()这种形式调用,ES6规定Object构造函数会忽略参数
 ~~~
+
+## Module
+
+### Module的语法
+
+#### 模块概述
+
+      ES6模块的设计思想是尽量的静态化,使得编译时就能确定模块的依赖关系,以及输入和输出的变量
+
+~~~js
+//ES6模块
+
+import {stat, exists, readFile} from 'fs';
+
+//实质是从fs模块加载3个方法,其他方法不进行加载;这种方称为"编译时加载"或"静态加载",效率高于CommonJS和AMD;但是没法引用ES6模块本身,因为它不是一个对象
+~~~
+
+      ES6模块自动采用严格模式,不应该在模块顶层使用this,因为它指向undefined
+
+#### export
+
+      export命令用于规定模块的对外接口,export可以在模块顶层的任何位置使用
+
+      下面是export规定对外接口的写法,用as可以替换属性方法名字
+
+~~~js
+// profile.js
+
+var firstName = 'Michael';
+var year = 1958;
+var method = function() {
+  //...
+};
+
+export {
+  firstName,
+  year,
+  method as f,
+};
+~~~
+
+#### import
+
+      使用export命令定义了模块的对外接口以后,其他JS文件就可以通过import命令加载这个模块
+
+      from指定模块文件的位置(可以是相对路径和绝对路径".js"可以省略),如果是一个模块必须有配置文件
+
+      可以用as对属性名进行重命名
+
+      import命令有提升效果,只要是写在模块顶层就可以
+
+~~~js
+import {lastName as surname} from './profile.js';
+~~~
+
+      需要整体加载一个模块时可以使用"*"
+
+~~~js
+import * as xxx from './profile';
+console.log(xxx.method());
+~~~
+
+#### export default
+
+      为模块指定默认输出;对一个指定了默认输出的模块,其他模块加载该模块时,import可以为该匿名函数指定任意名字
+
+~~~js
+// export-default.js
+export default function () {
+  console.log('foo');
+};
+
+// import-default.js
+//由于export default规定对外接口,import加载时不需要"{}"
+import customName from './export-default';
+customName(); // 'foo'
+~~~
+
+      export default命令也可用于非匿名函数,但是此时的命名在模块外部加载时是无效的
+
+      因为export default命令其实只是输出一个叫做default的变量,所以它后面不能跟变量声明语句;但是可以直接写一个值,相当于赋值给default
+
+#### 模块的继承
+
+~~~js
+//假设有一个circlePlus模块继承了circle模块
+
+// circleplus.js
+
+//export *,表示再输出circle模块的所有属性和方法(已经导入了circle模块);此时export *会忽略circle模块的default方法
+export * from 'circle';
+export var e = 2.71828182846;
+export default function(x) {
+  return Math.exp(x);
+};
+
+//加载上面模块的写法
+
+import * as math from 'circleplus';
+import exp from 'circleplus';
+console.log(exp(math.e));
+~~~
+
+#### 跨模块的常量
+
+      一个常量可以被多个模块使用
+
+~~~js
+// constants.js 模块
+export const A = 1;
+export const B = 3;
+
+// test1.js 模块
+import * as constants from './constants';
+console.log(constants.A); // 1
+console.log(constants.B); // 3
+
+// test2.js 模块
+import {A, B} from './constants';
+console.log(A); // 1
+console.log(B); // 3
+~~~
+
+      下面是一个存多常量用于使用的例子
+
+~~~js
+//新建一个constants目录用于存放各种不同文件中的常量
+
+//constants/db.js
+export const db = {
+  url: 'http://my.couchdbserver.local:5984',
+  admin_username: 'admin',
+  admin_password: 'admin password'
+};
+
+//constants/user.js
+export const users = ['root', 'admin', 'staff', 'ceo', 'chief', 'moderator'];
+
+//然后合并这些文件输出的常量在一个文件中
+
+//constants/index.js
+export {db} from './db';
+export {users} from './users';
+
+//需要使用时直接在模块中加载index.js
+
+// script.js
+import {db, users} from './constants/index';
+~~~
+
+### Module的加载实现
+
+#### 浏览器加载
+
+##### 浏览器加载的传统方法
+
+      浏览器加载ES6模块,也使用<script>标签,但是要加入type="module"属性: <script type="module">
+
+      浏览器对于带有type="module"的<script>,都是异步加载,不会造成堵塞浏览器;即等到整个页面渲染完,再执行模块脚本,等同于打开了<script>标签的defer属性
+
+      如果网页有多个<script type="module">,它们会按照在页面出现的顺序依次执行
+
+      如果使用了async属性<script type="module" async>就不会按照在页面出现的顺序执行,而是只要该模块加载完成,就执行该模块
+
+      对于这种加载模块需要注意:
+
+      1. 代码是在模块作用域之中运行,而不是在全局作用域运行;模块内部的顶层变量,外部不可见
+      2. 模块脚本自动采用严格模式,不管有没有声明use strict
+      3. 模块之中,可以使用import命令加载其他模块(.js后缀不可省略,需要提供绝对 URL 或相对 URL),也可以使用export命令输出对外接口
+      4. 模块之中,顶层的this关键字返回undefined,而不是指向window;也就是说,在模块顶层使用this关键字,是无意义的
+      5. 同一个模块如果加载多次,将只执行一次
+
+      PS. 可以利用顶层this等于undefined这个特性判断是否处于ES6模块环境之下
+
+#### 和CommomJS模块的差异
+
+      1. CommonJS模块输出的是一个值的拷贝,ES6模块输出的是值的引用
+      2. CommonJS模块是运行时加载,ES6模块是编译时输出接口
