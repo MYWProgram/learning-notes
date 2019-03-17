@@ -1,4 +1,81 @@
-# H5新特性
+# HTML5
+
+## 语义化标签
+
+      优点:
+
+      1. 方便爬虫抓取更多有效信息,也就更容易从搜索引擎获得有效的消息;因为爬虫是依赖于标签来确定上下文和各个关键字的权重
+      2. 在没有CSS的情况下也能呈现较好的内容结构与代码结构
+      3. 良好的用户体验(例如title,alt用于解释名词或者解释图片),label标签的活用(bootstrap输入邮箱的label for)
+      4. 方便其他设备解析(如屏幕阅读器,盲人阅读器,移动设备)以意义的方式来渲染网页
+      5. 便于团队开发和维护,语义化更具可读性,是下一步吧网页的重要动向,遵循W3C标准的团队都遵循这个标准,可以减少差异化
+
+~~~html
+<!-- 新增的语义化标签 -->
+
+<section></section>
+<!-- 定义文档中的主体部分的一节或一段 -->
+
+<article></article>
+<!-- 一个特殊的section标签,比section有更明确的语义;定义来自外部的一个独立的,完整的内容块,例如什么论坛的文章,博客的文本 -->
+
+<aside></aside>
+<!-- 用来装载页面中非正文的内容,独立于其他模块;例如广告,成组的链接,侧边栏 -->
+
+<header></header>
+<!-- 定义文档页面的页眉,通常是一些引导和导航信息,不局限于整个页面头部,也可以用在内容里 -->
+
+<footer></footer>
+<!-- 定义了文档页面的页脚,和header类似 -->
+
+<nav></nav>
+<!-- 定义了一个链接组组成的导航部分,其中的链接可以链接到其他网页或者当前页面的其他部分 -->
+
+<hgroup></hgroup>
+<!-- 用于对网页或区段(section)的标题元素(h1~h6)进行组合 -->
+
+<figure></figure>
+<!-- 用于对元素进行组合 -->
+
+<figcaption></figcaption>
+<!-- 为figure元素加标题;一般放在figure第一个子元素或者最后一个 -->
+
+<details></details>
+<!-- 定义元素的细节,用于可以点击查看或隐藏 -->
+
+<summary></summary>
+<!-- 和details连用,用来定义details标题 -->
+
+<canvas></canvas>
+<!-- 进行canvas绘图 -->
+
+<audio></audio>
+<!-- 定义音频 -->
+
+<video></video>
+<!-- 定义视频 -->
+
+<embed src="">
+<!-- 用来插入各种多媒体或插件 -->
+
+<datalist></datalist>
+<!-- 定义可选数据的列表,与input配合使用可制作输入值的下拉列表 -->
+
+<mark></mark>
+<!-- 视觉上向用户展现出那些想要突出的文字,比如搜索结果中向用户高亮显示搜索关键词 -->
+
+<meter [min/max/low/high/optimum/value]></meter>
+<!-- 度量衡,用红黄绿表示出一个数值所在范围 -->
+
+<progress></progress>
+<!-- 进度条 -->
+
+<output></output>
+<!-- 定义不同的输出类型,样式与span一样 -->
+
+<time></time>
+<!-- 定义日期时间 -->
+~~~
 
 ## 'data-'属性
 
@@ -32,7 +109,7 @@ input[data-age] {
     webStorage是H5引入的一个重要的功能,在前端开发的过程中会经常用到,它可以在客户端本地存储数据,类似cookie,但其功能却比cookie强大的多;cookie的大小只有4Kb左右(浏览器不同,大小也不同),而webStorage    的大小有5MB;其API提供的方法有以下几种:
     setItem (key, value) ——  保存数据,以键值对的方式储存信息
     getItem (key) ——  获取数据,将键值传入,即可获取到对应的value值
-    removeItem (key) ——  删除单个数据，根据键值移除对应的信息
+    removeItem (key) ——  删除单个数据,根据键值移除对应的信息
     clear () ——  删除所有的数据
     key (index) —— 获取某个索引的key
     localStorage的生命周期是永久性的;假若使用localStorage存储数据,即使关闭浏览器,也不会让数据消失,除非主动的去删除数据;localStorage有length属性,可以查看其有多少条记录的数据;使用方法如下:
@@ -41,10 +118,10 @@ input[data-age] {
 var storage = null;  
   if(window.localStorage){              //判断浏览器是否支持localStorage  
     storage = window.localStorage;
-    storage.setItem("name", "Rick");    //调用setItem方法，存储数据  
-    alert(storage.getItem("name"));     //调用getItem方法，弹框显示 name 为 Rick  
-    storage.removeItem("name");     //调用removeItem方法，移除数据  
-    alert(storage.getItem("name"));   //调用getItem方法，弹框显示 name 为 null  
+    storage.setItem("name", "Rick");    //调用setItem方法,存储数据  
+    alert(storage.getItem("name"));     //调用getItem方法,弹框显示 name 为 Rick  
+    storage.removeItem("name");     //调用removeItem方法,移除数据  
+    alert(storage.getItem("name"));   //调用getItem方法,弹框显示 name 为 null  
 }
 ~~~
 
@@ -53,7 +130,7 @@ var storage = null;
 
 ## canvas画布小bug
 
-    canvas画布在页面中有display:none属性值时,canvas不会进行加载,相应JS文件也不会进行加载
+    canvas画布在页面中有display:none属性值时,某些canvas的相应JS不会加载
     例如页面中含有导航栏时,每个导航栏下都有canvas需要加载,但是只会加载fade in active的导航栏,其余页面的canvas不会进行加载
     以下为解决方法
 
