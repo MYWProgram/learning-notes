@@ -2,13 +2,13 @@
 
 ## 语义化标签
 
-      优点:
+优点:
 
-      1. 方便爬虫抓取更多有效信息,也就更容易从搜索引擎获得有效的消息;因为爬虫是依赖于标签来确定上下文和各个关键字的权重
-      2. 在没有CSS的情况下也能呈现较好的内容结构与代码结构
-      3. 良好的用户体验(例如title,alt用于解释名词或者解释图片),label标签的活用(bootstrap输入邮箱的label for)
-      4. 方便其他设备解析(如屏幕阅读器,盲人阅读器,移动设备)以意义的方式来渲染网页
-      5. 便于团队开发和维护,语义化更具可读性,是下一步吧网页的重要动向,遵循W3C标准的团队都遵循这个标准,可以减少差异化
+1. 方便爬虫抓取更多有效信息,也就更容易从搜索引擎获得有效的消息;因为爬虫是依赖于标签来确定上下文和各个关键字的权重
+2. 在没有CSS的情况下也能呈现较好的内容结构与代码结构
+3. 良好的用户体验(例如title,alt用于解释名词或者解释图片),label标签的活用(bootstrap输入邮箱的label for)
+4. 方便其他设备解析(如屏幕阅读器,盲人阅读器,移动设备)以意义的方式来渲染网页
+5. 便于团队开发和维护,语义化更具可读性,是下一步吧网页的重要动向,遵循W3C标准的团队都遵循这个标准,可以减少差异化
 
 ~~~html
 <!-- 新增的语义化标签 -->
@@ -79,8 +79,9 @@
 
 ## 'data-'属性
 
-    用于存储页面或应用程序的私有自定义数据,能在所有HTML元素上嵌入自定义data属性;这些存储的数据能被Javascript使用,不会进行Ajax调用或服务端数据库查询;用户代理会忽略前缀为"data-"的自定义属性
-    dataset属性存取'data-'属性值(dataset是H5中JS API的一部分,用来返回一个包含选择元素的所有data-属性的DOMStringMap对象;使用dataset时,只写data-后面的属性值;如果data-后面包含了连字符,需要用驼峰 命名法)
+用于存储页面或应用程序的私有自定义数据,能在所有HTML元素上嵌入自定义data属性;这些存储的数据能被Javascript使用,不会进行Ajax调用或服务端数据库查询;用户代理会忽略前缀为"data-"的自定义属性
+
+dataset属性存取'data-'属性值(dataset是H5中JS API的一部分,用来返回一个包含选择元素的所有data-属性的DOMStringMap对象;使用dataset时,只写data-后面的属性值;如果data-后面包含了连字符,需要用驼峰命名法)
 
 ~~~html
 <input id='username' data-age='23'>
@@ -106,13 +107,19 @@ input[data-age] {
 
 ## webstorage,cookie,localstorage,sessionstorage
 
-    webStorage是H5引入的一个重要的功能,在前端开发的过程中会经常用到,它可以在客户端本地存储数据,类似cookie,但其功能却比cookie强大的多;cookie的大小只有4Kb左右(浏览器不同,大小也不同),而webStorage    的大小有5MB;其API提供的方法有以下几种:
-    setItem (key, value) ——  保存数据,以键值对的方式储存信息
-    getItem (key) ——  获取数据,将键值传入,即可获取到对应的value值
-    removeItem (key) ——  删除单个数据,根据键值移除对应的信息
-    clear () ——  删除所有的数据
-    key (index) —— 获取某个索引的key
-    localStorage的生命周期是永久性的;假若使用localStorage存储数据,即使关闭浏览器,也不会让数据消失,除非主动的去删除数据;localStorage有length属性,可以查看其有多少条记录的数据;使用方法如下:
+- webStorage是H5引入的一个重要的功能,在前端开发的过程中会经常用到,它可以在客户端本地存储数据,类似cookie,但其功能却比cookie强大的多
+- cookie的大小只有4Kb左右(浏览器不同,大小也不同)
+- webStorage的大小有5MB;其API提供的方法有以下几种:
+
+1. setItem (key, value) ——  保存数据,以键值对的方式储存信息
+2. getItem (key) ——  获取数据,将键值传入,即可获取到对应的value值
+3. removeItem (key) ——  删除单个数据,根据键值移除对应的信息
+4. clear () ——  删除所有的数据
+5. key (index) —— 获取某个索引的key
+
+- localStorage的生命周期是永久性的;假若使用localStorage存储数据,即使关闭浏览器,也不会让数据消失,除非主动的去删除数据;localStorage有length属性,可以查看其有多少条记录的数据
+
+  使用方法如下:
 
 ~~~js
 var storage = null;  
@@ -125,14 +132,19 @@ var storage = null;
 }
 ~~~
 
-    sessionStorage的生命周期是在浏览器关闭前;sessionStorage也有length属性,其基本的判断和使用方法和localStorage的使用是一致的;有以下特点:
-    页面刷新不会消除数据;只有在当前页面打开的链接才可以访问sessionStorage的数据;使用window.open打开页面和改变localtion.href方式都可以获取到sessionStorage内部的数据
+- sessionStorage的生命周期是在浏览器关闭前;sessionStorage也有length属性,其基本的判断和使用方法和localStorage的使用是一致的
+
+  有以下特点:
+
+  页面刷新不会消除数据;只有在当前页面打开的链接才可以访问sessionStorage的数据;使用window.open打开页面和改变localtion.href方式都可以获取到sessionStorage内部的数据
 
 ## canvas画布小bug
 
-    canvas画布在页面中有display:none属性值时,某些canvas的相应JS不会加载
-    例如页面中含有导航栏时,每个导航栏下都有canvas需要加载,但是只会加载fade in active的导航栏,其余页面的canvas不会进行加载
-    以下为解决方法
+canvas画布在页面中有display:none属性值时,某些canvas的相应JS不会加载
+
+例如页面中含有导航栏时,每个导航栏下都有canvas需要加载,但是只会加载fade in active的导航栏,其余页面的canvas不会进行加载
+
+以下为解决方法
 
 ~~~html
 <div>

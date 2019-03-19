@@ -134,19 +134,19 @@
 
 - 不同浏览器的标签默认的外补丁和内补丁不同,随便写几个标签,不加样式控制的情况下,各自的margin和padding差异较大
 
-解决方案: css里*{margin:0;padding:0;}
+  解决方案: css里*{margin:0;padding:0;}
 
 - 块级元素标签float后,又有横行的margin情况下,在ie6显示margin比设置的大;ie6中后面的一块被顶到下一行
 
-解决方案:在float的标签样式控制中加入display:inline;将其转化为行内属性
+  解决方案:在float的标签样式控制中加入display:inline;将其转化为行内属性
 
 - 设置较小高度标签(一般小于10px),在ie6,7遨游中高度超出自己设置高度
 
-解决方案:给超出高度的标签设置overflow:hidden;或者设置行高line-height小于你设置的高度
+  解决方案:给超出高度的标签设置overflow:hidden;或者设置行高line-height小于你设置的高度
 
 - 要在n栏的float div后面做一个统一的背景;要将page的背景设置成蓝色,以达到所有三栏的背景颜色是蓝色的目的,但是我们会发现随着left centerright的向下拉长,而page居然保存高度不变,问题来了,原因在于page  不是float属性,而我们的page由于要居中,不能设置成float,所以我们应该这样解决:再嵌入一个float left而宽度是100%的DIV解决之
 
-eg.
+  eg.
 
 ~~~html
 <!-- 解决前 -->
@@ -167,15 +167,15 @@ eg.
 
 - 表单元素行高不一致
 
-解决方案:给表单元素添加float:left(左浮动);或者是vertical-align:middle;(垂直对齐方式:居中)
+  解决方案:给表单元素添加float:left(左浮动);或者是vertical-align:middle;(垂直对齐方式:居中)
 
 - 设置较小高度的容器(小于10px),在IE6下不识别小于10px的高度
 
-解决方案:给容器添加overflow:hidden;
+  解决方案:给容器添加overflow:hidden;
 
 - 当在a标签中嵌套img标签时,在某些浏览器中img会有蓝色边框
 
-解决方案:给img添加border:0;或者是border:none;
+  解决方案:给img添加border:0;或者是border:none;
 
 ## 布局问题
 
