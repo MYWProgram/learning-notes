@@ -62,11 +62,9 @@ Array.prototype.isPrototypeOf(arr);
 
 ## 何时使用===何时使用==
 
-      '=='值相等就成立,'==='值和类型都相等才成立(===会发生类型转换)
-
-      '==='再浏览器中解析更快
-
-      推荐使用'==='
+1. '=='值相等就成立,'==='值和类型都相等才成立(===会发生类型转换)
+2. '==='再浏览器中解析更快
+3. 推荐使用'==='
 
 ~~~js
 //查看一个对象的属性是否存在
@@ -84,18 +82,18 @@ function(a, b) {
 };
 ~~~
 
-      PS. 运用if判空必须加上等号,因为if(arr && obj)条件下,当数组或对象为空时,条件也会执行
+PS. **运用if判空必须加上等号,因为if(arr && obj)条件下,当数组或对象为空时,条件也会执行**
 
 ## 描述new一个对象的过程
 
-    创建一个新对象
-    this指向这个新对象
-    执行代码,即对this赋值
-    返回this
+1. 创建一个新对象
+2. this指向这个新对象
+3. 执行代码,即对this赋值
+4. 返回this
 
 ## 创建一个构造函数
 
-      构造函数有利于new对象的复用
+构造函数有利于new对象的复用
 
 ~~~js
 function P(name, age) {
@@ -115,7 +113,7 @@ console.log(person.sayHi());    //Hi!
 
 ### 基本用法
 
-      给函数传入参数
+给函数传入参数
 
 ~~~js
 function add(a,b){
@@ -316,9 +314,9 @@ firstLoad(20);    //true
 
 ## 前端使用异步场景
 
-定时任务:setTimeout,setInverval
-网络请求:ajax请求,动态img加载
-事件绑定
+1. 定时任务:setTimeout,setInverval
+2. 网络请求:ajax请求,动态img加载
+3. 事件绑定
 
 ~~~js
 //ajax请求代码示例
@@ -351,8 +349,7 @@ console.log('end');
 
 ## 同步和异步的区别是什么？请分别举例一个同步和异步的例子
 
-同步会阻塞代码执行,异步不会
-alert是同步,setTimeout是异步
+同步会阻塞代码执行,异步不会(alert是同步,setTimeout是异步)
 
 ## 一个关于setTimeout的笔试题
 
@@ -373,11 +370,12 @@ console.log(5);
 
 ### forEach
 
-      遍历数组
+遍历数组
 
-      接收两个参数:
-      1. 回调函数(又包含数组中正处理的当前元素,当前元素索引(可选),正在操作的数组(可选))
-      2. 执行回调函数时用作this的值(可选)
+接收两个参数:
+
+1. 回调函数(又包含数组中正处理的当前元素,当前元素索引(可选),正在操作的数组(可选))
+2. 执行回调函数时用作this的值(可选)
 
 ~~~js
 var arr = [1, 2, 3];
@@ -388,7 +386,7 @@ arr.forEach(function(item, index) {
 
 ### every
 
-      判断所有元素是否都符合条件
+判断所有元素是否都符合条件
 
 ~~~js
 var arr = [1, 2, 3];
@@ -402,7 +400,7 @@ console.log(result);
 
 ### some
 
-      判断是否至少一个元素符合条件
+判断是否至少一个元素符合条件
 
 ~~~js
 var arr = [1, 2, 3];
@@ -429,9 +427,9 @@ arr.unshift(0); //开头添加
 
 ### slice与splice
 
-      slice: 接收两个参数,开始索引与结束索引(负值表示从倒数开始);返回两个索引之间的新数组
+slice: 接收两个参数,开始索引与结束索引(负值表示从倒数开始);返回两个索引之间的新数组
 
-      splice: 接收三个参数,开始索引,要移除的元素个数,要添加的元素;直接对原数组进行修改
+splice: 接收三个参数,开始索引,要移除的元素个数,要添加的元素;直接对原数组进行修改
 
 ~~~js
 var arr1 = arr.slice(0, 2); //返回指定区间数组
@@ -440,9 +438,9 @@ arr.splice(1,2,3); //从指定位置开始,删除几个元素,添加什么元素
 
 ### sort
 
-      排序
+排序
 
-      接收一个回调函数为参数(又包括两个用于比较的元素)
+接收一个回调函数为参数(又包括两个用于比较的元素)
 
 ~~~js
 var arr = [1, 4, 2, 3, 5];
@@ -616,34 +614,29 @@ history.back();
 history.forward();
 ~~~
 
-## DOM是哪种基本的数据结构
-
-    是一种树形的基本数据结构
-
-## DOM操作的常用API有哪些
-
-    获取DOM节点,以及节点的property和Attribute；获取父节点,获取子节点；新增节点,删除节点
-
-## DOM节点的attr和property有什么区别
-
-    property只是一个JS对象的属性的修改；Attribute是对html便签属性的修改
-
 ## 如何检测浏览器的类型
 
-    可以通过检测navigator.userAgent,在通过不同浏览器的不同来检测
-    eg.检测是否为Chrome浏览器
-    var ua = navigator.userAgent;
-    var isChrome = ua.indexOf('Chrome');
-    console.log(isChrome);
+可以通过检测navigator.userAgent,在通过不同浏览器的不同来检测
+
+eg.检测是否为Chrome浏览器
+
+~~~js
+var ua = navigator.userAgent;
+var isChrome = ua.indexOf('Chrome');
+console.log(isChrome);
+~~~
 
 ## 拆解url各部分
 
-    使用location里面的location.href,location.protocol,location.pathname,location.search,location.hash来获取各种参数
-    console.log(location.href); //整个域名
-    console.log(location.protocol); //'http:' 'https:' 协议
-    console.log(location.pathname); //'/learn/199' 网址
-    console.log(location.search); //？之后的参数
-    console.log(location.hash); //-之后的哈希值
+使用location里面的location.href,location.protocol,location.pathname,location.search,location.hash来获取各种参数
+
+~~~js
+console.log(location.href); //整个域名
+console.log(location.protocol); //'http:' 'https:' 协议
+console.log(location.pathname); //'/learn/199' 网址
+console.log(location.search); //？之后的参数
+console.log(location.hash); //-之后的哈希值
+~~~
 
 ## 通用事件绑定
 
@@ -737,11 +730,13 @@ div1.addEventListener('click', function(e) {
 
 ## JS模块化
 
-    CommonJS
-    nodejs模块化规范,现在被大量用于前端因为:
-    前端依赖的插件和库,都可以从npm中获取
-    构建工具的豪赌自动化,使得使用npm的成本非常低
-    CommonJS不会异步加载JS,而是同步一次性加载出来
+CommonJS
+
+nodejs模块化规范,现在被大量用于前端因为:
+
+1. 前端依赖的插件和库,都可以从npm中获取
+2. 构建工具的自动化,使得使用npm的成本非常低
+3. CommonJS不会异步加载JS,而是同步一次性加载出来
 
 ~~~js
 //使用CommonJS
@@ -764,111 +759,62 @@ module.exports = {
 }
 ~~~
 
-    使用场景:需要异步加载JS使用AMD,使用了npm之后建议使用CoomonJS
+使用场景: 需要异步加载JS使用AMD,使用了npm之后建议使用CoomonJS
 
 ## 打包工具
 
-    压缩合并JS代码:
-    以webpack为例,在module.exports中添加
-    plugins:[
-      new webpack.optomize.UglifyJsPlugin();
-    ],
+压缩合并JS代码:
+
+以webpack为例,在module.exports中添加
+
+~~~js
+plugins:[
+  new webpack.optomize.UglifyJsPlugin();
+],
+~~~
 
 ## 上线回滚的流程
 
-    上线
-    将测试完成的代码提交到git版本库的master分支
-    将当前服务器的代码全部打包并记录版本号,备份
-    将master分支的代码提交覆盖到线上服务器,生成新的版本号
-    回滚
-    将当前服务器的代码打包并记录版本号,备份
-    将备份的上一个版本号解压,覆盖到线上服务器,生成新的版本号
+上线:
 
-    linux基本命令
-    服务器使用linux居多,server版,只有命令行
-    测试环境要匹配线上环境,因此也是linux
-    经常需要登录测试机来自己配置并获取数据
+1. 将测试完成的代码提交到git版本库的master分支
+2. 将当前服务器的代码全部打包并记录版本号,备份
+3. 将master分支的代码提交覆盖到线上服务器,生成新的版本号
 
-## 页面加载过程
+回滚:
 
-    加载资源的形式
-    输入url(或跳转页面)加载html
-    加载html中的静态资源（css或js文件）
-
-    加载一个资源的过程
-    浏览器根据DNS服务器得到域名的IP地址
-    向这个IP的机器发送http请求
-    服务器收到,处理并返回这个请求
-    浏览器得到返回的内容
-    浏览器渲染页面的过程
-    根据HTML生成DOM树
-    根据CSS生成CSSOM
-    将DOM和CSSOM整合形成RenderTree（渲染树）
-    根据RenderTree开始渲染和展示
-    遇到script时,会执行并阻塞渲染
+1. 将当前服务器的代码打包并记录版本号,备份
+2. 将备份的上一个版本号解压,覆盖到线上服务器,生成新的版本号
 
 ## 性能优化
 
-    原则:多使用内存,缓存或其他方法；减少CPU计算,较少网阔
-    从哪入手:加载页面和静态资源；页面渲染
+原则:多使用内存,缓存或其他方法;减少CPU计算,较少网阔
 
-    加载资源优化:
-    静态资源的合并与压缩
-    静态资源缓存
-    使用CDN让资源加载更快
-    使用SSR获得渲染,数据直接输出到HTML中（vue,react提出；jsp,php,asp属于后端渲染）
+从哪入手:加载页面和静态资源;页面渲染
 
-    渲染优化:
-    CSS放前面,JS放后面
-    懒加载（图片懒加载,下拉加载更多）
-    减少DOM查询,对DOM查询做缓存
-    减少DOM操作,多个操作尽量合并在一起执行
-    事件节流
-    尽早执行操作（如DOMContentLoaded）
+加载资源优化:
 
-## 安全性
+1. 静态资源的合并与压缩
+2. 静态资源缓存
+3. 使用CDN让资源加载更快
+4. 使用SSR获得渲染,数据直接输出到HTML中
 
-    XSS跨站请求攻击
-    比如在新浪写一篇文章,同时插入一段script进去；
-    别人查看一次文章script执行一次,会获取察看者的cookie发送到自己的服务器；
-    解决:
-    前端替换关键字:如 < 替换为 &lt; > 替换为 &gt;
+渲染优化:
 
-    XSRF跨站请求伪造
-    如登陆了一个购物网站,网站付费接口是xxx.com/pay?id=100,但是没有任何验证
-    然后你收到了一封邮件,隐藏着img标签=上面的接口地址
-    当你查看邮件的时候就已经付费了
-    解决:
-    增加验证流程,如输入指纹,密码,短信验证（后端操作,前端配合）
-
-## 从输入url到得到html的详细过程
-
-    加载资源的形式
-    输入url(或跳转页面)加载html
-    加载html中的静态资源（css或js文件）
-
-    加载一个资源的过程
-    浏览器根据DNS服务器得到域名的IP地址
-    向这个IP的机器发送http请求
-    服务器收到,处理并返回这个请求
-    浏览器得到返回的内容
-
-    浏览器渲染页面的过程
-    根据HTML生成DOM树
-    根据CSS生成CSSOM
-    将DOM和CSSOM整合形成RenderTree（渲染树）
-    根据RenderTree开始渲染和展示
-    遇到script时,会执行并阻塞渲染
-
-## window.onload和DOMContentLoaded的区别
-
-    都是在JS原生开发时用到的,比如需要对页面DOM进行动态处理；DOMContentLoaded在dom构建完成之后就会执行,如果在页面中需要加载其他资源,比如图片、flash等,必须这些资源全部加在完毕后才会执行 window.onload,所以DOMContentLoaded是在window.onload之前执行
+1. CSS放前面,JS放后面
+2. 懒加载（图片懒加载,下拉加载更多）
+3. 减少DOM查询,对DOM查询做缓存
+4. 减少DOM操作,多个操作尽量合并在一起执行
+5. 事件节流
+6. 尽早执行操作(如DOMContentLoaded)
 
 ## 函数调用时加括号与不加括号的区别
 
-    函数只要是要调用它进行执行的,都必须加括号。此时,函数实际上等于函数的返回值或者执行效果,当然,有些没有返回值,但已经执行了函数体内的行为,就是说,加括号的,就代表将会执行函数体代码。
-    不加括号的,都是把函数名称作为函数的指针,一个函数的名称就是这个函数的指针,此时不是得到函数的结果,因为不会运行函数体代码。它只是传递了函数体所在的地址位置,在需要的时候好找到函数体去执行。
-    PS.加上两个括号相当于直接调用其中的嵌套函数,前提条件时在函数之内必须返回嵌套的函数!
+函数只要是要调用它进行执行的,都必须加括号。此时,函数实际上等于函数的返回值或者执行效果,当然,有些没有返回值,但已经执行了函数体内的行为,就是说,加括号的,就代表将会执行函数体代码。
+
+不加括号的,都是把函数名称作为函数的指针,一个函数的名称就是这个函数的指针,此时不是得到函数的结果,因为不会运行函数体代码。它只是传递了函数体所在的地址位置,在需要的时候好找到函数体去执行。
+
+PS. **加上两个括号相当于直接调用其中的嵌套函数,前提条件时在函数之内必须返回嵌套的函数!**
 
 ## 题
 
