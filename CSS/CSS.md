@@ -78,61 +78,75 @@
 
 ### px
 
-    相对于显示器屏幕分辨率而言的,没有弹性,不适用于响应式的设计;
+相对于显示器屏幕分辨率而言的,没有弹性,不适用于响应式的设计;
 
 ### em
 
-    相对父元素的font-size;大小并不是固定的,会继承父元素的字体大小,由于这个特性可以用于响应式的设计;所有未经调整的浏览器中1em = 16px;在css的body选择器中声明font-size: 62.5%,那么在这个html页面中,1em = 10px
+相对父元素的font-size;大小并不是固定的,会继承父元素的字体大小,由于这个特性可以用于响应式的设计;所有未经调整的浏览器中1em = 16px;在css body选择器中声明font-size: 62.5%,那么在这个html页面中,1em = 10px
 
 ### rem
 
-    是相对于根元素html,只需要在根元素确定一个参考值,如在css中html {font-size: 10px; | font-size: 62.5%;},那么1rem = 10px;只需要设置根目录大小就可以把整个页面成比例的设置好;也可用于设计响应式
+是相对于根元素html,只需要在根元素确定一个参考值,如在css中html {font-size: 10px; | font-size: 62.5%;},那么1rem = 10px;只需要设置根目录大小就可以把整个页面成比例的设置好;也可用于设计响应式
 
 ### %
 
-    百分比单位,参考物有三种情况:
-    1. 对于普通定位元素就是我们理解的父元素
-    2. 对于position: absolute;的元素是相对于已定位的父元素
-    3. 对于position: fixed;的元素是相对于ViewPort（可视窗口）
+百分比单位,参考物有三种情况:
+
+1. 对于普通定位元素就是我们理解的父元素
+2. 对于position: absolute;的元素是相对于已定位的父元素
+3. 对于position: fixed;的元素是相对于ViewPort（可视窗口）
 
 ### vw,vh,vmin,vmax
 
-    百分比单位,相对于可视区域,可用于设计响应式;其中vh为相对于可视高度,vw是相对于可视宽度,vmin是相对于两者较小的,vmax是相对于两者较大的
-    例如可视高度为1080px,那么100vw = 1080px; 1vw = 10.8px
+百分比单位,相对于可视区域,可用于设计响应式;其中vh为相对于可视高度,vw是相对于可视宽度,vmin是相对于两者较小的,vmax是相对于两者较大的
+
+例如可视高度为1080px,那么100vw = 1080px; 1vw = 10.8px
 
 ## 块级元素与行内元素
 
-    块级元素：div,p,h1~h6,ul,ol,dl,li,dd,table,hr,blockquote,address,menu,pre/header,section,aside,fotter(后面为H5新增)
-    行内元素：span,a,lable,abbr,em,big,cite(引用),i,q(短引用),textarea,select,strong,u(下划线),button(默认display: inline-block)
-    行内块状元素：img,input,td
+- 块级元素：div,p,h1~h6,ul,ol,dl,li,dd,table,hr,blockquote,address,menu,pre/header,section,aside,fotter(后面为H5新增)
 
-    在标准文档流里：
-    块级元素:总是在新的一行开始占据一整行；高度,行高以及外边距和内边距都可控制；宽度始终与浏览器一样,和内容无关；可以容纳内联元素和其他块元素
-    行内元素:和其他行内元素都在一行上；高,行高以及外边距和内边距不可改；宽度只与内容有关；只能容纳文本图片或其他行内元素；不可以设置宽高,其宽度随着内容增加,高度随字体大小而改变,内联元素可以设置外边界,但是外边界不对上下起作用,只能对左右起作用,也可以设置内边界,但是内边界在ie6中不对上下起作用,只能对左右起作用
+- 行内元素：span,a,lable,abbr,em,big,cite(引用),i,q(短引用),textarea,select,strong,u(下划线),button(默认display: inline-block)
 
-    两者可以互相转换：
-    通过设置display属性,转为行内display: inline;转为块级display: block
+- 行内块状元素：img,input,td
+
+在标准文档流里：
+
+- 块级元素:总是在新的一行开始占据一整行；高度,行高以及外边距和内边距都可控制；宽度始终与浏览器一样,和内容无关；可以容纳内联元素和其他块元素
+
+- 行内元素:和其他行内元素都在一行上；高,行高以及外边距和内边距不可改；宽度只与内容有关；只能容纳文本图片或其他行内元素；不可以设置宽高,其宽度随着内容增加,高度随字体大小而改变,内联元素可以设置外边界,但是外边界不对上下起作用,只能对左右起作用,也可以设置内边界,但是内边界在ie6中不对上下起作用,只能对左右起作用
+
+二者可以互相转换:
+
+- 通过设置display属性,转为行内display: inline;转为块级display: block
 
 ## CSS百分比参照问题
 
-    参照父元素宽度元素: padding margin width text-indent
-    参照父元素高度元素: height
-    参照父元素属性: font-size line-height
-    特殊: 相对定位top(bottom)left(right)参照父元素的内容区域高度与宽度;绝对定位时参照最近的定位元素包含padding的高度与宽度
+- 参照父元素宽度元素: padding margin width text-indent
+
+- 参照父元素高度元素: height
+
+- 参照父元素属性: font-size line-height
+
+- 特殊: 相对定位top(bottom)left(right)参照父元素的内容区域高度与宽度;绝对定位时参照最近的定位元素包含padding的高度与宽度
 
 ## CSS浏览器兼容问题
 
-    不同浏览器的标签默认的外补丁和内补丁不同,随便写几个标签,不加样式控制的情况下,各自的margin和padding差异较大
-    解决方案: css里*{margin:0;padding:0;}
+- 不同浏览器的标签默认的外补丁和内补丁不同,随便写几个标签,不加样式控制的情况下,各自的margin和padding差异较大
 
-    块级元素标签float后,又有横行的margin情况下,在ie6显示margin比设置的大;ie6中后面的一块被顶到下一行
-    解决方案:在float的标签样式控制中加入display:inline;将其转化为行内属性
+解决方案: css里*{margin:0;padding:0;}
 
-    设置较小高度标签(一般小于10px),在ie6,7遨游中高度超出自己设置高度
-    解决方案:给超出高度的标签设置overflow:hidden;或者设置行高line-height小于你设置的高度
+- 块级元素标签float后,又有横行的margin情况下,在ie6显示margin比设置的大;ie6中后面的一块被顶到下一行
 
-    要在n栏的float div后面做一个统一的背景;要将page的背景设置成蓝色,以达到所有三栏的背景颜色是蓝色的目的,但是我们会发现随着left centerright的向下拉长,而page居然保存高度不变,问题来了,原因在于page  不是float属性,而我们的page由于要居中,不能设置成float,所以我们应该这样解决:再嵌入一个float left而宽度是100%的DIV解决之
-    eg.
+解决方案:在float的标签样式控制中加入display:inline;将其转化为行内属性
+
+- 设置较小高度标签(一般小于10px),在ie6,7遨游中高度超出自己设置高度
+
+解决方案:给超出高度的标签设置overflow:hidden;或者设置行高line-height小于你设置的高度
+
+- 要在n栏的float div后面做一个统一的背景;要将page的背景设置成蓝色,以达到所有三栏的背景颜色是蓝色的目的,但是我们会发现随着left centerright的向下拉长,而page居然保存高度不变,问题来了,原因在于page  不是float属性,而我们的page由于要居中,不能设置成float,所以我们应该这样解决:再嵌入一个float left而宽度是100%的DIV解决之
+
+eg.
 
 ~~~html
 <!-- 解决前 -->
@@ -151,27 +165,33 @@
 </div>
 ~~~
 
-    表单元素行高不一致
-    解决方案:给表单元素添加float:left(左浮动);或者是vertical-align:middle;(垂直对齐方式:居中)
+- 表单元素行高不一致
 
-    设置较小高度的容器(小于10px),在IE6下不识别小于10px的高度
-    解决方案:给容器添加overflow:hidden;
+解决方案:给表单元素添加float:left(左浮动);或者是vertical-align:middle;(垂直对齐方式:居中)
 
-    当在a标签中嵌套img标签时,在某些浏览器中img会有蓝色边框
-    解决方案:给img添加border:0;或者是border:none;
+- 设置较小高度的容器(小于10px),在IE6下不识别小于10px的高度
+
+解决方案:给容器添加overflow:hidden;
+
+- 当在a标签中嵌套img标签时,在某些浏览器中img会有蓝色边框
+
+解决方案:给img添加border:0;或者是border:none;
 
 ## 布局问题
 
-    position定位:
-    static:元素框正常生成;块级元素生成一个矩形框,作为文档流的一部分,行内元素则会创建一个或多个行框,置于其父元素中
-    relative:元素框偏移某个距离;元素仍保持其未定位前的形状,它原本所占的空间仍保留;移动元素会导致它覆盖其他框
-    absolute:元素框从文档流完全删除,并相对于其包含块定位;包含块可能是文档中的另一个元素或者是初始包含块;元素原先在正常文档流中所占的空间会关闭,就好像元素原来不存在一样;元素定位后生成一个块级框,而不论原来它在正常流中生成何种类型的框
-    fixed:元素框的表现类似于将position设置为absolute,不过其包含块是视窗本身
-    float:浮动的框可以向左或向右移动,直到它的外边缘碰到包含框或另一个浮动框的边框为止;由于浮动框不在文档的普通流中,所以文档的普通流中的块框表现得就像浮动框不存在一样;浮动格式可以用clear来清除
+position定位:
 
-    flex(弹性)布局:(http://www.ruanyifeng.com/blog/2015/07/flex-grammar.html?utm_source=tuicool)
-    任何一个容器都可以指定为flex布局(display: flex;),行内元素(display: inline-flex;);设置为flex布局之后,子元素的float clear vertical-align属性将失效
-    设定flex之后默认存在两根轴(水平的主轴和垂直的交叉轴),项目默认沿主轴排列
+- static:元素框正常生成;块级元素生成一个矩形框,作为文档流的一部分,行内元素则会创建一个或多个行框,置于其父元素中
+- relative:元素框偏移某个距离;元素仍保持其未定位前的形状,它原本所占的空间仍保留;移动元素会导致它覆盖其他框
+- absolute:元素框从文档流完全删除,并相对于其包含块定位;包含块可能是文档中的另一个元素或者是初始包含块;元素原先在正常文档流中所占的空间会关闭,就好像元素原来不存在一样;元素定位后生成一个块级框,而不论原来它在正常流中生成何种类型的框
+- fixed:元素框的表现类似于将position设置为absolute,不过其包含块是视窗本身
+- float:浮动的框可以向左或向右移动,直到它的外边缘碰到包含框或另一个浮动框的边框为止;由于浮动框不在文档的普通流中,所以文档的普通流中的块框表现得就像浮动框不存在一样;浮动格式可以用clear来清除
+
+- flex(弹性)布局: [Flex教程链接](http://www.ruanyifeng.com/blog/2015/07/flex-grammar.html?utm_source=tuicool)
+
+任何一个容器都可以指定为flex布局(display: flex;),行内元素(display: inline-flex;);设置为flex布局之后,子元素的float clear vertical-align属性将失效
+
+设定flex之后默认存在两根轴(水平的主轴和垂直的交叉轴),项目默认沿主轴排列
 
 ~~~css
 /* 容器的属性 */
@@ -220,7 +240,7 @@
 
 ## 响应式布局
 
-    原生:
+原生:
 
 ~~~html
 <!-- 设置meta标签 -->
@@ -270,13 +290,16 @@ html{font-size:100%;}
 }
 ~~~
 
-    bootstrap:
-    栅格系统:
-    栅格系统分为12列,即每行最多可容纳12列;一个.row内包含的列(column)大于12个(即,一行中的栅格单元超过12个单元),则会自动排版
-    移动设备:.col-sm-列数 (>=576px)
-    平板:.col-md-列数 (>=768px)
-    桌面:.col-lg-列数 (>=992px)
-    超大桌面:.col-xl-列数 (>=1200px)
+bootstrap:
+
+栅格系统:
+
+栅格系统分为12列,即每行最多可容纳12列;一个.row内包含的列(column)大于12个(即,一行中的栅格单元超过12个单元),则会自动排版
+
+- 移动设备:.col-sm-列数 (>=576px)
+- 平板:.col-md-列数 (>=768px)
+- 桌面:.col-lg-列数 (>=992px)
+- 超大桌面:.col-xl-列数 (>=1200px)
 
 ~~~html
 <!-- head部分处理 -->
@@ -300,21 +323,24 @@ html{font-size:100%;}
 
 ## 垂直居中定位方法
 
-    水平居中
-    - 直接设置div块的样式: width:??px; margin: 0 auto;
-    - 父元素样式设置:text-align: center;(仅针对于行内元素有效,对块级元素无效)
-    - 设置div样式:position: relative;(这是相对于父元素) margin: auto; left: 0; right: 0;
-    - 运用flex,父元素div设置:justify-content: center; display: -webkit-flex;
+水平居中:
 
-    垂直居中
-    - 父元素中设置height与line-height值相等(仅用于行内元素,对块级元素无效)
-    - 父元素设置:display: table-cell; vertical-align: middle;
-    - 运用flex,父元素设置:align-items: center; display: -webkit-flex;
+- 直接设置div块的样式: width:?px; margin: 0 auto;
+- 父元素样式设置:text-align: center;(仅针对于行内元素有效,对块级元素无效)
+- 设置div样式:position: relative;(这是相对于父元素) margin: auto; left: 0; right: 0;
+- 运用flex,父元素div设置:justify-content: center; display: -webkit-flex;
 
-    垂直居中特例(可运用上面两种方法组合,是情况而定)
-    - position: relative; top: 50%; left: 50%; margin: -150px 0 0 -250px;(已知h:500px w:300px)
-    - position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-    - flex父元素设置: display: flex; align-items: center; justify-content: center;
+垂直居中:
+
+- 父元素中设置height与line-height值相等(仅用于行内元素,对块级元素无效)
+- 父元素设置:display: table-cell; vertical-align: middle;
+- 运用flex,父元素设置:align-items: center; display: -webkit-flex;
+
+垂直居中特例(可运用上面两种方法组合,视情况而定)
+
+- position: relative; top: 50%; left: 50%; margin: -150px 0 0 -250px;(已知h:500px w:300px)
+- position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+- flex父元素设置: display: flex; align-items: center; justify-content: center;
 
 ~~~html
 <!-- 基础html -->
@@ -367,10 +393,10 @@ html{font-size:100%;}
 
 ## display的一些属性及作用
 
-    block         块类型,默认宽度为父元素宽度,可设置宽高,换行显示
-    none          缺省值象行内元素类型一样显示
-    inline        行内元素类型默认宽度为内容宽度,不可设置宽高,同行显示
-    inline-block  默认宽度为内容宽度,可以设置宽高,同行显示
-    list-item     象块类型元素一样显示,并添加样式列表标记
-    table         此元素会作为块级表格来显示
-    inherit       规定应该从父元素继承 display 属性的值
+- block: 块类型;默认宽度为父元素宽度,可设置宽高,会在新的一行显示
+- none: 缺省值;像行内元素类型一样显示
+- inline: 行内元素;默认宽度为内容宽度,不可设置宽高,与行类元素同行显示
+- inline-block: 默认宽度为内容宽度,可以设置宽高,同行显示
+- list-item: 象块类型元素一样显示,并添加样式列表标记
+- table: 此元素会作为块级表格来显示
+- inherit: 规定应该从父元素继承 display 属性的值

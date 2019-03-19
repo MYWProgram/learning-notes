@@ -258,7 +258,7 @@ $(selector).load(); //把远程数据加载到被选的元素中
 
 ### 同源策略的限制
 
-当我们在页面中通过ajax请求其它服务器的数据时,由于浏览器对于JavaScript的同源策略,客户端就会发生跨域问题;所谓同源策略,指的是一段脚本只求来自相同来源(相同域名、端口号、协议)的资源
+当我们在页面中通过ajax请求其它服务器的数据时,由于浏览器对于JavaScript的同源策略,客户端就会发生跨域问题;所谓同源策略,指的是一段脚本只接收来自相同来源(相同域名、端口号、协议)的资源
 
 ### 发送请求的一些手段
 
@@ -311,7 +311,15 @@ document.body.appendChild(iframe);
 
 #### JSONP
 
-老派浏览器不支持CORS;在网页中通过script元素的src指定加载目标脚本时是不受同源策略的影响的,这种利用script元素作为Ajax传输的技术JSONP;JSONP支持GET不支持POST方法,需要服务端的配合;使用script元素进行Ajax请求,这意味着Web页面可以执行远程服务器发送过来JavaScript代码,不安全;JSONP使用的是script标签,和ajax提供的XMLHttpRequest没有任何关系;jQuery中使用JSONP就是dataTypejsonp
+老派浏览器不支持CORS;在网页中通过script元素的src指定加载目标脚本时是不受同源策略的影响的,这种利用script元素作为Ajax传输的技术称为JSONP
+
+JSONP支持GET但不支持POST方法,并且需要服务端的配合
+
+使用script元素进行Ajax请求,这意味着Web页面可以执行远程服务器发送过来JavaScript代码,不安全
+
+JSONP使用的是script标签,和ajax提供的XMLHttpRequest没有任何关系
+
+jQuery中使用JSONP就是dataTypejsonp
 
 ~~~js
 // 原生下的 jsonp
@@ -359,16 +367,20 @@ $.ajax({
 
 #### CORS
 
-在服务端设置: Header set Access-Control-Allow-Origin *(这种设置将接受所有域名的跨域请求,也可以制定单个域名限制);如: Header set Access-Control-Allow-Origin `http://www.baidu.com`
+在服务端设置: Header set Access-Control-Allow-Origin *(这种设置将接受所有域名的跨域请求,也可以制定单个域名限制)
+
+如: Header set Access-Control-Allow-Origin `http://www.baidu.com`
 
 这种方式的局限性在于要求客户端支持,并且服务端进行相关设置;支持所有类型的HTTP请求,可以使用普通的XMLHttpRequest发起请求和获得数JSONP有更好的错误处理
 
-#### window.name
+#### window.name属性
 
 window生命周期中有个name属性,属性不会因新页面载入而重置,窗口载入的所有页面都共享该属性,并且有读写权限
 
-eg.www.a.com/a.html要获得www.b.com/b.html中的数据
-在b.html中将数据存在window.name中;在a.html中构建一个隐藏(display:none)的iframe标签,假设id为proxy,src设置为与a.html同源即可;
+eg. www.a.com/a.html 要获得 www.b.com/b.html 中的数据
+
+在b.html中将数据存在window.name中;在a.html中构建一个隐藏(display:none)的iframe标签,假设id为proxy,src设置为与a.html同源即可
+
 通过如下代码在a.html中获取data
 
 ~~~js
