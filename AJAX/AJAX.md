@@ -21,7 +21,7 @@ status |描述
 
 ### GET请求
 
-    通常在一次GET请求中,参数传递都是通过URL地址中?参数传递
+通常在一次GET请求中,参数传递都是通过URL地址中?参数传递
 
 ~~~js
 var xhr = new XMLHttpRequest();
@@ -39,7 +39,7 @@ xhr.onreadystatechange = function() {
 
 ### POST请求
 
-    POST请求过程中,都是用请求体承载需要提交的数据
+POST请求过程中,都是用请求体承载需要提交的数据
 
 ~~~js
 var xhr = new XMLHttpRequest();
@@ -85,7 +85,7 @@ console.timeEnd(ajax);
 
 ### 同步方式下的ajax
 
-    代码会卡死在xhr.send()这一步
+代码会卡死在xhr.send()这一步
 
 ~~~js
 console.time(ajax);
@@ -101,7 +101,7 @@ xhr.send(null);
 console.timeEnd(ajax);
 ~~~
 
-    综上:为了让事件更加可靠,一定在发送请求之前注册readystatechange(不管同步还是异步);
+综上:为了让事件更加可靠,一定在发送请求之前注册readystatechange(不管同步还是异步)
 
 ## ajax的几种写法
 
@@ -167,10 +167,11 @@ class ajax {
 
 ## 封装Ajax
 
-    封装的套路:
-    1. 写一个相对比较完善的用例
-    2. 写一个空函数,没有形参;将刚刚的用例作为函数的函数体
-    3. 根据使用过程中的需求抽象参数
+封装的套路:
+
+1. 写一个相对比较完善的用例
+2. 写一个空函数,没有形参;将刚刚的用例作为函数的函数体
+3. 根据使用过程中的需求抽象参数
 
 ~~~js
 /**
@@ -257,13 +258,13 @@ $(selector).load(); //把远程数据加载到被选的元素中
 
 ### 同源策略的限制
 
-    当我们在页面中通过ajax请求其它服务器的数据时,由于浏览器对于JavaScript的同源策略,客户端就会发生跨域问题。所谓同源策略,指的是一段脚本只能请求来自相同来源(相同域名、端口号、协议)的资源
+当我们在页面中通过ajax请求其它服务器的数据时,由于浏览器对于JavaScript的同源策略,客户端就会发生跨域问题。所谓同源策略,指的是一段脚本只求来自相同来源(相同域名、端口号、协议)的资源
 
 ### 发送请求的一些手段
 
 #### img标签
 
-    可以发送不同源地址之间的请求,但是无法拿到响应结果
+可以发送不同源地址之间的请求,但是无法拿到响应结果
 
 ~~~js
 var img = new Image();
@@ -272,7 +273,7 @@ img.src = 'http://locally.uieee.com/categories';
 
 #### link标签
 
-    可以发送不同源地址之间的请求,有请求但是仍然拿不到响应结果
+可以发送不同源地址之间的请求,有请求但是仍然拿不到响应结果
 
 ~~~js
 var link = document.createElement('link');
@@ -284,7 +285,7 @@ document.body.appendChild(link);
 
 #### script标签
 
-    script-可以发送不同源地址之间的请求,需要服务端配合才可以拿到响应结果
+script-可以发送不同源地址之间的请求,需要服务端配合才可以拿到响应结果
 
 ~~~js
 var script = document.createElement('script');
@@ -298,7 +299,7 @@ function foo(res) {
 
 #### iframe标签
 
-    可以发送不同源地址之间的请求,有回应但是拿不到响应结果
+可以发送不同源地址之间的请求,有回应但是拿不到响应结果
 
 ~~~js
 var iframe = document.createElement('iframe');
@@ -310,7 +311,7 @@ document.body.appendChild(iframe);
 
 #### JSONP
 
-      老派浏览器不支持CORS;在网页中通过script元素的src指定加载目标脚本时是不受同源策略的影响的,这种利用script元素作为Ajax传输的技术就称为JSONP;JSONP支持GET不支持POST方法,需要服务端的配合;使用script元素进行Ajax请求,这意味着Web页面可以执行远程服务器发送过来的任何JavaScript代码,不安全;JSONP使用的是script标签,和ajax提供的XMLHttpRequest没有任何关系;jQuery中使用JSONP就是dataType设置为jsonp
+老派浏览器不支持CORS;在网页中通过script元素的src指定加载目标脚本时是不受同源策略的影响的,这种利用script元素作为Ajax传输的技术JSONP;JSONP支持GET不支持POST方法,需要服务端的配合;使用script元素进行Ajax请求,这意味着Web页面可以执行远程服务器发送过来JavaScript代码,不安全;JSONP使用的是script标签,和ajax提供的XMLHttpRequest没有任何关系;jQuery中使用JSONP就是dataTypejsonp
 
 ~~~js
 // 原生下的 jsonp
@@ -358,16 +359,17 @@ $.ajax({
 
 #### CORS
 
-      在服务端设置: Header set Access-Control-Allow-Origin *(这种设置将接受所有域名的跨域请求,也可以制定单个域名限制)
-      Header set Access-Control-Allow-Origin `http://www.baidu.com`
-      这种方式的局限性在于要求客户端支持,并且服务端进行相关设置;支持所有类型的HTTP请求,可以使用普通的XMLHttpRequest发起请求和获得数据,相比JSONP有更好的错误处理
+在服务端设置: Header set Access-Control-Allow-Origin *(这种设置将接受所有域名的跨域请求,也可以制定单个域名限制);如: Header set Access-Control-Allow-Origin `http://www.baidu.com`
+
+这种方式的局限性在于要求客户端支持,并且服务端进行相关设置;支持所有类型的HTTP请求,可以使用普通的XMLHttpRequest发起请求和获得数JSONP有更好的错误处理
 
 #### window.name
 
-      window生命周期中有个name属性,属性不会因新页面载入而重置,窗口载入的所有页面都共享该属性,并且有读写权限;
-      eg.www.a.com/a.html要获得www.b.com/b.html中的数据
-      在b.html中将数据存在window.name中;在a.html中构建一个隐藏(display:none)的iframe标签,假设id为proxy,src设置为与a.html同源即可;
-      通过如下代码在a.html中获取data
+window生命周期中有个name属性,属性不会因新页面载入而重置,窗口载入的所有页面都共享该属性,并且有读写权限
+
+eg.www.a.com/a.html要获得www.b.com/b.html中的数据
+在b.html中将数据存在window.name中;在a.html中构建一个隐藏(display:none)的iframe标签,假设id为proxy,src设置为与a.html同源即可;
+通过如下代码在a.html中获取data
 
 ~~~js
 var proxy = document.getElementById('proxy');
@@ -376,27 +378,28 @@ proxy.onload = function() {
 }
 ~~~
 
-      最后移除相关元素即可
+最后移除相关元素即可
 
 #### window.postMessage
 
-      在a页面中利用windowObj.postMessage(message, targetOrigin)向目标b页面发送信息;在b页面中通过监听message事件获取信息;
-      PS. 这是H5新增方法,IE6.7无法使用
+在a页面中利用windowObj.postMessage(message, targetOrigin)向目标b页面发送信息;在b页面中通过监听message事件获取信息
+
+PS. 这是H5新增方法,IE6.7无法使用
 
 ## XMLHttpRequest 2.0
 
 ### 新功能
 
-    1. 设置HTTP请求的时间限制
-    2. 使用FormData对象管理表单数据
-    3. 上传文件
-    4. 进行跨域请求
-    5. 获取服务端的二进制数据
-    6. 获得数据传书的进度信息
+1. 设置HTTP请求的时间限制
+2. 使用FormData对象管理表单数据
+3. 上传文件
+4. 进行跨域请求
+5. 获取服务端的二进制数据
+6. 获得数据传书的进度信息
 
 ### 请求时限
 
-    目前仅仅Opera,FireFox,IE10支持;IE8 9中这个属性属于XDomainRequest对象,其他浏览器则不支持
+目前仅仅Opera,FireFox,IE10支持;IE8 9中这个属性属于XDomainRequest对象,其他浏览器则不支持
 
 ~~~js
 // 设置请求时限为3秒,等待超过3秒请求自动结束
@@ -409,7 +412,7 @@ xhr.ontimeout = funcrion() {
 
 ### FormData对象
 
-    模拟表单
+模拟表单
 
 ~~~js
 // 发送请求
@@ -432,7 +435,7 @@ xhr.send(formData);
 
 ### 上传文件
 
-    html 中有 input[type = 'file']
+html中有input[type = 'file']
 
 ~~~js
 var formData = new FormData();
@@ -444,8 +447,8 @@ xhr.send(formData);
 
 ### 接收二进制数据
 
-    1. 改写 MIMEType,将服务器返回的二进制数据伪装成文本数据,并且告诉浏览器这是用户自定义的字符集
-    2. 设置 responseType 为 blob
+1. 改写 MIMEType,将服务器返回的二进制数据伪装成文本数据,并且告诉浏览器这是用户自定义的字符集
+2. 设置 responseType 为 blob
 
 ~~~js
 // 1
@@ -484,7 +487,7 @@ if(arrayBuffer) {
 
 ### 进度信息
 
-    新的事件 progress 返回进度信息;下载的 progress 属于 XMLHttpRequest 对象,上传的 progress 属于XMLHttpRequest.upload对象
+新的事件 progress 返回进度信息;下载的 progress 属于 XMLHttpRequest 对象,上传的 progress 属于XMLHttpRequest.upload对象
 
 ~~~js
 // 先定义 progress 时间的回调函数
