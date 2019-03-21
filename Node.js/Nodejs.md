@@ -18,7 +18,31 @@ PS. **IP地址用来定位计算机,端口号用来定位具体的应用程序;�
 
 [参考](http://nodejs.cn/api/)
 
-### 用户自定义模块
+### 用户自定义模块与方法
+
+#### require
+
+`require`函数用于在当前模块中加载和使用别的模块,传入一个模块名,返回一个模块导出对象;模块名可使用相对路径(以./开头),或者是绝对路径(以/或C:之类的盘符开头);另外,模块名中的.js扩展名可以省略
+
+- 使用以下方法加载一个JSON文件
+
+~~~js
+var data = require('./data.json');
+~~~
+
+#### exports
+
+`exports`对象是当前模块的导出对象,用于导出模块公有方法和属性;别的模块通过require函数使用当前模块时得到的就是当前模块的exports对象
+
+#### module
+
+通过`module`对象可以访问到当前模块的一些相关信息,但最多的用途是替换当前模块的导出对象;例如模块导出对象默认是一个普通对象,如果想改成一个函数的话,可以使用以下方式
+
+~~~js
+module.exports = function () {
+  console.log('Hello World!');
+};
+~~~
 
 - 通过`require`加载模块并执行里面的代码
 
@@ -90,7 +114,7 @@ PS. **`export`在不挂载成员时默认是一个空对象**
 var fs = require('fs');
 
 // 接收三个参数: 1.文件路径 2.写入文件内容 3.回调函数
-fs.writeFile('../test.md', '# 标题一', function(error) {
+fs.writeFile('文件路径/文件名', '写入的内容', function(error) {
   if(error) {
     console.log('文件路径错误!');
   }
@@ -106,7 +130,7 @@ fs.writeFile('../test.md', '# 标题一', function(error) {
 var fs = require('fs');
 
 // 接收两个参数: 1.文件路径 2.回调函数
-fs.readFile('../test.md', function(error, data) {
+fs.readFile('文件路径/文件名', function(error, data) {
   if(error) {
     console.log(error);
   }
@@ -114,6 +138,17 @@ fs.readFile('../test.md', function(error, data) {
     // 由于输出的是16进制数,所以使用 toString 方法转为字符串
     console.log(data.toString());
   }
+});
+~~~
+
+- 读取文件夹目录
+
+~~~js
+fs.readdir('文件路径/文件夹', function(err, files) {
+  if(err) {
+    return res.end()
+  }
+  // files返回一个包含该文件夹的'一级文件名'数组
 });
 ~~~
 
@@ -206,5 +241,40 @@ server.on('request', function (req, res) {
 });
 server.listen(3000, function () {
   console.log('服务器启动成功: http://localhost:3000/ ');
+});
+~~~
+
+- 运用模板引擎渲染Apache文件列表
+
+~~~js
+var http = require('http');
+var fs = require('fs');
+// node中加载模板引擎的方法,在这之前需要安装: $ npm install art-template
+var template = require('art-template');
+
+var server = http.createServer();
+// 本地的'www'文件夹的路径
+var folderPath = './resource';
+server.on('request', function(req, res) {
+  // 读取到文件夹加载列表的那个html文件
+  fs.readFile(`${folderPath}/template-apache.html`, function(err, data) {
+    if(err) {
+      return res.end('404 Not Found.');
+    }
+    fs.readdir(folderPath, function(err, files) {
+      if(err) {
+        return res.end('Can not find dir path.');
+      }
+      // template.render() 方法用于把html中标记的地方替换为一个对象
+      var htmlStr = template.render(data.toString(), {
+        title: 'Apache',
+        files: files,
+      })
+      res.end(htmlStr);
+    })
+  })
+});
+server.listen(3000, function() {
+  console.log('Server is running at http://localhost:3000/ ');
 });
 ~~~
