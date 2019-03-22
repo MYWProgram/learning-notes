@@ -152,6 +152,35 @@ fs.readdir('文件路径/文件夹', function(err, files) {
 });
 ~~~
 
+### 核心模块 - url
+
+- 获取url中的query
+
+~~~js
+var url = require('url');
+
+// 方法返回一个包含几个成员的对象,第二个参数true表示把返回的query属性转为一个对象
+var obj = url.parse('http://localhost:3000/pinglun?name=Mike&message=123', true);
+console.log(obj.query);
+
+/**
+ * {
+  protocol: 'http:',
+  slashes: true,
+  auth: null,
+  host: 'localhost:3000',
+  port: '3000',
+  hostname: 'localhost',
+  hash: null,
+  search: '?name=Mike&message=123',
+  query: [Object: null prototype] { name: 'Mike', message: '123' },
+  pathname: '/pinglun',
+  path: '/pinglun?name=Mike&message=123',
+  href: 'http://localhost:3000/pinglun?name=Mike&message=123'
+  }
+*/
+~~~
+
 ### 核心模块 - http
 
 - http + url + res
@@ -256,7 +285,7 @@ var server = http.createServer();
 // 本地的'www'文件夹的路径
 var folderPath = './resource';
 server.on('request', function(req, res) {
-  // 读取到文件夹加载列表的那个html文件
+  // 读取到文件夹加载列表的那个html文件(位于resource文件夹中)
   fs.readFile(`${folderPath}/template-apache.html`, function(err, data) {
     if(err) {
       return res.end('404 Not Found.');
@@ -278,3 +307,9 @@ server.listen(3000, function() {
   console.log('Server is running at http://localhost:3000/ ');
 });
 ~~~
+
+## NodeJS Demo
+
+### 留言本
+
+[留言本](https://github.com/MYWProgram/NodeJS-Demo/tree/master/CommentSubtext)
