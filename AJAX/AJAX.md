@@ -9,7 +9,7 @@
 5. [封装ajax](#封装ajax)
 6. [jQuery中的高度封装](#jQuery中的高度封装)
 7. [关于跨域](#关于跨域)
-8. [XMLHttpRequest2.0](#XMLHttpRequest2.0)
+8. [新的XMLHttpRequest](#新的XMLHttpRequest)
 
 ## readyState-status
 
@@ -448,7 +448,7 @@ proxy.onload = function() {
 
 PS. **这是H5新增方法,IE6.7无法使用**
 
-## XMLHttpRequest2.0
+## 新的XMLHttpRequest
 
 [返回目录](#目录)
 
