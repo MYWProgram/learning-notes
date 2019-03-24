@@ -1,6 +1,15 @@
 # HTML5
 
+## 目录
+
+1. [语义化标签](#语义化标签)
+1. [data-](#data-)
+1. [webstorage,cookie,localstorage,sessionstorage](#webstorage,cookie,localstorage,sessionstorage)
+1. [canvas画布小bug](#canvas画布小bug)
+
 ## 语义化标签
+
+[返回目录](#返回目录)
 
 优点:
 
@@ -77,11 +86,13 @@
 <!-- 定义日期时间 -->
 ~~~
 
-## 'data-'属性
+## data-
 
-用于存储页面或应用程序的私有自定义数据,能在所有HTML元素上嵌入自定义data属性;这些存储的数据能被Javascript使用,不会进行Ajax调用或服务端数据库查询;用户代理会忽略前缀为"data-"的自定义属性
+[返回目录](#返回目录)
 
-dataset属性存取'data-'属性值(dataset是H5中JS API的一部分,用来返回一个包含选择元素的所有data-属性的DOMStringMap对象;使用dataset时,只写data-后面的属性值;如果data-后面包含了连字符,需要用驼峰命名法)
+用于存储页面或应用程序的私有自定义数据,能在所有`HTML`元素上嵌入自定义`data`属性;这些存储的数据能被`Javascript`使用,不会进行`Ajax`调用或服务端数据库查询;用户代理会忽略前缀为`data-`的自定义属性
+
+`dataset`属性存取`data-`属性值(dataset是H5中JS API的一部分,用来返回一个包含选择元素的所有data-属性的DOMStringMap对象;使用dataset时,只写data-后面的属性值;如果data-后面包含了连字符,需要用驼峰命名法)
 
 ~~~html
 <input id='username' data-age='23'>
@@ -106,6 +117,8 @@ input[data-age] {
 ~~~
 
 ## webstorage,cookie,localstorage,sessionstorage
+
+[返回目录](#返回目录)
 
 - webStorage是H5引入的一个重要的功能,在前端开发的过程中会经常用到,它可以在客户端本地存储数据,类似cookie,但其功能却比cookie强大的多
 - cookie的大小只有4Kb左右(浏览器不同,大小也不同)
@@ -136,11 +149,13 @@ var storage = null;
 
   有以下特点:
 
-  页面刷新不会消除数据;只有在当前页面打开的链接才可以访问sessionStorage的数据;使用window.open打开页面和改变localtion.href方式都可以获取到sessionStorage内部的数据
+  页面刷新不会消除数据;只有在当前页面打开的链接才可以访问`sessionStorage`的数据;使用`window.open`打开页面和改变`localtion.href`方式都可以获取到`sessionStorage`内部的数据
 
 ## canvas画布小bug
 
-canvas画布在页面中有display:none属性值时,某些canvas的相应JS不会加载
+[返回目录](#返回目录)
+
+`canvas`画布在页面中有`display:none`属性值时,某些`canvas`的相应`JS`不会加载
 
 例如页面中含有导航栏时,每个导航栏下都有canvas需要加载,但是只会加载fade in active的导航栏,其余页面的canvas不会进行加载
 
