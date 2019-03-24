@@ -9,11 +9,11 @@
 5. [封装ajax](#封装ajax)
 6. [jQuery中的高度封装](#jQuery中的高度封装)
 7. [关于跨域](#关于跨域)
-8. [XMLHttoRequest2.0](#XMLHttoRequest2.0)
+8. [XMLHttpRequest2.0](#XMLHttpRequest2.0)
 
 ## readyState-status
 
-[目录](#目录)
+[返回目录](#目录)
 
 readyState | 状态描述 | 说明
 ---------|----------|---------
@@ -32,11 +32,15 @@ status |描述
 
 ## POST与GET
 
-[目录](#目录)
+[返回目录](#目录)
+
+1. [GET请求](#GET请求)
+2. [POST请求](#POST请求)
+3. [两者的区别](#两者的区别)
 
 ### GET请求
 
-通常在一次GET请求中,参数传递都是通过URL地址中?参数传递
+通常在一次`GET`请求中,参数传递都是通过`URL`地址中`?`参数传递
 
 ~~~js
 var xhr = new XMLHttpRequest();
@@ -54,7 +58,7 @@ xhr.onreadystatechange = function() {
 
 ### POST请求
 
-POST请求过程中,都是用请求体承载需要提交的数据
+`POST`请求过程中,都是用请求体承载需要提交的数据
 
 ~~~js
 var xhr = new XMLHttpRequest();
@@ -83,7 +87,10 @@ xhr.onreadystatechange = function() {
 
 ## 同步与异步
 
-[目录](#目录)
+[返回目录](#目录)
+
+1. [同步方式下的ajax](#同步方式下的ajax)
+2. [异步方式下的ajax](#异步方式下的ajax)
 
 ### 异步方式下的ajax
 
@@ -102,7 +109,7 @@ console.timeEnd(ajax);
 
 ### 同步方式下的ajax
 
-代码会卡死在xhr.send()这一步
+代码会卡死在`xhr.send()`这一步
 
 ~~~js
 console.time(ajax);
@@ -118,13 +125,17 @@ xhr.send(null);
 console.timeEnd(ajax);
 ~~~
 
-综上:为了让事件更加可靠,一定在发送请求之前注册readystatechange(不管同步还是异步)
+综上:为了让事件更加可靠,一定在发送请求之前注册`readystatechange`(不管同步还是异步)
 
 ## ajax的几种写法
 
-[目录](#目录)
+[返回目录](#目录)
 
-### 原生
+1. [ES5](#ES5)
+2. [jQuery](#jQuery)
+3. [ES6](#ES6)
+
+### ES5
 
 ~~~js
 // 兼容IE5/6 var xhr = window.XMLHttpRequest ? new XMLHttpRequest() : ActiveXObject('Microsoft.XMLHTTP');
@@ -162,7 +173,7 @@ $.ajax({
 });
 ~~~
 
-### ES6 class
+### ES6
 
 ~~~js
 class ajax {
@@ -186,7 +197,7 @@ class ajax {
 
 ## 封装Ajax
 
-[目录](#目录)
+[返回目录](#目录)
 
 封装的套路:
 
@@ -257,9 +268,9 @@ ajax('post', './ajax.php', {id: 1}, function(data) {
 
 ## jQuery中的高度封装
 
-[目录](#目录)
+[返回目录](#目录)
 
-### $.get $.post $.getJSON $(selector).load()
+- $.get $.post $.getJSON $(selector).load()
 
 ~~~js
 $.get('./ajax.php', {id: 1}, function(res) {
@@ -279,13 +290,22 @@ $(selector).load(); //把远程数据加载到被选的元素中
 
 ## 关于跨域
 
-[目录](#目录)
+[返回目录](#目录)
+
+1. [同源策略的限制](#同源策略的限制)
+2. [发送请求的一些手段](#发送请求的一些手段)
+3. [解决跨域的一些手段](#解决跨域的一些手段)
 
 ### 同源策略的限制
 
-当我们在页面中通过ajax请求其它服务器的数据时,由于浏览器对于JavaScript的同源策略,客户端就会发生跨域问题;所谓同源策略,指的是一段脚本只接收来自相同来源(相同域名、端口号、协议)的资源
+当我们在页面中通过`ajax`请求其它服务器的数据时,由于浏览器对于`JavaScript`的同源策略,客户端就会发生跨域问题;所谓同源策略,指的是一段脚本只接收来自相同来源(相同域名,端口号,协议)的资源
 
 ### 发送请求的一些手段
+
+1. [img标签](#img标签)
+2. [link标签](#link标签)
+3. [script标签](#script标签)
+4. [iframe标签](#iframe标签)
 
 #### img标签
 
@@ -310,7 +330,7 @@ document.body.appendChild(link);
 
 #### script标签
 
-script-可以发送不同源地址之间的请求,需要服务端配合才可以拿到响应结果
+可以发送不同源地址之间的请求,需要服务端配合才可以拿到响应结果
 
 ~~~js
 var script = document.createElement('script');
@@ -334,17 +354,22 @@ document.body.appendChild(iframe);
 
 ### 解决跨域的一些手段
 
+1. [JSONP](#JSONP)
+2. [CORS](#CORS)
+3. [window.name属性](#window.name属性)
+4. [window.postMessage](#window.postMEssage)
+
 #### JSONP
 
-老派浏览器不支持CORS;在网页中通过script元素的src指定加载目标脚本时是不受同源策略的影响的,这种利用script元素作为Ajax传输的技术称为JSONP
+老派浏览器不支持`CORS`;在网页中通过`script`元素的`src`指定加载目标脚本时是不受同源策略的影响的,这种利用`script`元素作为`Ajax`传输的技术称为JSONP
 
-JSONP支持GET但不支持POST方法,并且需要服务端的配合
+`JSONP`支持`GET`但不支持`POST`方法,并且需要服务端的配合
 
-使用script元素进行Ajax请求,这意味着Web页面可以执行远程服务器发送过来JavaScript代码,不安全
+使用`script`元素进行`Ajax`请求,这意味着`Web`页面可以执行远程服务器发送过来的`JavaScript`代码,不安全
 
-JSONP使用的是script标签,和ajax提供的XMLHttpRequest没有任何关系
+`JSONP`使用的是`script`标签,和`ajax`提供的`XMLHttpRequest`没有任何关系
 
-jQuery中使用JSONP就是dataTypejsonp
+`jQuery`中使用`JSONP`就是`dataTypejsonp`
 
 ~~~js
 // 原生下的 jsonp
@@ -392,19 +417,19 @@ $.ajax({
 
 #### CORS
 
-在服务端设置: Header set Access-Control-Allow-Origin *(这种设置将接受所有域名的跨域请求,也可以制定单个域名限制)
+在服务端设置: `Header set Access-Control-Allow-Origin *`(这种设置将接受所有域名的跨域请求,也可以制定单个域名限制)
 
 如: Header set Access-Control-Allow-Origin `http://www.baidu.com`
 
-这种方式的局限性在于要求客户端支持,并且服务端进行相关设置;支持所有类型的HTTP请求,可以使用普通的XMLHttpRequest发起请求和获得数JSONP有更好的错误处理
+这种方式的局限性在于要求客户端支持,并且服务端进行相关设置;支持所有类型的`HTTP`请求,可以使用普通的`XMLHttpRequest`发起请求和获得数`JSONP`有更好的错误处理
 
 #### window.name属性
 
-window生命周期中有个name属性,属性不会因新页面载入而重置,窗口载入的所有页面都共享该属性,并且有读写权限
+`window`生命周期中有个`name`属性,属性不会因新页面载入而重置,窗口载入的所有页面都共享该属性,并且有读写权限
 
 eg. www.a.com/a.html 要获得 www.b.com/b.html 中的数据
 
-在b.html中将数据存在window.name中;在a.html中构建一个隐藏(display:none)的iframe标签,假设id为proxy,src设置为与a.html同源即可
+在b.html中将数据存在`window.name`中;在a.html中构建一个隐藏(display:none)的iframe标签,假设id为proxy,src设置为与a.html同源即可
 
 通过如下代码在a.html中获取data
 
@@ -419,13 +444,20 @@ proxy.onload = function() {
 
 #### window.postMessage
 
-在a页面中利用windowObj.postMessage(message, targetOrigin)向目标b页面发送信息;在b页面中通过监听message事件获取信息
+在a页面中利用`windowObj.postMessage(message, targetOrigin)`向目标b页面发送信息;在b页面中通过监听`message`事件获取信息
 
-PS. 这是H5新增方法,IE6.7无法使用
+PS. **这是H5新增方法,IE6.7无法使用**
 
-## XMLHttpRequest 2.0
+## XMLHttpRequest2.0
 
-[目录](#目录)
+[返回目录](#目录)
+
+1. [新功能](#新功能)
+2. [请求时限](#请求时限)
+3. [FormData对象](#FormData对象)
+4. [上传文件](#上传文件)
+5. [接收二进制数据](#接收二进制数据)
+6. [进度信息](#进度信息)
 
 ### 新功能
 
@@ -438,7 +470,7 @@ PS. 这是H5新增方法,IE6.7无法使用
 
 ### 请求时限
 
-目前仅仅Opera,FireFox,IE10支持;IE8 9中这个属性属于XDomainRequest对象,其他浏览器则不支持
+目前仅仅`Opera,FireFox,IE10`支持;IE8 9中这个属性属于`XDomainRequest`对象,其他浏览器则不支持
 
 ~~~js
 // 设置请求时限为3秒,等待超过3秒请求自动结束
@@ -474,7 +506,7 @@ xhr.send(formData);
 
 ### 上传文件
 
-html中有input[type = 'file']
+html中有`<input type="file">`
 
 ~~~js
 var formData = new FormData();
@@ -486,8 +518,8 @@ xhr.send(formData);
 
 ### 接收二进制数据
 
-1. 改写 MIMEType,将服务器返回的二进制数据伪装成文本数据,并且告诉浏览器这是用户自定义的字符集
-2. 设置 responseType 为 blob
+1. 改写`MIMEType`,将服务器返回的二进制数据伪装成文本数据,并且告诉浏览器这是用户自定义的字符集
+2. 设置`responseType`为 blob
 
 ~~~js
 // 1
@@ -526,7 +558,7 @@ if(arrayBuffer) {
 
 ### 进度信息
 
-新的事件 progress 返回进度信息;下载的 progress 属于 XMLHttpRequest 对象,上传的 progress 属于XMLHttpRequest.upload对象
+新的事件`progress`返回进度信息;下载的`progress`属于`XMLHttpRequest`对象,上传的`progress`属于`XMLHttpRequest.upload`对象
 
 ~~~js
 // 先定义 progress 时间的回调函数
