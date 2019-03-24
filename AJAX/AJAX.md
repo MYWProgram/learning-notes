@@ -1,6 +1,19 @@
 # AJAX(Asynchronous and JS and XML)
 
+## 目录
+
+1. [readyState-status](#readyState-status)
+2. [POST与GET](#POST与GET)
+3. [同步与异步](#同步与异步)
+4. [ajax的几种写法](#ajax的几种写法)
+5. [封装ajax](#封装ajax)
+6. [jQuery中的高度封装](#jQuery中的高度封装)
+7. [关于跨域](#关于跨域)
+8. [XMLHttoRequest2.0](#XMLHttoRequest2.0)
+
 ## readyState-status
+
+[目录](#目录)
 
 readyState | 状态描述 | 说明
 ---------|----------|---------
@@ -18,6 +31,8 @@ status |描述
  5xx | 服务端错误
 
 ## POST与GET
+
+[目录](#目录)
 
 ### GET请求
 
@@ -68,6 +83,8 @@ xhr.onreadystatechange = function() {
 
 ## 同步与异步
 
+[目录](#目录)
+
 ### 异步方式下的ajax
 
 ~~~js
@@ -104,6 +121,8 @@ console.timeEnd(ajax);
 综上:为了让事件更加可靠,一定在发送请求之前注册readystatechange(不管同步还是异步)
 
 ## ajax的几种写法
+
+[目录](#目录)
 
 ### 原生
 
@@ -166,6 +185,8 @@ class ajax {
 ~~~
 
 ## 封装Ajax
+
+[目录](#目录)
 
 封装的套路:
 
@@ -236,6 +257,8 @@ ajax('post', './ajax.php', {id: 1}, function(data) {
 
 ## jQuery中的高度封装
 
+[目录](#目录)
+
 ### $.get $.post $.getJSON $(selector).load()
 
 ~~~js
@@ -255,6 +278,8 @@ $(selector).load(); //把远程数据加载到被选的元素中
 ~~~
 
 ## 关于跨域
+
+[目录](#目录)
 
 ### 同源策略的限制
 
@@ -399,6 +424,8 @@ proxy.onload = function() {
 PS. 这是H5新增方法,IE6.7无法使用
 
 ## XMLHttpRequest 2.0
+
+[目录](#目录)
 
 ### 新功能
 
