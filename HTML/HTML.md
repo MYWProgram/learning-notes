@@ -4,7 +4,7 @@
 
 1. [语义化标签](#语义化标签)
 1. [data-](#data-)
-1. [webstorage/cookie/localstorage/sessionstorage](#webstorage,cookie,localstorage,sessionstorage)
+1. [浏览器自带的存储工具](#浏览器自带的存储工具)
 1. [canvas画布小bug](#canvas画布小bug)
 
 ## 语义化标签
@@ -116,7 +116,7 @@ input[data-age] {
 }
 ~~~
 
-## webstorage/cookie/localstorage/sessionstorage
+## 浏览器自带的存储工具
 
 [返回目录](#目录)
 
