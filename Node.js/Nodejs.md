@@ -6,23 +6,25 @@
 2. 特性: 单线程;采用事件驱动,非阻塞的I/O模型(异步);更高效轻便
 3. 以npm为包管理,更方便下载依赖
 
-可以用于部署服务器的语言: Java/PHP/Python/Ruby/.Net/NodeJS
+- 可以用于部署服务器的语言: Java/PHP/Python/Ruby/.Net/NodeJS
 
 PS. **IP地址用来定位计算机,端口号用来定位具体的应用程序;所有需要联网的通信应用程序都会占用一个端口号;端口号的范围在0~65536之间**
 
-## NodeJS中的JavaScript
+- NodeJS中的JavaScript
 
 使用了JS的语法标准`EcmaScript`,但是没有`BOM/DOM`
 
-### 核心模块
+## 导出与加载模块的方法
 
-[参考](http://nodejs.cn/api/)
+### require
 
-### 用户自定义模块与方法
+语法:
 
-#### require
+~~~js
+var 自定义模块名 = require('模块名');
+~~~
 
-`require`函数用于在当前模块中加载和使用别的模块,传入一个模块名,返回一个模块导出对象;模块名可使用相对路径(以./开头),或者是绝对路径(以/或C:之类的盘符开头);另外,模块名中的.js扩展名可以省略
+`require`函数用于在当前模块中加载其他的模块,传入一个模块名,返回一个其他模块导出的对象;模块名可使用相对路径(以./开头),或者是绝对路径(以/或C:之类的盘符开头);另外,模块名中的.js扩展名可以省略
 
 - 使用以下方法加载一个JSON文件
 
@@ -30,19 +32,49 @@ PS. **IP地址用来定位计算机,端口号用来定位具体的应用程序;�
 var data = require('./data.json');
 ~~~
 
-#### exports
+### exports
 
-`exports`对象是当前模块的导出对象,用于导出模块公有方法和属性;别的模块通过require函数使用当前模块时得到的就是当前模块的exports对象
-
-#### module
-
-通过`module`对象可以访问到当前模块的一些相关信息,但最多的用途是替换当前模块的导出对象;例如模块导出对象默认是一个普通对象,如果想改成一个函数的话,可以使用以下方式
+语法:
 
 ~~~js
-module.exports = function () {
-  console.log('Hello World!');
+exports.a = 123;
+exports.b = 'hello';
+exports.c = function() {
+  console.log('ccc');
+};
+exports.d = {
+  foo: 'bar',
 };
 ~~~
+
+`Node`中时模块作用域,默认文件中所有成员只在当前文件模块中可用
+
+`exports`用于导出当前模块的公有方法和属性;别的模块通过`require`方法加载当前模块时得到的就是当前模块的`exports`导出的对象,要使用属性或方法从这个对象里`.`出来即可
+
+### module
+
+用于导出当前模块中的唯一的对象,其他没模块通过`require`加载得到的只有一个属性;后面`modele.exports`的会覆盖前面的导出对象
+
+~~~js
+// a.js
+modele.exports = 'hello';
+modele.exports = 'hi';
+
+// b.js
+var aExports = require('./a');
+console.log(aExports);
+// 打印'hi'
+~~~
+
+### 原理解析
+
+~~~js
+console.log(exports === module.exports);  // true
+
+exports.foo = 'bar';  // 等价于: module.exports.foo = 'bar';
+~~~
+
+### 例子
 
 - 通过`require`加载模块并执行里面的代码
 
@@ -105,6 +137,10 @@ exports.add = function(x, y) {
 ~~~
 
 PS. **`export`在不挂载成员时默认是一个空对象**
+
+## 核心模块
+
+[参考链接](http://nodejs.cn/api/)
 
 ### 核心模块 - fs
 
@@ -306,6 +342,23 @@ server.on('request', function(req, res) {
 server.listen(3000, function() {
   console.log('Server is running at http://localhost:3000/ ');
 });
+~~~
+
+## NodeJS中的服务器重定向
+
+关于`statusCode`:
+
+- 301
+
+  永久重定向,浏览器会记住;假设访问`a.com`会自动跳转到`b.com`,下次再访问`a.com`不会再发请求,自动跳转到`b.com`
+
+- 302
+
+  临时重定向,浏览器不会记住;每一次访问跳转的页面都会发起请求告诉浏览器
+
+~~~js
+res.statusCode = 302;
+res.setHeader('Location', '请求的路径');
 ~~~
 
 ## NodeJS Demo
