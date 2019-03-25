@@ -1,34 +1,60 @@
 # Web API
 
-## Web API介绍
+## 目录
+
+1. [WebAPI介绍](#WebAPI介绍)
+2. [BOM-浏览器对象模型](#BOM-浏览器对象模型)
+3. [DOM-文档对象模型](#DOM-文档对象模型)
+4. [获取页面元素](#获取页面元素)
+5. [事件](#事件)
+6. [属性操作](#属性操作)
+7. [创建元素的三种方式](#创建元素的三种方式)
+8. [节点操作](#节点操作)
+9. [事件详解](#事件详解)
+10. [特效](#特效)
+
+## WebAPI介绍
+
+[返回目录](#目录)
 
 ### API的概念
 
-API(Application Programming Interface,应用程序编程接口)是一些预先定义的函数,目的是提供应用程序与开发人员基于某软件或硬件问一组例程的能力,而又无需访问源码,或理解内部工作机制的细节
+`API`(Application Programming Interface,应用程序编程接口)是一些预先定义的函数,目的是提供应用程序与开发人员基于某软件或硬件问一组例程的能力,而又无需访问源码,或理解内部工作机制的细节
 
 1. 任何开发语言都有自己的API
 2. API的特征输入和输出(I/O)
 3. API的使用方法(console.log())
 
-## BOM - 浏览器对象模型
+## BOM-浏览器对象模型
+
+1. [BOM的概念](#BOM的概念)
+2. [BOM的顶级对象window](#BOM的顶级对象window)
+3. [弹出框](#弹出框)
+4. [页面加载事件](#页面加载事件)
+5. [定时器](#定时器)
+6. [location对象](#location对象)
+7. [history对象](#history对象)
+8. [navigator对象](#navigator对象)
+
+[返回目录](#目录)
 
 ### BOM的概念
 
-一套操作浏览器功能的API
+一套操作浏览器功能的`API`
 
-通过BOM可以操作浏览器窗口,比如: 弹出框,控制浏览器跳转,获取分辨率等
+通过`BOM`可以操作浏览器窗口,比如: 弹出框,控制浏览器跳转,获取分辨率等
 
-浏览器对象模型提供了独立于内容的,可以与浏览器窗口进行互动的对象结构;BOM由多个对象组成,其中代表浏览器窗口的Window对象是BOM的顶层对象,其他对象都是该对象的子对象
+浏览器对象模型提供了独立于内容的,可以与浏览器窗口进行互动的对象结构;`BOM`由多个对象组成,其中代表浏览器窗口的``Window``对象是`BOM`的顶层对象,其他对象都是该对象的子对象
 
-我们在浏览器中的一些操作都可以使用BOM的方式进行编程处理,比如: 刷新浏览器,后退,前进,在浏览器中输入URL等
+我们在浏览器中的一些操作都可以使用`BOM`的方式进行编程处理,比如: 刷新浏览器,后退,前进,在浏览器中输入`URL`等
 
 ### BOM的顶级对象window
 
-window是浏览器的顶级对象,当调用window下的属性和方法时,可以省略window
+`window`是浏览器的顶级对象,当调用`window`下的属性和方法时,可以省略`window`
 
 PS. **window下一个特殊的属性 window.name**
 
-### 对话框
+### 弹出框
 
 - alert()
 - prompt()
@@ -90,9 +116,9 @@ clearInterval(timerId);
 
 ### location对象
 
-location对象是window对象下的一个属性,时候的时候可以省略window对象
+`location`对象是`window`对象下的一个属性,使用的时候可以省略`window`对象
 
-location可以获取或者设置浏览器地址栏的URL
+`location`可以获取或者设置浏览器地址栏的`URL`
 
 #### URL
 
@@ -100,7 +126,7 @@ location可以获取或者设置浏览器地址栏的URL
 
 - URL的组成
 
-scheme://host:port/path?query#fragment
+`scheme://host:port/path?query#fragment`
 
 - scheme: 通信协议;常用的http,ftp,maito等
 - host: 主机;服务器(计算机)域名系统 (DNS) 主机名或 IP 地址
@@ -112,7 +138,7 @@ scheme://host:port/path?query#fragment
 
 #### 案例
 
-解析URL中的query,并返回对象的形式
+解析`URL`中的`query`,并返回对象的形式
 
 ~~~js
 function getQuery(queryStr) {
@@ -144,23 +170,29 @@ console.log(getQuery(location.href));
 
 - userAgent
 
-通过userAgent可以判断用户浏览器的类型
+通过`userAgent`可以判断用户浏览器的类型
 
 - platform
 
-通过platform可以判断浏览器所在的系统平台类型.
+通过`platform`可以判断浏览器所在的系统平台类型.
 
-## DOM - 文档对象模型
+## DOM-文档对象模型
+
+[返回目录](#目录)
+
+1. [DOM的概念](#DOM的概念)
+2. [模拟文档树结构](#模拟文档树结构)
+3. [DOM经常进行的操作](#DOM经常进行的操作)
 
 ### DOM的概念
 
-一套操作页面元素的API
+一套操作页面元素的`API`
 
-DOM可以把HTML看做是文档树,通过DOM提供的API可以对树上的节点进行操作
+`DOM`可以把`HTML`看做是文档树,通过`DOM`提供的`API`可以对树上的节点进行操作
 
-在网页上,组织页面(或文档)的对象被组织在一个树形结构中,用来表示文档中对象的标准模型就称为DOM
+在网页上,组织页面(或文档)的对象被组织在一个树形结构中,用来表示文档中对象的标准模型就称为`DOM`
 
-DOM又称为文档树模型
+`DOM`又称为文档树模型
 
 - 文档: 一个网页可以称为文档
 - 节点: 网页中的所有内容都是节点（标签,属性,文本,注释等）
@@ -220,6 +252,14 @@ getChildren(doc);
 - 事件(什么时机做相应的操作)
 
 ## 获取页面元素
+
+[返回目录](#目录)
+
+1. [根据id获取元素](#根据id获取元素)
+2. [根据标签名获取元素](#根据标签名获取元素)
+3. [根据name获取元素](#根据name获取元素)
+4. [根据类名获取元素](#根据类名获取元素)
+5. [根据选择器获取元素](#根据选择器获取元素)
 
 ### 根据id获取元素
 
@@ -300,9 +340,14 @@ querySelectorAll();
 
 ## 事件
 
+[返回目录](#目录)
+
+1. [事件三要素](#事件三要素)
+2. [事件的基本使用](#事件的基本使用)
+
 事件: 触发-响应机制
 
-Event接口表示在DOM中发生的任何事件,一些是用户生成的(例如鼠标或键盘事件),而其他由API生成
+`Event`接口表示在`DOM`中发生的任何事件,一些是用户生成的(例如鼠标或键盘事件),而其他由`API`生成
 
 ### 事件三要素
 
@@ -321,9 +366,17 @@ box.onclick = function() {
 
 ## 属性操作
 
+[返回目录](#目录)
+
+1. [非表单元素的属性](#非表单元素的属性)
+2. [表单元素属性](#表单元素属性)
+3. [自定义属性操作](#自定义属性操作)
+4. [样式操作](#样式操作)
+5. [类名操作](#类名操作)
+
 ### 非表单元素的属性
 
-href,title,id,src,className
+`href,title,id,src,className`
 
 ~~~js
 var link = document.getElementById('link');
@@ -358,8 +411,8 @@ console.log(box.innerText);
 
 - innerHTML和innerText的区别
 
-  innerHTML指的是从对象的起始位置到终止位置的全部内容,包括Html标签
-  innerText指的是从起始位置到终止位置的内容,但它去除Html标签
+  `innerHTML`指的是从对象的起始位置到终止位置的全部内容,包括`Html`标签
+  `innerText`指的是从起始位置到终止位置的内容,但它去除`Html`标签
 
 - innerText的兼容性处理
 
@@ -397,7 +450,7 @@ alert(getInnerText(div)); //"Hello world!"
 
 ### 样式操作
 
-使用style方式设置的样式显示在标签行内
+使用`style`方式设置的样式显示在标签行内
 
 ~~~js
 var box = document.getElementById('box');
@@ -410,7 +463,7 @@ PS. **通过样式属性设置宽高,位置的属性类型是字符串,需要加
 
 ### 类名操作
 
-修改标签的className属性相当于直接修改标签的类名
+修改标签的`className`属性相当于直接修改标签的类名
 
 ~~~js
 var box = document.getElementById('box');
@@ -418,6 +471,12 @@ box.className = 'clearfix';
 ~~~
 
 ## 创建元素的三种方式
+
+[返回目录](#目录)
+
+1. [document.write()](#document.write())
+2. [innerHTML](#innerHTML)
+3. [document.createElement()](#document.createElement())
 
 ### document.write()
 
@@ -446,6 +505,8 @@ document.body.appendChild(div);
 - 优化后与document.createElement性能相近
 
 ## 节点操作
+
+[返回目录](#目录)
 
 ~~~javascript
 var body = document.body;
@@ -476,11 +537,11 @@ console.log(box.lastChild);
 
 - 注意
 
-  childNodes和children的区别,childNodes获取的是子节点(标签,文本,属性;回车换行也是文本),children获取的是子元素
+  `childNodes`和`children`的区别,`childNodes`获取的是子节点(标签,文本,属性;回车换行也是文本),`children`获取的是子元素
 
-  nextSibling和previousSibling获取的是节点,获取元素对应的属性是nextElementSibling和previousElementSibling获取的是元素
+  `nextSibling`和`previousSibling`获取的是节点,获取元素对应的属性是`nextElementSibling`和`previousElementSibling`
 
-  ​nextElementSibling和previousElementSibling有兼容性问题,IE9以后才支持
+  ​`nextElementSibling`和`previousElementSibling`有兼容性问题,IE9以后才支持
 
 - 总结
 
@@ -502,6 +563,15 @@ firstChild/lastChild
 ~~~
 
 ## 事件详解
+
+[返回目录](#目录)
+
+1. [注册/移除事件的三种方式](#注册/移除事件的三种方式)
+2. [兼容代码](#兼容代码)
+3. [事件的三个阶段](#事件的三个阶段)
+4. [事件对象的属性和方法](#事件对象的属性和方法)
+5. [阻止事件冒泡的方式](#阻止事件冒泡的方式)
+6. [常用的鼠标和键盘事件](#常用的鼠标和键盘事件)
 
 ### 注册/移除事件的三种方式
 
@@ -557,7 +627,7 @@ function removeEventListener(element, type, fn) {
 2. 当前目标阶段
 3. 冒泡阶段(从里向外)
 
-事件对象.eventPhase属性可以查看事件触发时所处的阶段(对应值为1 2 3)
+事件对象`.eventPhase`属性可以查看事件触发时所处的阶段(对应值为1 2 3)
 
 ### 事件对象的属性和方法
 
@@ -581,6 +651,12 @@ function removeEventListener(element, type, fn) {
 - onkeydown 键盘按键抬起触发
 
 ## 特效
+
+[返回目录](#目录)
+
+1. [偏移量](#偏移量)
+2. [客户区大小](#客户区大小)
+3. [滚动偏移](#滚动偏移)
 
 ### 偏移量
 
