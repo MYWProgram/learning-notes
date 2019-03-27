@@ -35,14 +35,16 @@
 
 ~~~js
 function bubbleSort(arr) {
-  for(var i=0; i<arr.length; i++) {
-    for(var j=i+1; j<arr.length; j++) {
+  // 外层循环控制循环次数
+  for (var i = 0; i < arr.length; i++) {
+    // 内层循环控制数组内成员的'index'
+    for (var j = 0; j < arr.length - 1; j++) {
       // 比较相邻的两个数
-      if(arr[j] < arr[i]) {
+      if (arr[j + 1] < arr[j]) {
         // 把更小的那个数放在前面的一个位置
         var tmp = arr[j];
-        arr[j] = arr[i];
-        arr[i] = tmp;
+        arr[j] = arr[j + 1];
+        arr[j + 1] = tmp;
       }
     }
   }
