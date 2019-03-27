@@ -198,18 +198,19 @@ function fastSort(arr) {
 function insertionSort(arr) {
   // 设定'i = 1',默认数组索引为'0'的第一个数已排序
   for(var i = 1; i < arr.length; i++) {
-    // 声明一个'key'来保存要进行比较的新元素
+    // 声明一个'key'来保存当前要进行比较的新元素
     var key = arr[i];
     var j = i - 1;
     // 用新元素和前面已经排序的元素(从后向前)进行大小比较
     while(j >= 0 && arr[j] > key) {
-      // 比前一个小就换位
-      var tmp = arr[j];
-      arr[j] = arr[j + 1];
-      arr[j + 1] = tmp;
-      // 换位完之后继续为向前一个比较做准备
+      // 已排序数组成员比需要排序成员大的时候,就将已排序成员向后移动一位
+      arr[j + 1] = arr[j];
+      // 索引前移,为继续比较大小操作做准备
       j--;
     }
+    // 比较完毕
+    // 找到合适的位置插入需要进行排序的成员
+    arr[j + 1] = key;
   }
   return arr;
 };
