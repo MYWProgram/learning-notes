@@ -158,13 +158,15 @@ function selectSort(arr) {
 
 ~~~js
 function fastSort(arr) {
+  // 开头设置判断,数组成员为一个时返回数组
+  // 为最后递归左右区间数组,防止死循环做准备
   if(arr.length < 2) {
     return arr;
   }
   // 定义一个中值的索引并通过索引取到中值
   var pivotIndex = Math.floor(arr.length / 2);
   var pivot = arr.splice(pivotIndex, 1)[0];
-  // 分别定义左右区间来存放小于和大于中值的数
+  // 分别定义左右区间数组来存放小于和大于中值的数
   var leftArr = [];
   var rightArr = [];
   for(var i=0; i<arr.length; i++) {
