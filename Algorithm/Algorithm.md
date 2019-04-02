@@ -12,6 +12,11 @@
 2. [选择排序](#选择排序)
 3. [快速排序](#快速排序)
 4. [插入排序](#插入排序)
+5. [希尔排序](#希尔排序)
+6. [归并排序](#归并排序)
+7. [堆排序](#堆排序)
+8. [计数排序](#计数排序)
+9. [桶排序](#桶排序)
 
 名词解释:
 
@@ -252,3 +257,206 @@ function insertionSort(arr) {
   return arr;
 };
 ~~~
+
+### 希尔排序
+
+- 原理
+  1. 选择一个增量序列t1,t2,…,tk;其中ti>tj,tk=1
+  2. 按增量序列个数k,对序列进行k趟排序
+  3. 每趟排序,根据对应的增量ti,将待排序列分割成若干长度为m的子序列,分别对各子表进行直接插入排序;仅增量因子为1时,整个序列作为一个表来处理,表长度即为整个序列的长度
+
+- 动态计算间隔序列(shellsort()函数)
+
+~~~js
+// 数组长度
+var len= this.dataStore.length;
+// 初始间隔
+var gap= 1;
+// 动态设置
+while (gap < len / 3) {
+  gap= 3 * gap + 1;
+};
+
+// 回到外循环之前的最后一条语句会计算一个新的间隔值
+gap = (gap - 1) / 3;
+~~~
+
+- 代码
+
+~~~js
+function shellSort(arr) {
+  // 获取数组长度并初始化间隔值
+  var len = arr.length, gap = 1;
+  // 用公式动态求间隔值
+  while(gap < len / 5) {
+    gap = gap * 5 + 1;
+  }
+  while(gap >= 0) {
+    for(var i = 0; i < len; i++) {
+      // 插入排序(对以间隔值为区分的数组成员排序)
+      for(var j = i; j >= gap && arr[j] < arr[j - gap]; j -= gap) {
+        var tmp = arr[j];
+        arr[j] = arr[j - gap];
+        arr[j - gap] = tmp;
+      }
+    }
+    // 初始化间隔值,为下一次动态求间隔值做准备
+    gap = (gap - 1) / 5;
+  }
+  return arr;
+};
+~~~
+
+### 归并排序
+
+- 原理
+  1. 把长度为n的输入序列分成两个长度为n/2的子序列
+  2. 对这两个子序列分别采用归并排序
+  3. 将两个排序好的子序列合并成一个最终的排序序列
+
+- 代码
+
+~~~js
+function mergeSort(arr) {
+  // 判断数组长度防止死循环
+  if(arr.length < 2) {
+    return arr;
+  }
+  // 数组基本等分为左右两个数组
+  var middle = Math.floor(arr.length / 2);
+  var left = arr.slice(0, middle);
+  var right = arr.slice(middle);
+  // 递归不断等分数组并且不断排序
+  return merge(mergeSort(left), mergeSort(right));
+};
+
+function merge(left, right) {
+  // 声明一个空数组来接收排序后的左右数组
+  var result = [];
+  // 判空操作
+  while(left.length && right.length) {
+    // 左数组第一个成员小于右数组第一个成员时,取出左数组第一个成员添加到空数组
+    if(left[0] <= right[0]) {
+      result.push(left.shift());
+    }
+    // 反之添加右数组第一个成员到空数组
+    else {
+      result.push(right.shift());
+    }
+  }
+  // 只要左右数组还有成员,就进行添加,知道全部成员添加到空数组为止(也为下一次等分数组做准备: 保证不漏掉一个成员)
+  while(left.length) {
+    result.push(left.shift());
+  }
+  while(right.length) {
+    result.push(right.shift());
+  }
+  return result;
+};
+~~~
+
+### 堆排序
+
+- 堆的定义与相关知识
+  1. 堆是一个完全二叉树
+  2. 完全二叉树: 二叉树除开最后一层,其他层结点数都达到最大,最后一层的所有结点都集中在左边(左边结点排列满的情况下,右边才能缺失结点)
+  3. 大顶堆: 根结点为最大值,每个结点的值大于或等于其孩子结点的值
+  4. 小顶堆: 根结点为最小值,每个结点的值小于或等于其孩子结点的值
+  5. 对于某一节点'i',其子节点为'2i+1'与'2i+2'
+  6. 堆的存储:  堆由数组来实现,相当于对二叉树做层序遍历。如下图:
+
+![大项堆](https://segmentfault.com/img/bVbc809?w=416&h=361)
+![对应数组](https://segmentfault.com/img/bVbc81e?w=700&h=116)
+
+- 原理
+  1. 一种利用堆的概念来排序的选择排序
+  2. 将初始二叉树转化为大顶堆(heapify)(实质是从第一个非叶子结点开始,从下至上,从右至左,对每一个非叶子结点做shiftDown操作),此时根结点为最大值,将其与最后一个结点交换
+  3. 除开最后一个结点,将其余节点组成的新堆转化为大顶堆(实质上是对根节点做shiftDown操作),此时根结点为次最大值,将其与最后一个结点交换
+  4. 重复步骤3,直到堆中元素个数为1(或其对应数组的长度为1),排序完成
+
+- 代码
+
+~~~js
+/**
+ * @param x 数组下标
+ * @param len 堆大小
+ */
+function heapify(arr, x, len) {
+  // 声明当前节点为'i'的两个子节点;声明最大下标为数组当前某成员下标
+  var l = 2 * x + 1, r = 2 * x + 2, largest = x;
+  // 判断那个子节点更大,对应更换最大下标
+  if(l < len && arr[l] > arr[largest]) {
+    largest = l;
+  }
+  if(r < len && arr[r] > arr[largest]) {
+    largest = r;
+  }
+  // 交换下标为largest的成员到当前节点
+  if(largest !== x) {
+    var tmp = arr[x];
+    arr[x] = arr[largest];
+    arr[largest] = tmp;
+    // 递归这个操作,确保当前节点是最大值
+    heapify(arr, largest, len);
+  }
+};
+
+function heapSort(arr) {
+  var heapSize = arr.length;
+  // 初始化这个堆找到一个节点
+  for(var i = Math.floor(heapSize / 2) - 1; i >= 0; i--) {
+    heapify(arr, i, heapSize);
+  }
+  // 找到当前节点的最大值之后进行首尾交换(经过多次递归之后最大值就到了最后)
+  for(var j = heapSize - 1; j >= 1; j--) {
+    var tmp = arr[0];
+    arr[0] = arr[j];
+    arr[j] = tmp;
+    heapify(arr, 0, --heapSize);
+  }
+  return arr;
+};
+~~~
+
+### 计数排序
+
+- 原理
+  1. 找出待排序的数组中最大和最小的元素
+  2. 统计数组中每个值为i的元素出现的次数,存入数组C的第i项
+  3. 对所有的计数累加(从C中的第一个元素开始,每一项和前一项相加)
+  4. 反向填充目标数组: 将每个元素i放在新数组的第C(i)项,每放一个元素就将C(i)减去1
+
+- 代码
+
+~~~js
+function countingSort(arr) {
+  // 声明用来存放排序后的数组B,以及计数的数组C
+  // 声明最大最小值默认为数组第一个成员
+  var B = [], C = [], len = arr.length, min = max = arr[0];
+  // 找到最小和最大值
+  for(var i = 0; i < len; i++) {
+    min = min <= arr[i] ? min : arr[i];
+    max = max >= arr[i] ? max : arr[i];
+    // 统计需排序数组中每一个成员出现的次数,并用当前值作为下标添加到C数组中
+    C[arr[i]] = C[arr[i]] ? C[arr[i]] + 1 : 1;
+  }
+  // 把C数组中所有成员进行累加(每一项和前一项相加)
+  for(var j = min; j < max; j++) {
+    C[j + 1] = (C[j + 1] || 0) + (C[j] || 0);
+  }
+  // 用C数组的下标对B数组进行反向填充
+  for(var k = len - 1; k >= 0; k--) {
+    B[C[arr[k]] - 1] = arr[k];
+    C[arr[k]]--;
+  }
+  return B;
+}
+~~~
+
+### 桶排序
+
+- 原理
+  1. 设置一个定量的数组当作空桶
+  2. 遍历输入数据，并且把数据一个一个放到对应的桶里去
+  3. 对每个不是空的桶进行排序
+  4. 从不是空的桶里把排好序的数据拼接起来
