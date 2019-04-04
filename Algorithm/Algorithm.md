@@ -457,6 +457,55 @@ function countingSort(arr) {
 
 - 原理
   1. 设置一个定量的数组当作空桶
-  2. 遍历输入数据，并且把数据一个一个放到对应的桶里去
+  2. 遍历输入数据,并且把数据一个一个放到对应的桶里去
   3. 对每个不是空的桶进行排序
   4. 从不是空的桶里把排好序的数据拼接起来
+
+- 公式
+
+  假设桶的数量为`n`,数组中最大值为`max`,最小值为`min`
+  1. 桶的范围: `space=(max-min+1)/n`
+  2. 数组成员对应桶的范围: `floor((arr[i]-min)/space)`
+
+- 代码
+
+~~~js
+const bucketSort = (arr, num) => {
+  // 判断数组长度
+  if(arr.length < 2) {
+    return arr;
+  }
+  let l = arr.length, buckets = [], result = [], min = max = arr[0], space, n = 0;
+  // 找出数组的最大值和最小值
+  for(let i = 1; i < l; i++) {
+    min = min <= arr[i] ? min : arr[i];
+    max = max >= arr[i] ? max : arr[i];
+  }
+  // 声明步长并计算这个量
+  space = (max - min + 1) / num;
+  for(let j = 0; j < l; j++) {
+    // 找到数组中每个元素放在桶中之后的序号
+    let index = Math.floor((arr[j] - min) / space);
+    // 对当前桶进行判空,不为空就进行插入排序
+    if(buckets[index]) {
+      let k = buckets[index].length - 1;
+      while(k >= 0 && buckets[index][k] > arr[j]) {
+        buckets[index][k + 1] = buckets[index][k];
+        k--;
+      }
+      buckets[index][k + 1] = arr[j];
+    }
+    // 为空就初始化该桶
+    else {
+      buckets[index] = [];
+      buckets[index].push(arr[j]);
+    }
+  }
+  // 合并每一个桶,数组排序完成
+  while(n < num) {
+    result = result.concat(buckets[n]);
+    n++;
+  }
+  return result;
+};
+~~~
