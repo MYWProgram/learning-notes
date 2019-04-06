@@ -933,6 +933,22 @@ for(i = 0; i < 10; i++) {
 </script>
 ~~~
 
+### 将对象中的某一个属性对应到以另外一个属性值为键的数组中
+
+~~~js
+// 有下面这样的类数组,要求输出: [ [ 'D', 'B' ], [ 'D', 'C' ], [ 'A', 'A' ] ]
+var data=[{"belong":2,"answer":"A"},{"belong":1,"answer":"D"},{"belong":0,"answer":"D"},{"belong":1,"answer":"C"},{"belong":0,"answer":"B"},{"belong":2,"answer":"A"},];
+
+let arr = [];
+data.map( (item) => {
+  if(arr[item.belong] === undefined) {
+    arr[item.belong] = [];
+  }
+  arr[item.belong].push(item.answer);
+});
+console.log(arr);
+~~~
+
 ### 编写一个通用的事件监听函数
 
 ~~~js
