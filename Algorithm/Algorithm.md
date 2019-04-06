@@ -519,3 +519,34 @@ const bucketSort = (arr, num) => {
   3. 对radix进行计数排序(利用计数排序适用于小范围数的特点)
 
 - 代码
+
+~~~js
+// 'maxDigit'为数组中最大成员的位数
+const radixSort = (arr, maxDigit) => {
+  let mod = 10, dev = 1, counter = [];
+  for(let i = 0; i < maxDigit; i++, dev *= 10, mod *= 10) {
+    for(let j = 0; j < arr.length; j++) {
+      // 对数组中每一个成员进行取个位的操作赋值给'bucket'变量
+      let bucket = parseInt((arr[j] % mod) / dev);
+      // 'bucket'可能的值有0-9,也可能缺少0-9的某个值
+      // 所以要进行判空操作,当缺少某个值时让对应'bucket'下标的'counter'数组为空占位
+      if(counter[bucket] === undefined) {
+        counter[bucket] = [];
+      }
+      // 将'bucket'变量的值插入对应的'counter[bucket]'尾部
+      counter[bucket].push(arr[j]);
+    }
+    // 把'counter[bucket]容器里的数依次取出'
+    let pos = 0;
+    for(let j = 0; j < counter.length; j++) {
+      let value;
+      if(counter[j] !== undefined) {
+        while((value = counter[j].shift()) !== undefined) {
+          arr[pos++] = value;
+        }
+      }
+    }
+  }
+  return arr;
+};
+~~~
