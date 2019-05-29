@@ -120,10 +120,10 @@
 }
 
 .clearfix:after{
-  content: "020"; 
-  display: block; 
-  height: 0; 
-  clear: both; 
+  content: "020";
+  display: block;
+  height: 0;
+  clear: both;
   visibility: hidden;  
 }
 
