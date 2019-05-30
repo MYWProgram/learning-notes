@@ -239,3 +239,37 @@ var vm = new Vue({
     - mutation：状态改变操作方法，由actions中的`commit('mutation名称')`来触发。是Vuex修改state的唯一推荐方法。该方法只能进行同步操作，且方法名只能全局唯一。操作中会有一些hook暴露出来，以进行state的监控等。
     - state：页面状态管理容器对象。集中存储Vue Components对象的零散数据，全局唯一，以进行统一的状态管理。页面显示所需的数据从该对象中进行读取，利用Vue的细粒度数据响应机制来进行高效的状态更新。
     - getters：state对象读取方法。图中没有单独列出该模块，应该被包含在了render中，Vue Components通过该方法读取全局state对象。
+
+3. Vuex与localStorage
+
+    Vuex是vue的状态管理器，存储的数据是响应式的。但是并不会保存起来，刷新页面就会回到初始状态，更好的做法就是在Vuex中数据改变时拷贝一份到localStorage中，刷新之后再将localStorage中保存的数据拿出来替换Vuex中的数据。
+
+    PS. Vuex中我们保存的状态都是数组，而localStorage仅支持字符串；因此要进行JSON的转换。
+
+~~~js
+let defaultCity = "成都";
+// 用户关闭了本地存储功能，此时需要在外层加一个try...catch
+try {
+  if(!defaultCity) {
+    defaultCity = JSON.parse(window.localStorage.getItem(defaultCity));
+  }
+}
+catch(e) {};
+export default new Vuex.Store({
+  state: {
+    city: defaultCity,
+  },
+  mutations: {
+    changeCity(state, city) {
+      state.city = city;
+      try {
+        window.localStorage.setItem('defaultCity', JSON.stringify(state.city));
+        // 数据改变时将其拷贝至localStorage里面
+      }
+      catch(e) {}
+    }
+  }
+})
+~~~
+
+## $attr/$listeners
