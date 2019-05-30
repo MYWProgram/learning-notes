@@ -224,8 +224,6 @@ var vm = new Vue({
 
 ## Vuex
 
-
-
 ![Vuex图解原理](https://mmbiz.qpic.cn/mmbiz_png/zewrLkrYfsMrdVSbzwxKzLia3VDF6JFmzRWpZtDBicEuyaibpkbAw5pHXcK6Mic3U94pibaynzVoxDXIYqYlKibXqJCg/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1)
 
 1. 简要介绍Vuex原理
