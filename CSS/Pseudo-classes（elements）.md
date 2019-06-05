@@ -10,36 +10,43 @@
 - :hover -> 匹配用户虚指（未被激活）的元素。
 - :focus -> 匹配获得焦点的元素。
 - :first-child -> 一组兄弟元素中的第一个元素。
-- :nth-child(an + b) -> 首先找到选择器的所有兄弟元素，然后从1开始按照先后顺序排序；其中a，b是具体的数字，n从0开始计数。
-- :nth-last-child(an + b) -> 匹配文档树中在其之后具有an+b-1个兄弟节点的元素；从结尾处反序开始计数，其他的和前者一致。
-- :nth-of-type(an + b) -> 匹配机制和nth-child一致，但是只会匹配选择器中相同兄弟节点的元素。
+- :nth-child(an + b) -> 首先找到选择器的所有兄弟元素，然后从 1 开始按照先后顺序排序；其中 a，b 是具体的数字，n 从 0 开始计数。
+- :nth-last-child(an + b) -> 匹配文档树中在其之后具有 an+b-1 个兄弟节点的元素；从结尾处反序开始计数，其他的和前者一致。
+- :nth-of-type(an + b) -> 匹配机制和 nth-child 一致，但是只会匹配选择器中相同兄弟节点的元素。
 - :first-of-type -> 一组兄弟元素中出现的第一个。
 - :last-of-type -> 一组兄弟元素中出现的最后一个。
 - :empty -> 代表没有子元素的元素，这里的子元素可以是元素节点或文本（空格也算文本），但不包括注释或处理指令。
-- :target -> 代表一个唯一的页面元素（目标元素），其id和当前URL片段匹配。例如有一个URL片段指向一个ID为section2的页面元素：`http://www.example.com/index.html#section2`，若当前浏览器URL等于上面这个URL，可以使用下面的选择器来选中：`<section id="section2">Example</section>`。
-- :checked -> 表示任何处于选中状态的radio和checkbox，还有select选中的option。
+- :target -> 代表一个唯一的页面元素（目标元素），其 id 和当前 URL 片段匹配。例如有一个 URL 片段指向一个 ID 为 section2 的页面元素：`http://www.example.com/index.html#section2`，若当前浏览器 URL 等于上面这个 URL，可以使用下面的选择器来选中：`<section id="section2">Example</section>`。
+- :checked -> 表示任何处于选中状态的 radio 和 checkbox，还有 select 选中的 option。
 - :enabled -> 匹配被启用的元素。
 - :disable -> 匹配未被启用的元素。
 
 下面是一个关于`:target`伪类的例子：
 
-~~~html
+```html
 <h3>Table of Contents</h3>
 <ol>
- <li><a href="#p1">Jump to the first paragraph!</a></li>
- <li><a href="#p2">Jump to the second paragraph!</a></li>
- <li><a href="#nowhere">This link goes nowhere,
-   because the target doesn't exist.</a></li>
+  <li><a href="#p1">Jump to the first paragraph!</a></li>
+  <li><a href="#p2">Jump to the second paragraph!</a></li>
+  <li>
+    <a href="#nowhere"
+      >This link goes nowhere, because the target doesn't exist.</a
+    >
+  </li>
 </ol>
 
 <h3>My Fun Article</h3>
-<p id="p1">You can target <i>this paragraph</i> using a
-  URL fragment. Click on the link above to try out!</p>
-<p id="p2">This is <i>another paragraph</i>, also accessible
-  from the links above. Isn't that delightful?</p>
-~~~
+<p id="p1">
+  You can target <i>this paragraph</i> using a URL fragment. Click on the link
+  above to try out!
+</p>
+<p id="p2">
+  This is <i>another paragraph</i>, also accessible from the links above. Isn't
+  that delightful?
+</p>
+```
 
-~~~css
+```css
 p:target {
   color: red;
 }
@@ -47,34 +54,34 @@ p:target {
 p:target i {
   font-size: 20px;
 }
-~~~
+```
 
 ## 伪元素
 
 伪元素是一个附加至选择器末的关键词，允许你对被选择元素的特定部分修改样式。伪元素应该以双冒号（::）开头，并且紧跟语句中的简单选择器/基础选择器之后。
 
-- ::after -> 用来创建一个伪元素，作为已选中元素的最后一个子元素。通常会配合content属性来为该元素添加装饰内容。这个虚拟元素默认是行内元素。
+- ::after -> 用来创建一个伪元素，作为已选中元素的最后一个子元素。通常会配合 content 属性来为该元素添加装饰内容。这个虚拟元素默认是行内元素。
 - ::before -> 创建一个伪元素，其将成为匹配选中的元素的第一个子元素。常通过 content 属性来为一个元素添加修饰性的内容。此元素默认为行内元素。
 - ::first-letter -> 选中块级元素第一行的第一个字母，最前面为图片和内联的表格时会干扰选择。
 - ::first-line -> 选中块级元素中第一行。
 - ::selection -> 选中被用户高亮选择的部分。
 
-### ::after和::before
+### ::after 和::before
 
 要使用这两个伪元素，需要选择器是可以插入内容的，也就是说需要这个选择器是一个容器；而`<img> <input> <iframe>`这三个标签都不能包含其他元素，所以不支持使用。
 
-- 利用after伪元素清除浮动
+- 利用 after 伪元素清除浮动
 
-  给浮动元素的容器添加一个class名为clearfix，然后给这个class添加一个伪元素`::after`来实现清除浮动。
+  给浮动元素的容器添加一个 class 名为 clearfix，然后给这个 class 添加一个伪元素`::after`来实现清除浮动。
 
-~~~html
+```html
 <div class="news clearfix">
-  <h1>some text</h1>  
+  <h1>some text</h1>
   <p>the other text</p>
 </div>
-~~~
+```
 
-~~~css
+```css
 .news {
   background-color: gray;
   border: 1px solid black;
@@ -100,7 +107,7 @@ p:target i {
 .clearfix {
   zoom: 1;
 }
-~~~
+```
 
 - 伪元素制作雪碧图
 
@@ -110,11 +117,11 @@ p:target i {
 
   行内元素不会像块级元素一样自动换行，添加`<br>`标签不符合规范；
 
-~~~css
+```css
 .inline-element::after {
   /* Unicode字符实现换行 */
   content: "\A";
   /* 保留元素后面的空白符和换行符 */
   white-space: pre;
 }
-~~~
+```

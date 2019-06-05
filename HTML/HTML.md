@@ -5,7 +5,7 @@
 1. [语义化标签](#语义化标签)
 1. [data-](#data-)
 1. [浏览器自带的存储工具](#浏览器自带的存储工具)
-1. [canvas画布小bug](#canvas画布小bug)
+1. [canvas 画布小 bug](#canvas画布小bug)
 
 ## 语义化标签
 
@@ -14,12 +14,12 @@
 优点:
 
 1. 方便爬虫抓取更多有效信息,也就更容易从搜索引擎获得有效的消息;因为爬虫是依赖于标签来确定上下文和各个关键字的权重
-2. 在没有CSS的情况下也能呈现较好的内容结构与代码结构
-3. 良好的用户体验(例如title,alt用于解释名词或者解释图片),label标签的活用(bootstrap输入邮箱的label for)
+2. 在没有 CSS 的情况下也能呈现较好的内容结构与代码结构
+3. 良好的用户体验(例如 title,alt 用于解释名词或者解释图片),label 标签的活用(bootstrap 输入邮箱的 label for)
 4. 方便其他设备解析(如屏幕阅读器,盲人阅读器,移动设备)以意义的方式来渲染网页
-5. 便于团队开发和维护,语义化更具可读性,是下一步吧网页的重要动向,遵循W3C标准的团队都遵循这个标准,可以减少差异化
+5. 便于团队开发和维护,语义化更具可读性,是下一步吧网页的重要动向,遵循 W3C 标准的团队都遵循这个标准,可以减少差异化
 
-~~~html
+```html
 <!-- 新增的语义化标签 -->
 
 <section></section>
@@ -84,7 +84,7 @@
 
 <time></time>
 <!-- 定义日期时间 -->
-~~~
+```
 
 ## data-
 
@@ -92,13 +92,13 @@
 
 用于存储页面或应用程序的私有自定义数据,能在所有`HTML`元素上嵌入自定义`data`属性;这些存储的数据能被`Javascript`使用,不会进行`Ajax`调用或服务端数据库查询;用户代理会忽略前缀为`data-`的自定义属性
 
-`dataset`属性存取`data-`属性值(dataset是H5中JS API的一部分,用来返回一个包含选择元素的所有data-属性的DOMStringMap对象;使用dataset时,只写data-后面的属性值;如果data-后面包含了连字符,需要用驼峰命名法)
+`dataset`属性存取`data-`属性值(dataset 是 H5 中 JS API 的一部分,用来返回一个包含选择元素的所有 data-属性的 DOMStringMap 对象;使用 dataset 时,只写 data-后面的属性值;如果 data-后面包含了连字符,需要用驼峰命名法)
 
-~~~html
-<input id='username' data-age='23'>
-~~~
+```html
+<input id="username" data-age="23" />
+```
 
-~~~js
+```js
 //setAttribute getAttribute
 var username = document.getElementById('username');
 username.setAttribute ('blog', 'http://blog.csdn.net/zhouziyu2011');
@@ -114,91 +114,98 @@ $("input[data-age]").css("background","red");
 input[data-age] {
   background:red;
 }
-~~~
+```
 
 ## 浏览器自带的存储工具
 
 [返回目录](#目录)
 
-- webStorage是H5引入的一个重要的功能,在前端开发的过程中会经常用到,它可以在客户端本地存储数据,类似cookie,但其功能却比cookie强大的多
-- cookie的大小只有4Kb左右(浏览器不同,大小也不同)
-- webStorage的大小有5MB;其API提供的方法有以下几种:
+- webStorage 是 H5 引入的一个重要的功能,在前端开发的过程中会经常用到,它可以在客户端本地存储数据,类似 cookie,但其功能却比 cookie 强大的多
+- cookie 的大小只有 4Kb 左右(浏览器不同,大小也不同)
+- webStorage 的大小有 5MB;其 API 提供的方法有以下几种:
 
-1. setItem (key, value) ——  保存数据,以键值对的方式储存信息
-2. getItem (key) ——  获取数据,将键值传入,即可获取到对应的value值
-3. removeItem (key) ——  删除单个数据,根据键值移除对应的信息
-4. clear () ——  删除所有的数据
-5. key (index) —— 获取某个索引的key
+1. setItem (key, value) —— 保存数据,以键值对的方式储存信息
+2. getItem (key) —— 获取数据,将键值传入,即可获取到对应的 value 值
+3. removeItem (key) —— 删除单个数据,根据键值移除对应的信息
+4. clear () —— 删除所有的数据
+5. key (index) —— 获取某个索引的 key
 
-- localStorage的生命周期是永久性的;假若使用localStorage存储数据,即使关闭浏览器,也不会让数据消失,除非主动的去删除数据;localStorage有length属性,可以查看其有多少条记录的数据
+- localStorage 的生命周期是永久性的;假若使用 localStorage 存储数据,即使关闭浏览器,也不会让数据消失,除非主动的去删除数据;localStorage 有 length 属性,可以查看其有多少条记录的数据
 
   使用方法如下:
 
-~~~js
-var storage = null;  
-  if(window.localStorage){              //判断浏览器是否支持localStorage  
-    storage = window.localStorage;
-    storage.setItem("name", "Rick");    //调用setItem方法,存储数据  
-    alert(storage.getItem("name"));     //调用getItem方法,弹框显示 name 为 Rick  
-    storage.removeItem("name");     //调用removeItem方法,移除数据  
-    alert(storage.getItem("name"));   //调用getItem方法,弹框显示 name 为 null  
+```js
+var storage = null;
+if (window.localStorage) {
+  //判断浏览器是否支持localStorage
+  storage = window.localStorage;
+  storage.setItem("name", "Rick"); //调用setItem方法,存储数据
+  alert(storage.getItem("name")); //调用getItem方法,弹框显示 name 为 Rick
+  storage.removeItem("name"); //调用removeItem方法,移除数据
+  alert(storage.getItem("name")); //调用getItem方法,弹框显示 name 为 null
 }
-~~~
+```
 
-- sessionStorage的生命周期是在浏览器关闭前;sessionStorage也有length属性,其基本的判断和使用方法和localStorage的使用是一致的
+- sessionStorage 的生命周期是在浏览器关闭前;sessionStorage 也有 length 属性,其基本的判断和使用方法和 localStorage 的使用是一致的
 
   有以下特点:
 
   页面刷新不会消除数据;只有在当前页面打开的链接才可以访问`sessionStorage`的数据;使用`window.open`打开页面和改变`localtion.href`方式都可以获取到`sessionStorage`内部的数据
 
-## canvas画布小bug
+## canvas 画布小 bug
 
 [返回目录](#目录)
 
 `canvas`画布在页面中有`display:none`属性值时,某些`canvas`的相应`JS`不会加载
 
-例如页面中含有导航栏时,每个导航栏下都有canvas需要加载,但是只会加载fade in active的导航栏,其余页面的canvas不会进行加载
+例如页面中含有导航栏时,每个导航栏下都有 canvas 需要加载,但是只会加载 fade in active 的导航栏,其余页面的 canvas 不会进行加载
 
 以下为解决方法
 
-~~~html
+```html
 <div>
   <ul id="myTab" class="nav nav-tabs">
-      <li class="active" id="tab111">
-        <a href="#tab_1" data-toggle="tab">按年级统计</a>
-      </li>
-      <li>
-        <a href="#tab_2" data-toggle="tab">所在地分布统计</a>
-      </li>
-      <li>
-        <a href="#tab_3" data-toggle="tab">按学生属性统计</a>
-      </li>
+    <li class="active" id="tab111">
+      <a href="#tab_1" data-toggle="tab">按年级统计</a>
+    </li>
+    <li>
+      <a href="#tab_2" data-toggle="tab">所在地分布统计</a>
+    </li>
+    <li>
+      <a href="#tab_3" data-toggle="tab">按学生属性统计</a>
+    </li>
   </ul>
 </div>
-~~~
+```
 
-~~~js
-$('tab111').siblings().eq(0).on('click', function() {
-  // 选中id为tab111的导航栏,并且选中他的第一个兄弟节点,也就是上面的#tab_2
-  if(!this.abc) {
-    this.abc = this.abc || true;
-    setTimeout(function() {
-      chart3Handler();  
-      // 此处为canvas的初始化加载函数
-    }, 500)
-  }
-})
-$('tab111').siblings().eq(1).on('click', function() {
-  if(!this.abcd) {
-    this.abcd = this.abcd || true;
-    setTimeout(function () {
-      chart3oneHandler();
-      chart3twoHandler();
-      chart3thrHandler();
-      chart3fouHandler();
-      chart3fivHandler();
-      chart3sixHandler();
-    }, 500)
-  }
-})
-~~~
+```js
+$("tab111")
+  .siblings()
+  .eq(0)
+  .on("click", function() {
+    // 选中id为tab111的导航栏,并且选中他的第一个兄弟节点,也就是上面的#tab_2
+    if (!this.abc) {
+      this.abc = this.abc || true;
+      setTimeout(function() {
+        chart3Handler();
+        // 此处为canvas的初始化加载函数
+      }, 500);
+    }
+  });
+$("tab111")
+  .siblings()
+  .eq(1)
+  .on("click", function() {
+    if (!this.abcd) {
+      this.abcd = this.abcd || true;
+      setTimeout(function() {
+        chart3oneHandler();
+        chart3twoHandler();
+        chart3thrHandler();
+        chart3fouHandler();
+        chart3fivHandler();
+        chart3sixHandler();
+      }, 500);
+    }
+  });
+```
