@@ -148,12 +148,6 @@ querySelectorAll();
 
 ## 创建元素的三种方式
 
-[返回目录](#目录)
-
-1. [document.write()](<#document.write()>)
-2. [innerHTML](#innerHTML)
-3. [document.createElement()](<#document.createElement()>)
-
 ### document.write()
 
 ```javascript
@@ -280,8 +274,6 @@ box.className = "clearfix";
 - 优化后与 document.createElement 性能相近
 
 ## 节点操作
-
-[返回目录](#目录)
 
 ```javascript
 var body = document.body;
