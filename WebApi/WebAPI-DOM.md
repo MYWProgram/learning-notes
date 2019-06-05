@@ -1,190 +1,6 @@
-# Web API
+# DOM-文档对象模型
 
-## 目录
-
-1. [WebAPI 介绍](#WebAPI介绍)
-2. [BOM-浏览器对象模型](#BOM-浏览器对象模型)
-3. [DOM-文档对象模型](#DOM-文档对象模型)
-4. [获取页面元素](#获取页面元素)
-5. [事件](#事件)
-6. [属性操作](#属性操作)
-7. [创建元素的三种方式](#创建元素的三种方式)
-8. [节点操作](#节点操作)
-9. [事件详解](#事件详解)
-10. [特效](#特效)
-
-## WebAPI 介绍
-
-[返回目录](#目录)
-
-### API 的概念
-
-`API`(Application Programming Interface,应用程序编程接口)是一些预先定义的函数,目的是提供应用程序与开发人员基于某软件或硬件问一组例程的能力,而又无需访问源码,或理解内部工作机制的细节
-
-1. 任何开发语言都有自己的 API
-2. API 的特征输入和输出(I/O)
-3. API 的使用方法(console.log())
-
-## BOM-浏览器对象模型
-
-1. [BOM 的概念](#BOM的概念)
-2. [BOM 的顶级对象 window](#BOM的顶级对象window)
-3. [弹出框](#弹出框)
-4. [页面加载事件](#页面加载事件)
-5. [定时器](#定时器)
-6. [location 对象](#location对象)
-7. [history 对象](#history对象)
-8. [navigator 对象](#navigator对象)
-
-[返回目录](#目录)
-
-### BOM 的概念
-
-一套操作浏览器功能的`API`
-
-通过`BOM`可以操作浏览器窗口,比如: 弹出框,控制浏览器跳转,获取分辨率等
-
-浏览器对象模型提供了独立于内容的,可以与浏览器窗口进行互动的对象结构;`BOM`由多个对象组成,其中代表浏览器窗口的`Window`对象是`BOM`的顶层对象,其他对象都是该对象的子对象
-
-我们在浏览器中的一些操作都可以使用`BOM`的方式进行编程处理,比如: 刷新浏览器,后退,前进,在浏览器中输入`URL`等
-
-### BOM 的顶级对象 window
-
-`window`是浏览器的顶级对象,当调用`window`下的属性和方法时,可以省略`window`
-
-PS. **window 下一个特殊的属性 window.name**
-
-### 弹出框
-
-- alert()
-- prompt()
-- confirm()
-
-### 页面加载事件
-
-- onload
-
-```js
-window.onload = function() {
-  // 当页面加载完成执行
-  // 当页面完全加载所有内容（包括图像,脚本文件,CSS 文件等）执行
-};
-```
-
-- onunload-onbeforeunload
-
-```js
-window.onunload = function() {
-  // 关闭页面后执行
-};
-
-window.onbeforeunload = function() {
-  // 关闭之前执行
-};
-```
-
-### 定时器
-
-#### setTimeout()和 clearTimeout()
-
-在指定的毫秒数到达之后执行指定的函数,只执行一次;不清除会一直存在页面中占空间
-
-```js
-// 创建一个定时器,1000毫秒后执行,返回定时器的标示
-var timerId = setTimeout(function() {
-  console.log("Hello World");
-}, 1000);
-
-// 取消定时器的执行
-clearTimeout(timerId);
-```
-
-#### setInterval()和 clearInterval()
-
-定时调用的函数,可以按照给定的时间(单位毫秒)周期调用函数
-
-```javascript
-// 创建一个定时器,每隔1秒调用一次
-var timerId = setInterval(function() {
-  var date = new Date();
-  console.log(date.toLocaleTimeString());
-}, 1000);
-
-// 取消定时器的执行
-clearInterval(timerId);
-```
-
-### location 对象
-
-`location`对象是`window`对象下的一个属性,使用的时候可以省略`window`对象
-
-`location`可以获取或者设置浏览器地址栏的`URL`
-
-#### URL
-
-统一资源定位符(Uniform Resource Locator)
-
-- URL 的组成
-
-`scheme://host:port/path?query#fragment`
-
-- scheme: 通信协议;常用的 http,ftp,maito 等
-- host: 主机;服务器(计算机)域名系统 (DNS) 主机名或 IP 地址
-- port: 端口号
-  整数,可选,省略时使用方案的默认端口,如 http 的默认端口为 80
-- path: 路径;由零或多个'/'符号隔开的字符串,一般用来表示主机上的一个目录或文件地址
-- query: 查询;可选,用于给动态网页传递参数,可有多个参数,用'&'符号隔开,每个参数的名和值用'='符号隔开;例如:name=zs
-- fragment: 信息片断;字符串,锚点
-
-#### 案例
-
-解析`URL`中的`query`,并返回对象的形式
-
-```js
-function getQuery(queryStr) {
-  var query = {};
-  if (queryStr.indexOf("?") > -1) {
-    var index = queryStr.indexOf("?");
-    queryStr = queryStr.substr(index + 1);
-    var array = queryStr.split("&");
-    for (var i = 0; i < array.length; i++) {
-      var tmpArr = array[i].split("=");
-      if (tmpArr.length === 2) {
-        query[tmpArr[0]] = tmpArr[1];
-      }
-    }
-  }
-  return query;
-}
-console.log(getQuery(location.search));
-console.log(getQuery(location.href));
-```
-
-### history 对象
-
-- back()
-- forward()
-- go()
-
-### navigator 对象
-
-- userAgent
-
-通过`userAgent`可以判断用户浏览器的类型
-
-- platform
-
-通过`platform`可以判断浏览器所在的系统平台类型.
-
-## DOM-文档对象模型
-
-[返回目录](#目录)
-
-1. [DOM 的概念](#DOM的概念)
-2. [模拟文档树结构](#模拟文档树结构)
-3. [DOM 经常进行的操作](#DOM经常进行的操作)
-
-### DOM 的概念
+## DOM 的概念
 
 一套操作页面元素的`API`
 
@@ -199,7 +15,7 @@ console.log(getQuery(location.href));
 - 元素: 网页中的标签
 - 属性: 标签的属性
 
-### 模拟文档树结构
+## 模拟文档树结构
 
 ```js
 function Element(option) {
@@ -244,7 +60,7 @@ function getChildren(ele) {
 getChildren(doc);
 ```
 
-### DOM 经常进行的操作
+## DOM 经常进行的操作
 
 - 获取元素
 - 动态创建元素
@@ -252,14 +68,6 @@ getChildren(doc);
 - 事件(什么时机做相应的操作)
 
 ## 获取页面元素
-
-[返回目录](#目录)
-
-1. [根据 id 获取元素](#根据id获取元素)
-2. [根据标签名获取元素](#根据标签名获取元素)
-3. [根据 name 获取元素](#根据name获取元素)
-4. [根据类名获取元素](#根据类名获取元素)
-5. [根据选择器获取元素](#根据选择器获取元素)
 
 ### 根据 id 获取元素
 
@@ -338,41 +146,35 @@ querySelector();
 querySelectorAll();
 ```
 
-## 事件
+## 创建元素的三种方式
 
 [返回目录](#目录)
 
-1. [事件三要素](#事件三要素)
-2. [事件的基本使用](#事件的基本使用)
+1. [document.write()](<#document.write()>)
+2. [innerHTML](#innerHTML)
+3. [document.createElement()](<#document.createElement()>)
 
-事件: 触发-响应机制
+### document.write()
 
-`Event`接口表示在`DOM`中发生的任何事件,一些是用户生成的(例如鼠标或键盘事件),而其他由`API`生成
+```javascript
+document.write("新设置的内容<p>标签也可以生成</p>");
+```
 
-### 事件三要素
+### innerHTML
 
-- 事件源: 触发(被)事件的元素
-- 事件类型: 事件的触发方式(例如鼠标点击或键盘点击)
-- 事件处理程序: 事件触发后要执行的代码(函数形式)
-
-### 事件的基本使用
-
-```js
+```javascript
 var box = document.getElementById("box");
-box.onclick = function() {
-  console.log("代码会在box被点击后执行");
-};
+box.innerHTML = "新内容<p>新标签</p>";
+```
+
+### document.createElement()
+
+```javascript
+var div = document.createElement("div");
+document.body.appendChild(div);
 ```
 
 ## 属性操作
-
-[返回目录](#目录)
-
-1. [非表单元素的属性](#非表单元素的属性)
-2. [表单元素属性](#表单元素属性)
-3. [自定义属性操作](#自定义属性操作)
-4. [样式操作](#样式操作)
-5. [类名操作](#类名操作)
 
 ### 非表单元素的属性
 
@@ -471,34 +273,6 @@ var box = document.getElementById("box");
 box.className = "clearfix";
 ```
 
-## 创建元素的三种方式
-
-[返回目录](#目录)
-
-1. [document.write()](<#document.write()>)
-2. [innerHTML](#innerHTML)
-3. [document.createElement()](<#document.createElement()>)
-
-### document.write()
-
-```javascript
-document.write("新设置的内容<p>标签也可以生成</p>");
-```
-
-### innerHTML
-
-```javascript
-var box = document.getElementById("box");
-box.innerHTML = "新内容<p>新标签</p>";
-```
-
-### document.createElement()
-
-```javascript
-var div = document.createElement("div");
-document.body.appendChild(div);
-```
-
 ### 性能问题
 
 - innerHTML 方法由于会对字符串进行解析,需要避免在循环内多次使用;
@@ -564,15 +338,6 @@ firstChild / lastChild;
 ```
 
 ## 事件详解
-
-[返回目录](#目录)
-
-1. [注册/移除事件的三种方式](#注册/移除事件的三种方式)
-2. [兼容代码](#兼容代码)
-3. [事件的三个阶段](#事件的三个阶段)
-4. [事件对象的属性和方法](#事件对象的属性和方法)
-5. [阻止事件冒泡的方式](#阻止事件冒泡的方式)
-6. [常用的鼠标和键盘事件](#常用的鼠标和键盘事件)
 
 ### 注册/移除事件的三种方式
 
@@ -648,12 +413,6 @@ function removeEventListener(element, type, fn) {
 - onkeydown 键盘按键抬起触发
 
 ## 特效
-
-[返回目录](#目录)
-
-1. [偏移量](#偏移量)
-2. [客户区大小](#客户区大小)
-3. [滚动偏移](#滚动偏移)
 
 ### 偏移量
 
