@@ -41,6 +41,14 @@ location 对象是 window 对象下的一个属性，使用的时候可以省略
 
 location 可以获取或者设置浏览器地址栏的 URL。
 
+```js
+console.log(location.href); //整个域名
+console.log(location.protocol); //'http:' 'https:' 协议
+console.log(location.pathname); //'/learn/199' 网址
+console.log(location.search); //？之后的参数
+console.log(location.hash); //-之后的哈希值
+```
+
 ### URL
 
 统一资源定位符(Uniform Resource Locator)

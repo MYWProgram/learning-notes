@@ -30,3 +30,33 @@ var timerId = setInterval(function() {
 // 取消定时器的执行
 clearInterval(timerId);
 ```
+
+## for 循环中的 setTimeout
+
+```js
+// 直接打印'0~9'
+for (var i = 0; i < 10; i++) {
+  setTimeout(
+    (function(i) {
+      return function() {
+        console.log(i);
+      };
+    })(i),
+    1000
+  );
+}
+
+// 间隔'1s'分别打印'0~9'
+for (var i = 0; i < 10; i++) {
+  setTimeout(
+    (function(i) {
+      return function() {
+        console.log(i);
+      };
+    })(i),
+    (function(i) {
+      return i * 1000;
+    })(i)
+  );
+}
+```

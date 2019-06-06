@@ -260,3 +260,98 @@ $event(d);
 ```
 
 以上的例子当我们点击最里层的元素时，会依次打印(d, d) -> (d, c) -> (d, b) -> (d, a)；由此可见前者是引起触发事件的元素，后者是事件绑定的元素，只有被点击的元素才会让两者相等；换句话说，后者始终是监听事件者，前者是事件的真正发出者。
+
+## 编写一个通用事件绑定函数
+
+```js
+function bindEvent(elem, type, selector, fn) {
+  //selector为使用代理时的选择器
+  if (fn == null) {
+    fn = selector;
+    selector = null;
+  }
+  elem.addEventListener(type, function(e) {
+    var target;
+    if (selector) {
+      target = e.target;
+      if (target.matches(selector)) {
+        fn.call(target, e);
+      }
+    } else {
+      fn(e);
+    }
+  });
+}
+//使用代理
+var div1 = document.getElementById("div1");
+bindEvent(div1, "click", "a", function(e) {
+  console.log(this.innerHTML);
+});
+//不使用代理
+var a = document.getElementById("a1");
+bindEvent(div1, "click", function(e) {
+  //不使用直接不传参数selector
+  console.log(a.innerHTML);
+});
+```
+
+## 编写一个通用的事件监听函数
+
+```js
+var EventUtil = {
+// 添加DOM事件
+addEvent: function(element, type, handler) {
+  if(element.addEventListener) { //DOM2级
+    element.addEventListener(type, handler, false);
+  }else if(element.attachEvent) {  //IE
+    element.attachEvent("on"+ type, handler);
+  }else {
+    element["on" + type] = handler;
+  }
+},
+// 移除DOM事件
+removeEvent: function(element, type, handler) {
+  if(element.removeEventListener) { //DOM2级
+    element.removeEventListener(type, handler, false);
+  }else if(element.detachEvent) {  //IE
+    element.detachEvent("on"+ type, handler);
+  }else {
+    element["on" + type] = null;
+  }
+},
+// 阻止事件冒泡
+stopPropagation: function(ev) {
+  if(ev.stopPropagation) {
+    ev.stopPropagation();
+  }else {
+    ev.cancelBubble = true;
+  }
+},
+// 阻止默认事件
+preventDefault: function(ev) {
+  if(ev.preventDefault) {
+    ev.preventDefaule();
+  }else {
+    ev.returnValue = false;
+  }
+},
+// 获取事件源对象
+getTarget: function(ev) {
+  return event.target || event.srcElement;
+},
+// 获取事件对象
+getEvent: function(e) {
+  var ev = e || window.event;
+  if(!ev) {
+    var c = this.getEvent.caller;
+    while(c) {
+      ev = c.arguments[0];
+      if(ev && Event == ev.constructor) {
+        break;
+      }
+      c = c.caller;
+    }
+  }
+  return ev;
+}
+```
