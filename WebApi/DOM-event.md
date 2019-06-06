@@ -1,5 +1,59 @@
 # DOM 事件机制
 
+## 事件
+
+### 注册/移除事件的三种方式
+
+```js
+var box = document.getElementById("box");
+box.onclick = function() {
+  console.log("点击后执行");
+};
+box.onclick = null;
+// 事件监听器第三个参数Boolean,false为事件冒泡,true为事件捕获
+box.addEventListener("click", eventCode, false);
+box.removeEventListener("click", eventCode, false);
+
+box.attachEvent("onclick", eventCode);
+box.detachEvent("onclick", eventCode);
+
+function eventCode() {
+  console.log("点击后执行");
+}
+```
+
+### 兼容代码
+
+```js
+function addEventListener(element, type, fn) {
+  if (element.addEventListener) {
+    element.addEventListener(type, fn, false);
+  } else if (element.attachEvent) {
+    element.attachEvent("on" + type, fn);
+  } else {
+    element["on" + type] = fn;
+  }
+}
+
+function removeEventListener(element, type, fn) {
+  if (element.removeEventListener) {
+    element.removeEventListener(type, fn, false);
+  } else if (element.detachEvent) {
+    element.detachEvent("on" + type, fn);
+  } else {
+    element["on" + type] = null;
+  }
+}
+```
+
+### 事件对象的属性和方法
+
+- event.type 获取事件类型
+- clientX/clientY 所有浏览器都支持,窗口位置
+- pageX/pageY IE8 以前不支持,页面位置
+- event.target || event.srcElement 用于获取触发事件的元素
+- event.preventDefault() 取消默认行为
+
 ## DOM 事件级别
 
 DOM 级别：DOM 0 ～ 3 级；DOM 事件：DOM0 级事件、DOM2 级事件、DOM3 级事件；由于 DOM1 级中没有事件的相关内容，所以没有 DOM1 级事件。
@@ -54,6 +108,8 @@ DOM 事件分为捕获和冒泡。一个事件发生之后会在子元素和父�
 1. 捕获阶段：事件从 window 对象自上而下向目标节点传播。
 2. 目标阶段：真正的目标节点正在处理事件的阶段。
 3. 冒泡阶段：事件从目标节点自下而上向 window 对象传播。
+
+事件对象`.eventPhase`属性可以查看事件触发时所处的阶段(对应值为 1 2 3)
 
 - DOM 事件捕获的具体流程
 
@@ -132,7 +188,7 @@ document.getElementById("#list").addEventListener("click", e => {
 document.getElementById('test').onclick = (e) => {
   e = e || window.event;
   // 此处也可以写 e.preventDefault();
-  eturn false;
+  return false;
 };
 ```
 
