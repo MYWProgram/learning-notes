@@ -133,6 +133,8 @@ function f() {
   return Array.from(arguments);
 };
 console.log(f(1, 2, 3));  // [1, 2, 3]
+// 其他实例：用于从原数组改造一个新数组
+console.log(Array.from([1, 2, 3], x => x * x));  // [1, 4, 9]
 
 /**
 * 数组去重合并
@@ -181,9 +183,66 @@ arr.copyWithin(0, 1, 4);  // [2, 3 ,4 ,5 ,5]
 
 ### find() 与 findIndex()
 
-找出第一个符合条件的数组成员，两者第一个参数都是一个回调函数（包括当前遍历元素、当前遍历索引、数组本身），第二个参数是绑定的 this（可选）。
+找出第一个符合条件的数组成员（第一个是数组成员，第二个是数组索引值），两者第一个参数都是一个回调函数（函数内包括当前遍历元素、当前遍历索引、数组本身），第二个参数是绑定的 this（可选）。
 
-两个方法都可以发现 NaN，弥补了数组的 indexOf 方法的不足。
+两个方法都可以发现 NaN，弥补了数组的 indexOf 方法的不足；并且都不会修改所调用的数组。
+
+```js
+// find()
+let arr = [1, 2, 3, 4, 5];
+let found = arr.find((arg) => {
+  return arg > 3;
+});
+// 使用 findIndex() 时返回索引 3
+console.log(found);  // 4
+```
+
+### fill()
+
+使用给定值填充一个数组；接收三个参数：用来填充的值,起始索引(可选，默认 0),终止索引(可选，默认数组长度)。
+
+```js
+[1, 2, 3].fill(4);  // [4, 4, 4]
+[1, 2, 3].fill(4, 1);  // [1, 4, 4]
+[1, 2, 3].fill(4, 1, 2);  // [1, 4, 3]
+
+// 如果填充的类型为对象，那么被赋值的是同一个内存地址的对象，而不是深拷贝对象。
+let arr = new Array(3).fill({name: "Mike"});
+arr[0].name = "Ben";
+console.log(arr);  // [{name: "Ben"}, {name: "Ben"}, {name: "Ben"}]
+
+let arr = new Array(3).fill([]);
+arr[0].push(5);
+arr;
+// [[5], [5], [5]]
+```
+
+### keys() values() entries()
+
+keys()是对键名的遍历，values()是对键值的遍历，entries()是对键值对的遍历；都返回一个遍历器对象，可以用 for...of 进行遍历。
+
+```js
+let arr = ['a', 'b', 'c'];
+// keys()
+for(let index of arr.keys()) {
+  console.log(index);  // 0 1 2
+};
+// values()
+for(let value of arr.values()) {
+  console.log(value);  // 'a' 'b' 'c'
+};
+// entries()
+for(let element of arr.entries()) {
+  console.log(element);  // [0, 'a'] [1, 'b'] [2, 'c']
+};
+
+// 如果不使用 for...of 循环，可以手动调用遍历器对象的 next 方法进行遍历。
+let arr = ['a', 'b', 'c'];
+let entries = arr.entries();
+console.log(entries.next().value); // [0, 'a']
+console.log(entries.next().value); // [1, 'b']
+console.log(entries.next().value); // [2, 'c']
+```
 
 ## 扩展运算符
 
