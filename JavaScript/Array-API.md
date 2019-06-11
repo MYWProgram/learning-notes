@@ -46,7 +46,18 @@ console.log(result);
 
 ## concat
 
-拼接两个数组并返回一个新数组。
+拼接两个数组并返回一个新数组；不会改变原数组，而是返回一个新的数组。
+
+```js
+// 将值连接到数组
+let arr = ["a", "b", "c"];
+arr.concat(1, [2, 3]); // ['a', 'b', 'c', 1, 2, 3]
+
+// 合并嵌套数组
+let arr1 = [1];
+let arr2 = [2, [3]];
+let arr = arr1.concat(arr2); //[1, 2, [3]]
+```
 
 ## 数组元素的添加与删除
 
@@ -166,6 +177,20 @@ let arr3 = Array.of(1, 2, 3); // [1, 2, 3]
 ```
 
 ## 数组实例的 API
+
+### reduce()
+
+对数组中的每个元素执行一个自定义的 reducer 函数（升序执行），结果汇总为单个返回值。
+
+自定义的 reducer 函数接收四个参数：acc（累计器）、cur（当前值）、idx（当前索引）、src（原数组）。
+
+reduce 接收一个 reducer 回调函数和 initalValue （可选，第一次使用回调函数的值），不提供默认为数组的第一个值。
+
+```js
+let arr = [1, 2, 3, 4];
+let reducer = (acc, cur) => acc + cur;
+console.log(arr.reduce(reducer, 5)); // 15
+```
 
 ### copyWithin()
 
@@ -289,6 +314,28 @@ flat()默认只会改变一层嵌套，如果想要改变多层的嵌套数组�
 console.log([1, [2, [3]]].flat(Infinity));  // [1, 2, 3]
 // 移除数组空位
 console.log([1, 2, , [3, [4]]]).flat(Infinity));  // [1, 2, 4, 5]
+```
+
+flatMap()方法对原数组的每个成员执行一个函数（相当于执 `Array.prototype.map()`），然后对返回值组成的数组执行深度为一的 flat()方法;该方法返回一个新数组，不改变原数组；flatMap()方法的参数是一个遍历函数，该函数可以接受三个参数：分别是当前数组成员，当前数组成员的位置（从零开始），原数组；第二个参数是绑定遍历函数里的 this。
+
+```js
+// 普通用法
+let arr = [1, 2, 3];
+// 等价于 arr.map(x => [x * x]).flat();
+// 还等价于 arr.reduce((acc, x) => acc.concat([x * x]), []);
+let newArr = arr.flatMap(x => [x * x]);
+```
+
+### 数组的空位
+
+数组的空位指：数组的某一个位置没有任何值；空位不是 undefined，一个位置的值等于 undefined，依然是有值的；空位指的是没有任何值。
+
+不管 ES5 还是 ES6 的方法对数组空位的处理都不一致，所以应该避免出现空位。
+
+```js
+// 用代码证明上面的结论
+console.log(0 in [undefined, undefined]); // true
+console.log(0 in [ , , ]); // false
 ```
 
 ## 扩展运算符
