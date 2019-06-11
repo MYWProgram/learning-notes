@@ -868,42 +868,7 @@ function f(x) {
 
 ## 数组的扩展
 
-### 数组实例的 includes()
-
-方法返回一个布尔值,表示某个数组是否包含给定的值,与字符串的 includes 方法类似
-
-第一个参数为需要查找的元素,第二个是查找开始的索引(可选,为负时表示倒数的位置)
-
-indexOf()内部使用严格相等运算符(===)进行判断,这会导致对 NaN 的误判
-
-```js
-//ES5代替代码
-
-const contains = (() =>
-  Array.prototype.includes
-    ? (arr, value) => arr.includes(value)
-    : (arr, value) => arr.some(el => el === value))();
-contains(["foo", "bar"], "baz"); // => false
-```
-
-PS. **Map 和 Set 数据结构有一个 has 方法,需要注意与 includes 区分:**
-
-Map 结构的 has 方法,是用来查找键名的,比如 Map.prototype.has(key),WeakMap.prototype.has(key),Reflect.has(target,propertyKey)
-
-Set 结构的 has 方法,是用来查找值的,比如 Set.prototype.has(value),WeakSet.prototype.has(value)
-
 ### 数组实例的 flat(),flatMap()
-
-Array.prototype.flat()用于将嵌套的数组"拉平",变成一维的数组;如果原数组有空位,flat()方法会跳过空位
-
-flat()默认只会"拉平"一层,如果想要"拉平"多层的嵌套数组,可以将 flat()方法的参数写成一个整数,表示想要拉平的层数,默认为 1
-
-如果不管有多少层嵌套,都要转成一维数组,可以用 Infinity 关键字作为参数
-
-```js
-[1, [2, [3]]].flat(Infinity);
-// [1, 2, 3]
-```
 
 flatMap()方法对原数组的每个成员执行一个函数(相当于执 Array.prototype.map()),然后对返回值组成的数组执行 flat()方法;该方法返回一个新数组,不改变原数组;flatMap()方法的参数是一个遍历函数,该函数可以接受三个参数:分别是当前数组成员,当前数组成员的位置(从零开始),原数组;第二个参数是绑定遍历函数里的 this
 

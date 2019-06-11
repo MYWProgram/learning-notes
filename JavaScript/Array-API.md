@@ -127,24 +127,25 @@ Array.from() 接收三个参数：依次为目标对象、类似于 Map 的回�
 
 ```js
 // 字符串实例
-console.log(Array.from('foo'));  // ['f', 'o', 'o']
+console.log(Array.from("foo")); // ['f', 'o', 'o']
 // 类数组实例
 function f() {
   return Array.from(arguments);
-};
-console.log(f(1, 2, 3));  // [1, 2, 3]
+}
+console.log(f(1, 2, 3)); // [1, 2, 3]
 // 其他实例：用于从原数组改造一个新数组
-console.log(Array.from([1, 2, 3], x => x * x));  // [1, 4, 9]
+console.log(Array.from([1, 2, 3], x => x * x)); // [1, 4, 9]
 
 /**
-* 数组去重合并
-*/
+ * 数组去重合并
+ */
 function combine() {
   let arr = [].concat.apply([], arguments);
   return Array.from(new Set(arr));
-};
-var m = [1, 2, 2], n = [2, 3, 3];
-console.log(combine(m, n));  // [1, 2, 3]
+}
+var m = [1, 2, 2],
+  n = [2, 3, 3];
+console.log(combine(m, n)); // [1, 2, 3]
 ```
 
 ## Array.of()
@@ -152,16 +153,16 @@ console.log(combine(m, n));  // [1, 2, 3]
 把一组值转换为数组，主要用来弥补构造函数 Array() 的不足。
 
 ```js
-let arr = Array(3);  // [undefined, undefined, undefined]
-let arr1 = Array(1, 2, 3);  // [1, 2, 3]
-let arr2 = Array.of(3);  // [3]
-let arr3 = Array.of(1, 2, 3);  // [1, 2, 3]
+let arr = Array(3); // [undefined, undefined, undefined]
+let arr1 = Array(1, 2, 3); // [1, 2, 3]
+let arr2 = Array.of(3); // [3]
+let arr3 = Array.of(1, 2, 3); // [1, 2, 3]
 /**
-* 兼容代码：
-* function ArrayOf() {
-* return [].slice.call(arguments);
-* };
-*/
+ * 兼容代码：
+ * function ArrayOf() {
+ * return [].slice.call(arguments);
+ * };
+ */
 ```
 
 ## 数组实例的 API
@@ -178,7 +179,7 @@ let arr3 = Array.of(1, 2, 3);  // [1, 2, 3]
 
 ```js
 let arr = [1, 2, 3, 4, 5];
-arr.copyWithin(0, 1, 4);  // [2, 3 ,4 ,5 ,5]
+arr.copyWithin(0, 1, 4); // [2, 3 ,4 ,5 ,5]
 ```
 
 ### find() 与 findIndex()
@@ -190,11 +191,11 @@ arr.copyWithin(0, 1, 4);  // [2, 3 ,4 ,5 ,5]
 ```js
 // find()
 let arr = [1, 2, 3, 4, 5];
-let found = arr.find((arg) => {
+let found = arr.find(arg => {
   return arg > 3;
 });
 // 使用 findIndex() 时返回索引 3
-console.log(found);  // 4
+console.log(found); // 4
 ```
 
 ### fill()
@@ -202,14 +203,14 @@ console.log(found);  // 4
 使用给定值填充一个数组；接收三个参数：用来填充的值,起始索引(可选，默认 0),终止索引(可选，默认数组长度)。
 
 ```js
-[1, 2, 3].fill(4);  // [4, 4, 4]
-[1, 2, 3].fill(4, 1);  // [1, 4, 4]
-[1, 2, 3].fill(4, 1, 2);  // [1, 4, 3]
+[1, 2, 3].fill(4); // [4, 4, 4]
+[1, 2, 3].fill(4, 1); // [1, 4, 4]
+[1, 2, 3].fill(4, 1, 2); // [1, 4, 3]
 
 // 如果填充的类型为对象，那么被赋值的是同一个内存地址的对象，而不是深拷贝对象。
-let arr = new Array(3).fill({name: "Mike"});
+let arr = new Array(3).fill({ name: "Mike" });
 arr[0].name = "Ben";
-console.log(arr);  // [{name: "Ben"}, {name: "Ben"}, {name: "Ben"}]
+console.log(arr); // [{name: "Ben"}, {name: "Ben"}, {name: "Ben"}]
 
 let arr = new Array(3).fill([]);
 arr[0].push(5);
@@ -222,26 +223,72 @@ arr;
 keys()是对键名的遍历，values()是对键值的遍历，entries()是对键值对的遍历；都返回一个遍历器对象，可以用 for...of 进行遍历。
 
 ```js
-let arr = ['a', 'b', 'c'];
+let arr = ["a", "b", "c"];
 // keys()
-for(let index of arr.keys()) {
-  console.log(index);  // 0 1 2
-};
+for (let index of arr.keys()) {
+  console.log(index); // 0 1 2
+}
 // values()
-for(let value of arr.values()) {
-  console.log(value);  // 'a' 'b' 'c'
-};
+for (let value of arr.values()) {
+  console.log(value); // 'a' 'b' 'c'
+}
 // entries()
-for(let element of arr.entries()) {
-  console.log(element);  // [0, 'a'] [1, 'b'] [2, 'c']
-};
+for (let element of arr.entries()) {
+  console.log(element); // [0, 'a'] [1, 'b'] [2, 'c']
+}
 
 // 如果不使用 for...of 循环，可以手动调用遍历器对象的 next 方法进行遍历。
-let arr = ['a', 'b', 'c'];
+let arr = ["a", "b", "c"];
 let entries = arr.entries();
 console.log(entries.next().value); // [0, 'a']
 console.log(entries.next().value); // [1, 'b']
 console.log(entries.next().value); // [2, 'c']
+```
+
+### includes()
+
+方法返回一个布尔值，表示某个数组是否包含给定的值，与字符串的 includes 方法类似。
+
+第一个参数为需要查找的元素，第二个是查找开始的索引（可选，为负时表示倒数的位置）。
+
+indexOf() 内部使用严格相等运算符（===）进行判断，这会导致对 NaN 的误判。
+
+对象数组不能使用 includes 方法来检测，检测时会区分大小写。
+
+```js
+// 兼容代码
+const contains = () => {
+  Array.prototype.includes
+    ? (arr, value) => arr.includes(value)
+    : (arr, value) => arr.some(el => el === value)();
+  contains(["foo", "bar"], "baz"); // false
+};
+
+// 通用方法：可以用于其他类数组对象
+(function() {
+  console.log([].includes.call(arguments, "a")); // true
+  console.log([].includes.call(arguments, "d")); // false
+})("a", "b", "c");
+```
+
+Map 和 Set 数据结构有一个 has 方法，需要注意与 includes 区分：
+
+- Map 结构的 has 方法，是用来查找键名的，比如 `Map.prototype.has(key); WeakMap.prototype.has(key); Reflect.has(target,propertyKey)`。
+- Set 结构的 has 方法，是用来查找值的，比如 `Set.prototype.has(value); WeakSet.prototype.has(value);`。
+
+### flat() flatMap()
+
+`Array.prototype.flat()`用于将嵌套的多维数组变成一维的数组；如果原数组有空位，flat()方法会跳过空位。
+
+flat()默认只会改变一层嵌套，如果想要改变多层的嵌套数组，可以将 flat()方法的参数写成一个整数，表示想要拉平的层数，默认为 1。
+
+如果不管有多少层嵌套，都要转成一维数组，可以用 Infinity 关键字作为参数。
+
+```js
+// 多维数组变一维
+console.log([1, [2, [3]]].flat(Infinity));  // [1, 2, 3]
+// 移除数组空位
+console.log([1, 2, , [3, [4]]]).flat(Infinity));  // [1, 2, 4, 5]
 ```
 
 ## 扩展运算符
