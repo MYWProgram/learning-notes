@@ -32,69 +32,6 @@ console.log(person);    {name: "Mike", age: 22}
 console.log(person.sayHi());    //Hi!
 ```
 
-## this 的使用
-
-### this 要在执行时才能确认值,定义时无法确认
-
-```js
-var a = {
-  name: "A",
-  fn: function() {
-    console.log(this.name);
-  }
-};
-a.fn(); //this === a
-a.fn.call({ name: "B" }); //this === {name:'B'}
-var fn1 = a.fn;
-fn1(); //this === window,此时this.name为undefined
-```
-
-### 作为构造函数执行 this 指代 new 出的对象
-
-```js
-function Foo(name) {
-  //this = {};
-  this.name = name;
-  //return this;
-}
-```
-
-### 作为对象属性执行 this 指代上级对象
-
-```js
-var obj = {
-  name: "A",
-  printName: function() {
-    console.log(this.name); //在此对象中this.name = 'A'
-  }
-};
-```
-
-### 作为普通函数执行 this 指代全局对象
-
-```js
-function fn() {
-  console.log(this); //this === window
-}
-fn();
-
-//call apply bind
-function fn1(name, age) {
-  alert(name);
-  console.log(this); //this === window
-}
-
-//call,apply第一个参数就是函数运行时指定的this值
-
-fn1.call({ x: 100 }, "zhangsan", 20);
-fn1.apply({ x: 100 }, ["zhangsan", 20]);
-var fn2 = function(name, age) {
-  alert(name);
-  console.log(this); //this === {x: 100}
-}.bind({ x: 100 }); //bind只能用函数表达式,函数声明不可用,会报错
-fn2("zhangsan", 200);
-```
-
 ## 作用域
 
 ```js
