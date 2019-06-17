@@ -11,7 +11,6 @@ this 在定义的时候是没有值的，只有在调用的时候才可以确定
  * 在浏览器中，window 对象同时也是全局对象。
 */
 console.log(this === window); // true
-
 /**
  * 下面代码证明浏览器全局环境下，this 指向 window。
 */
@@ -34,7 +33,6 @@ function f1() {
 };
 console.log(this === window); // true 浏览器中
 console.log(this === global); // true Node中
-
 /**
  * 严格模式下，this 将将保持它进入执行环境的值。
 */
@@ -58,7 +56,6 @@ function whatsThis(arg) {
 whatsThis(); // Global
 whatsThis.call(obj); // Custom
 whatsThis.apply(obj); // Custom
-
 /**
  * 当一个函数在其主体中使用 this 关键字时，可以通过使用函数继承自 Function.prototype 的 call、apply 方法 将 this 绑定到调用中的
  * 特定对象。
@@ -69,7 +66,6 @@ function add(c, d) {
 let o = {a: 1, b: 2};
 console.log(add.call(o, 3, 4)); // 10
 console.log(add.apply(o, [3, 4])); // 10
-
 /**
  * 使用 call、apply 时，如果传递给 this 的值不是一个对象，JS内部会使用 ToObject 将其转换为对象。
 */
@@ -131,7 +127,6 @@ function i() {
 o.f = i;
 // 此时函数返回的 prop 来自于对象 o
 console.log(o.f()); // 37
-
 /**
  * 原型链中的方式
 */
@@ -144,7 +139,9 @@ let p = Object.create(o);
 p.a = 1, p.b = 2;
 console.log(p.f()); // 3
 
-// getter 与 setter 中的方式
+/**
+ * getter 与 setter 中的方式
+*/
 function sum() {
   return this.a + this.b + this.c;
 };

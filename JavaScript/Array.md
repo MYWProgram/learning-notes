@@ -1,4 +1,4 @@
-# 数组 API
+# 数组
 
 ## forEach
 
