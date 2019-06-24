@@ -125,3 +125,13 @@ p:target i {
   white-space: pre;
 }
 ```
+
+- 伪元素实现首行缩进
+
+  实现首行缩进使用`&nbsp;`会出现缩进不到位等 bug，使用`text-indent`当字体大小改变缩进不会改变。下面是将`$nbsp;`转换为 Unicode 编码。
+
+```css
+.p::before {
+  content: "\2003\2003";
+}
+```
