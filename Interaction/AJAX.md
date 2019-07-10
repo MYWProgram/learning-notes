@@ -130,7 +130,7 @@ $.ajax({
   data: {id: 1},
   beforeSend: function(xhr) {
     console.log(xhr);
-  }
+  },
   success: function(res) {
     console.log(res);
   },
@@ -140,7 +140,7 @@ $.ajax({
   complete: function() {
     console.log('request complete');
   },
-});
+})
 ```
 
 ### ES2015
