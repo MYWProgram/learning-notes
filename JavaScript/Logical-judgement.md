@@ -43,10 +43,31 @@ PS. **运用 if 判空必须加上等号，因为 if(arr && obj)条件下，当�
 - 当一侧为 Number，另一侧为基本类型，将基本类型转换为 Number。
 - 当一侧为 Number，另一侧为引用类型，将两者都转换为字符串然后进行拼接。
 
-## 三目运算符
+## 常用的逻辑判断
 
-如下所示，当 a 满足条件一给它赋值为值一，不满足给它赋值为值二。
+### if/else
+
+### 三目运算符
+
+如下所示，当 a 满足条件一给它赋值为值一，不满足给它赋值为值二。赋值操作也可以有多个，使用逗号隔开。
 
 ```js
 a = "条件一" ? "值一" : "值二";
 ```
+
+### 短路表达式
+
+使用短路运算符需要使用逻辑与 && 或逻辑或 ||；产生的效果就是使用第一个表达式来阻止第二个表达式的调用。
+
+~~~js
+function A() {
+  console.info('called A');
+  return false;
+};
+function B() {
+  console.info('called B');
+  return true;
+};
+console.info(A() && B()); // called A; false
+console.info(B() || A()); // called B; true
+~~~
