@@ -1,84 +1,10 @@
 # CSS 小知识
 
-## 消除 inline-block 元素间隙
-
-[返回目录](#目录)
-
-```html
-<div class="space">
-  <a href="#">XXX</a>
-  <a href="#">XXX</a>
-  <a href="#">XXX</a>
-</div>
-<!-- 物理方法移除 -->
-
-<!--1-->
-<div><a href="#">XXX</a><a href="#">XXX</a><a href="#">XXX</a></div>
-
-<!--2-->
-<div>
-  <a href="#">XXX</a
-  ><!--
-  --><a href="#">XXX</a
-  ><!--
-  --><a href="#">XXX</a>
-</div>
-```
-
-```css
-/* 使用margin负值,这个方法不适合大规模使用 */
-.space a {
-  display: inline-block;
-  margin-right: -3px;
-}
-```
-
-```html
-<!-- IE向下兼容可在末尾加上</a> -->
-<div>
-  <a href="#">XXX
-  <a href="#">XXX
-  <a href="#">XXX
-</div>
-```
-
-```css
-/* 通过设置父元素的字体为0,这个方法可以解决大多数浏览器;是移动端最好的解决方式 */
-.space {
-  font-size: 0;
-  -webkit-text-size-adjust: none; /* chrome中加上这句消除字体大小限制 */
-}
-.space a {
-  font-size: 12px;
-}
-```
-
-```css
-/* 通过设置字符间距,该方法可以解决所有浏览器 */
-.space {
-  letter-spacing: -3px;
-}
-.space a {
-  letter-spacing: 0;
-}
-```
-
-```css
-/* 通过设置单词间距 */
-.space {
-  display: inline-block; /* chrome中需要加上这句 */
-  word-spacing: -6px;
-}
-.space a {
-  word-spacing: 0;
-}
-```
-
 ## 块级元素与行内元素
 
-- 块级元素：div,p,h1~h6,ul,ol,dl,li,dd,table,hr,blockquote,address,menu,pre/header,section,aside,fotter(后面为 H5 新增)
+- 块级元素：div,p,h1~h6,ul,ol,dl,li,dd,table,hr,blockquote,address,menu,pre/header,section,aside,footer(后面为 H5 新增)
 
-- 行内元素：span,a,lable,abbr,em,big,cite(引用),i,q(短引用),textarea,select,strong,u(下划线),button(默认 display: inline-block)
+- 行内元素：span,a,label,abbr,em,big,cite(引用),i,q(短引用),textarea,select,strong,u(下划线),button(默认 display: inline-block)
 
 - 行内块状元素：img,input,td
 
@@ -110,8 +36,6 @@ position 定位:
 - float:浮动的框可以向左或向右移动,直到它的外边缘碰到包含框或另一个浮动框的边框为止;由于浮动框不在文档的普通流中,所以文档的普通流中的块框表现得就像浮动框不存在一样;浮动格式可以用 clear 来清除
 
 ## display 的一些属性及作用
-
-[返回目录](#目录)
 
 - block: 块类型;默认宽度为父元素宽度,可设置宽高,会在新的一行显示
 - none: 缺省值;像行内元素类型一样显示
