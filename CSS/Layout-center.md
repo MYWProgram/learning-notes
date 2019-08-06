@@ -74,7 +74,7 @@
 
 效果图如下：
 
-![text-align居中效果图](../Public/images/CSS-Layout-center-1.png)
+![text-align居中效果图](https://github.com/MYWProgram/Public/blob/master/images/CSS/CSS-Layout-center-1.png?raw=true)
 
 ### 4. `display: flex; justify-content: center;`
 
@@ -140,7 +140,7 @@
 
 效果图如下：
 
-![grid/justify-items居中效果图](../Public/images/CSS-Layout-center-2.png)
+![grid/justify-items居中效果图](https://github.com/MYWProgram/Public/blob/master/images/CSS/CSS-Layout-center-2.png?raw=true)
 
 ## 垂直居中
 
@@ -240,13 +240,13 @@
 
 效果图如下：
 
-![vertical-align居中效果图](../Public/images/CSS-Layout-center-3.png)
+![vertical-align居中效果图](https://github.com/MYWProgram/Public/blob/master/images/CSS/CSS-Layout-center-3.png?raw=true)
 
 > 上图中 3 个 div 的间距可以通过修改 HTML 结构为一行或者在父元素中添加 font-size: 0px; 来消除，当然还有很多方法，可以参见我的另外一篇文章：消除 inline-block 元素间隙。
 
 修改类名为`item-second`的`height: 100%;`时候，此时左右两个元素都垂直居中了：
 
-![vertical-align居中效果图](../Public/images/CSS-Layout-center-4.png)
+![vertical-align居中效果图](https://github.com/MYWProgram/Public/blob/master/images/CSS/CSS-Layout-center-4.png?raw=true)
 
 也就是说`wrapper`中要有一个占满父元素高度的子元素，其他才会居中；那么可以通过设置伪类`::before`或`::after`来添加一个看不见的 100% 父元素高度的子元素。但是使用`vertical-align`来设置垂直居中，子元素必须要是`inline-block`。添加伪类样式：
 
@@ -262,7 +262,7 @@
 
 效果如下：
 
-![vertical-align居中效果图](../Public/images/CSS-Layout-center-5.png)
+![vertical-align居中效果图](https://github.com/MYWProgram/Public/blob/master/images/CSS/CSS-Layout-center-5.png?raw=true)
 
 ### 3. calc 计算
 
@@ -310,7 +310,7 @@
 
 效果如下：
 
-![vertical-align居中效果图](../Public/images/CSS-Layout-center-6.png)
+![vertical-align居中效果图](https://github.com/MYWProgram/Public/blob/master/images/CSS/CSS-Layout-center-6.png?raw=true)
 
 ### 4. 借用表格
 
