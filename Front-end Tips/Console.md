@@ -70,7 +70,7 @@ for (var i = array.length - 1; i >= 0; i--) {
 };
 console.timeEnd("Array initialize");
 
-// Ployfill
+// PloyFill
 var start=new Date().getTime();
 var array= new Array(1000000);
 for (var i = array.length - 1; i >= 0; i--) {

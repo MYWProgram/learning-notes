@@ -24,7 +24,7 @@
 
 - Symbol（ES2015 新增）
 
-  Symbol 类型数据是独一无二的，并且不能和其他类型进行计算；如果 Symbol 的参数是一个对象，就会 🧵 调用 toString 方法先把这个对象转换为字符串。Symbol 作为属性名时不能用点运算符获取，只能写在方括号内。当 Symbol 作为属性名时，该属性属于公开属性。想要遍历作为属性名的 Symbol 时，只能使用`Object.getOwnPropertySymbols(obj)`和`Reflect.ownKeys(obj)`获取，由于这一特性可以在一些仅内部使用的成员上使用 Symbol 属性名。
+  Symbol 类型数据是独一无二的，并且不能和其他类型进行计算；如果 Symbol 的参数是一个对象，就会调用 toString 方法先把这个对象转换为字符串。Symbol 作为属性名时不能用点运算符获取，只能写在方括号内。当 Symbol 作为属性名时，该属性属于公开属性。想要遍历作为属性名的 Symbol 时，只能使用`Object.getOwnPropertySymbols(obj)`和`Reflect.ownKeys(obj)`获取，由于这一特性可以在一些仅内部使用的成员上使用 Symbol 属性名。
 
 ```js
 // 值的唯一性

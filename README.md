@@ -4,110 +4,122 @@
 
 ## 导航
 
-- HTML --> HTML 知识技巧
+### HTML
 
-  H5-semantic-tag.md --> H5 新增的语义化标签
+Semantic tag.md --> H5 新增的（语义化）标签
 
-  H5 --> H5 新知识
+H5 --> HTML5 新知识
 
-  HTML-profound-knowledge.md --> HTML 重要的知识
+Storage.md --> 浏览器自带的常用存储器
 
-  Storage.md --> 浏览器自带的常用存储器
+### CSS
 
-- CSS --> CSS 知识和技巧
+Clearfix.md --> CSS 清除浮动的方法
 
-  CSS-clearfix.md --> CSS 清除浮动的方法
+Important knowledge.md --> CSS 重要的知识
 
-  CSS-profound-knowledge.md --> CSS 重要的知识
+Flex.md --> Flex 布局
 
-  Flex.md --> Flex 布局
+Grid.md --> Grid 布局
 
-  Grid.md --> Grid 布局
+Layout center.md --> 水平垂直居中方式
 
-  Layout-center.md --> 水平垂直居中方式
+Pseudo class(element).md --> 伪元素和伪类及一些例子
 
-  Pseudo-class(element).md --> 伪元素和伪类及一些例子
+Layout responsive.md --> 响应式布局的一些方式
 
-  Responsive.md --> 响应式布局的一些方式
+Unit --> 前端常用单位
 
-  Unit --> 前端常用单位
+### WebApi
 
-- WebApi
+BOM knowledge.md --> 浏览器对象模型知识
 
-  BOM-knowledge.md --> 浏览器对象模型知识
+BOM timer.md --> 浏览器对象模型的定时器
 
-  BOM-timer.md --> 浏览器对象模型的定时器
+DOM get element and id.md --> 文档对象模型的元素介绍和一些操作
 
-  DOM-element.md --> 文档对象模型的元素介绍和一些操作
+DOM event.md --> 文档对象模型事件机制
 
-  DOM-event.md --> 文档对象模型事件机制
+DOM node.md --> 文档对象模型节点介绍
 
-  DOM-node.md --> 文档对象模型节点介绍
+DOM XY.md --> 文档对象模型屏幕横纵坐标偏移
 
-  DOM-XY.md --> 文档对象模型屏幕横纵坐标偏移
+### JavaScript
 
-- JavaScript --> JavaScript 知识和技巧
+Object --> 对象的 API 以及难题
 
-  Array.md --> 数组知识及 API
+            Array liked Object.md --> 类数组对象的一道面试题
 
-  call apply bind.md --> call apply bind 的基本用法
+            Object.md --> 对象 API
 
-  Data-types.md --> JS 中的数据类型、值传递和引用传递
+            Using for of to traverse Object.md --> 使用 for...of 遍历对象以及一些只是拓展
 
-  ES2015.md --> JS2015 发布新特性
+Array --> 数组的 API 以及难题
 
-  Logical-judgement.md --> JS 中的逻辑判断：if/else、三元、短路表达式、==/===
+             Array.md --> 数组 API
 
-  Object.md --> 对象知识及 API
+call apply bind.md --> call apply bind 的介绍和用法
 
-  Prototype.md --> 原型的知识
+Data types.md --> JS 中的数据类型、值传递和引用传递
 
-  this.md --> JS 中 this 使用情况
+ES2015.md --> JS 2015 新特性
 
-- Vue --> 热点知识
+Logical judgement.md --> JS 中的逻辑判断：if/else、三元、短路表达式、==/===
 
-  Components-communication.md --> Vue 组件之间的 6 种交互方式
+Prototype.md --> 原型的知识
 
-  Router-Model.md --> Vue Router 的三种模式
+this.md --> JS 中 this 使用情况
 
-- React --> 热点知识
+### Vue
 
-  Render.md --> 模拟实现 Render 函数
+Components communication.md --> Vue 组件之间的 6 种交互方式
 
-- Node.js --> 创建服务器的 Demo、常用模块
+Router.md --> Vue Router 的三种模式
 
-  resource\template-apache.html --> 创建服务器的模板
+### React
 
-  Nodejs.md --> 常用模块介绍
+Render.md --> 模拟实现 Render 函数
 
-- Interaction --> 前端的通信方式
+### Node.js
 
-  AJAX.md --> 前后端交互方式
+Basic API and Module.md --> 常用模块和基础 API
 
-  Cros-domain.md --> 前端跨域
+### Interaction
 
-  Cros-page communication.md --> 跨页面通信方式
+AJAX.md --> 前后端交互
 
-  new-XMLHttpRequest.md --> XHR2.0
+Cross domain.md --> 前端跨域解决方案
 
-- Encapsulation --> 封装的东西
+Cross page communication.md --> 跨页面通信
 
-  JS-Function.md --> 常用的 JS 函数封装
+new XMLHttpRequest.md --> XHR 2.0
 
-- Front-end Tips.md --> 前端骚技巧
+### Encapsulation
 
-  console desk.md --> 前端控制台调试技巧
+Get element's attr.md --> 获取元素属性值函数封装
 
-- Front-end Bugs.md --> 前端踩坑
+Get XY.md --> 获取客户端各种偏移量和坐标
 
-  - 消除行内块元素间隙
-  - 移动端滚动穿透问题
-  - const 定义的常量是否可变
+Variable speed animation.md --> 变速动画函数封装
 
-- Algorithm --> 算法
+### Front-end Tips
 
-  Sort-algorithm.md --> 前端须知的排序算法
+Console.md --> 前端控制台调试技巧
 
-- Git --> 代码管理工具
+### Front-end Bugs
 
-  Git.md --> Git 的一些常用命令
+消除行内块元素间隙.md
+
+移动端滚动穿透问题.md
+
+canvas 加载的问题.md
+
+const 定义的常量是否可变.md
+
+### Algorithm
+
+Sort.md --> 前端须知的排序算法
+
+### Git
+
+Git.md --> Git 的一些常用命令

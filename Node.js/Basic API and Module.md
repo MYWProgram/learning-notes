@@ -357,21 +357,3 @@ server.listen(3000, function() {
 res.statusCode = 302;
 res.setHeader("Location", "请求的路径");
 ```
-
-## NodeJS Demo
-
-### 留言本
-
-[Demo 地址](https://github.com/MYWProgram/NodeJS-Demo/tree/master/CommentSubtext)
-
-### 博客系统
-
-[Demo 地址](https://github.com/MYWProgram/NodeJS-Demo/tree/master/Blog)
-
-### 爬虫
-
-[Demo 地址](https://github.com/MYWProgram/NodeJS-Demo/tree/master/Crawler)
-
-### 聊天室
-
-[Demo 地址](https://github.com/MYWProgram/NodeJS-Demo/tree/master/ChatRoom)
