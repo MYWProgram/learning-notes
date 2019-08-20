@@ -74,7 +74,7 @@
 
 > 效果如下图：
 
-![text-align居中效果图](https://github.com/MYWProgram/Public/blob/master/images/CSS/CSS-Layout-center-1.png?raw=true)
+![text-align居中效果图](https://ws1.sinaimg.cn/large/ecbd3051gy1g66gqo18raj20bd0bdmx1.jpg)
 
 ### 4. `display: flex; justify-content: center;`
 
@@ -140,7 +140,7 @@
 
 > 效果如下图：
 
-![grid/justify-items居中效果图](https://github.com/MYWProgram/Public/blob/master/images/CSS/CSS-Layout-center-2.png?raw=true)
+![grid/justify-items居中效果图](https://ws1.sinaimg.cn/large/ecbd3051gy1g66gs8fgzzj20bd0bggld.jpg)
 
 ## 垂直居中
 
@@ -240,7 +240,7 @@
 
 > 效果如下图：
 
-![vertical-align居中效果图](https://github.com/MYWProgram/Public/blob/master/images/CSS/CSS-Layout-center-3.png?raw=true)
+![height = line-height](https://ws1.sinaimg.cn/large/ecbd3051gy1g66gs8nlo8j20be0bc08o.jpg)
 
 > 上图中 3 个 div 的间距可以通过修改 HTML 结构为一行或者在父元素中添加 font-size: 0px; 来消除，当然还有很多方法，可以参见我的另外一篇文章：消除 inline-block 元素间隙。
 
@@ -248,7 +248,7 @@
 
 > 效果如下图：
 
-![vertical-align居中效果图](https://github.com/MYWProgram/Public/blob/master/images/CSS/CSS-Layout-center-4.png?raw=true)
+![height = line-height](https://ws1.sinaimg.cn/large/ecbd3051gy1g66gs8tgsuj20bf0bhgld.jpg)
 
 也就是说`wrapper`中要有一个占满父元素高度的子元素，其他才会居中；那么可以通过设置伪类`::before`或`::after`来添加一个看不见的 100% 父元素高度的子元素。但是使用`vertical-align`来设置垂直居中，子元素必须要是`inline-block`。添加伪类样式：
 
@@ -264,7 +264,7 @@
 
 > 效果如下图：
 
-![vertical-align居中效果图](https://github.com/MYWProgram/Public/blob/master/images/CSS/CSS-Layout-center-5.png?raw=true)
+![height = line-height](https://ws1.sinaimg.cn/large/ecbd3051gy1g66gs919qrj20bg0bjgld.jpg)
 
 ### 3. calc 计算
 
@@ -312,7 +312,7 @@
 
 > 效果如下图：
 
-![vertical-align居中效果图](https://github.com/MYWProgram/Public/blob/master/images/CSS/CSS-Layout-center-6.png?raw=true)
+![calc 计算](https://ws1.sinaimg.cn/large/ecbd3051gy1g66gs97hqgj20be0begld.jpg)
 
 ### 4. 借用表格
 
