@@ -1,53 +1,5 @@
 # 数组
 
-## sort
-
-排序。
-
-接收一个回调函数为参数（函数哪包括两个用于比较的参数）。
-
-```js
-var arr = [1, 4, 2, 3, 5];
-arr.sort(function(a, b) {
-  // 从小到大排序
-  return a - b;
-  // 从大到小排序
-  // return b - a;
-});
-console.log(arr);
-
-// 实现数组随机排序，排序之后原数组被改变
-function randomSort(a, b) {
-  return Math.random() > 0.5 ? -1 : 1;
-}
-var arr = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-arr.sort(randomSort);
-console.log(arr);
-
-//有一个数组对象，进行升序降序，优先级age>sex>id
-var urls = [
-  { id: 1, sex: 1, age: 25 },
-  { id: 3, sex: 1, age: 25 },
-  { id: 2, sex: 0, age: 26 },
-  { id: 5, sex: 0, age: 26 },
-  { id: 4, sex: 1, age: 27 },
-  { id: 6, sex: 1, age: 27 },
-  { id: 8, sex: 0, age: 29 },
-  { id: 7, sex: 0, age: 20 }
-];
-urls.sort(function(a, b) {
-  var updown = 1;
-  if (a.age === b.age) {
-    if (a.sex === b.sex) {
-      return updown * (a.id - b.id);
-    }
-    return updown * (a.sex - b.sex);
-  }
-  return updown * (a.age - b.age);
-});
-consoe.log(urls);
-```
-
 ## Array.from()
 
 把两类对象转为真正的数组：类似数组的对象（具有 length 属性）和可遍历的对象（包括 Map 和 Set）。作用和扩展运算符类似，但是扩展运算符只能作用于那些具有 Iterator 接口的对象，Array.from() 还支持类数组的对象。
