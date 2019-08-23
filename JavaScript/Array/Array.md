@@ -1,87 +1,4 @@
-# 数组
-
-## keys() values() entries()
-
-keys()是对键名的遍历，values()是对键值的遍历，entries()是对键值对的遍历；都返回一个遍历器对象，可以用 for...of 进行遍历。
-
-```js
-let arr = ["a", "b", "c"];
-// keys()
-for (let index of arr.keys()) {
-  console.log(index); // 0 1 2
-}
-// values()
-for (let value of arr.values()) {
-  console.log(value); // 'a' 'b' 'c'
-}
-// entries()
-for (let element of arr.entries()) {
-  console.log(element); // [0, 'a'] [1, 'b'] [2, 'c']
-}
-
-// 如果不使用 for...of 循环，可以手动调用遍历器对象的 next 方法进行遍历。
-let arr = ["a", "b", "c"];
-let entries = arr.entries();
-console.log(entries.next().value); // [0, 'a']
-console.log(entries.next().value); // [1, 'b']
-console.log(entries.next().value); // [2, 'c']
-```
-
-## includes()
-
-方法返回一个布尔值，表示某个数组是否包含给定的值，与字符串的 includes 方法类似。
-
-第一个参数为需要查找的元素，第二个是查找开始的索引（可选，为负时表示倒数的位置）。
-
-indexOf() 内部使用严格相等运算符（===）进行判断，这会导致对 NaN 的误判。
-
-对象数组不能使用 includes 方法来检测，检测时会区分大小写。
-
-```js
-// 兼容代码
-const contains = () => {
-  Array.prototype.includes
-    ? (arr, value) => arr.includes(value)
-    : (arr, value) => arr.some(el => el === value)();
-  contains(["foo", "bar"], "baz"); // false
-};
-
-// 通用方法：可以用于其他类数组对象
-(function() {
-  console.log([].includes.call(arguments, "a")); // true
-  console.log([].includes.call(arguments, "d")); // false
-})("a", "b", "c");
-```
-
-Map 和 Set 数据结构有一个 has 方法，需要注意与 includes 区分：
-
-- Map 结构的 has 方法，是用来查找键名的，比如 `Map.prototype.has(key); WeakMap.prototype.has(key); Reflect.has(target,propertyKey)`。
-- Set 结构的 has 方法，是用来查找值的，比如 `Set.prototype.has(value); WeakSet.prototype.has(value);`。
-
-## flat() flatMap()
-
-`Array.prototype.flat()`用于将嵌套的多维数组变成一维的数组；如果原数组有空位，flat()方法会跳过空位。
-
-flat()默认只会改变一层嵌套，如果想要改变多层的嵌套数组，可以将 flat()方法的参数写成一个整数，表示想要拉平的层数，默认为 1。
-
-如果不管有多少层嵌套，都要转成一维数组，可以用 Infinity 关键字作为参数。
-
-```js
-// 多维数组变一维
-console.log([1, [2, [3]]].flat(Infinity));  // [1, 2, 3]
-// 移除数组空位
-console.log([1, 2, , [3, [4]]]).flat(Infinity));  // [1, 2, 4, 5]
-```
-
-flatMap()方法对原数组的每个成员执行一个函数（相当于执 `Array.prototype.map()`），然后对返回值组成的数组执行深度为一的 flat()方法;该方法返回一个新数组，不改变原数组；flatMap()方法的参数是一个遍历函数，该函数可以接受三个参数：分别是当前数组成员，当前数组成员的位置（从零开始），原数组；第二个参数是绑定遍历函数里的 this。
-
-```js
-// 普通用法
-let arr = [1, 2, 3];
-// 等价于 arr.map(x => [x * x]).flat();
-// 还等价于 arr.reduce((acc, x) => acc.concat([x * x]), []);
-let newArr = arr.flatMap(x => [x * x]);
-```
+# 数组小知识
 
 ## 数组的空位
 
@@ -159,7 +76,7 @@ let [x, [y], z] = [1, [2, 3], 4];
 console.log(x, y, z); // 1 2 4
 ```
 
-解构赋值允许在给变量赋值之前就添加默认值，但是需要等号右边对应这个变量的值是 === 下的 undefined
+解构赋值允许在给变量赋值之前就添加默认值，但是需要等号右边对应这个变量的值是 === 下的 undefined。
 
 ```js
 let [x, y = "b"] = [1, undefined];
