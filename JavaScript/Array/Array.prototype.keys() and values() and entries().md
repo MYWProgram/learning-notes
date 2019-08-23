@@ -60,22 +60,27 @@ console.log(eleArr.next().value); // Output --> 'p'
 
 返回一个包含数组中每个索引、以及索引值的 `Array` 迭代器对象。
 
-二位数组按行排序。
+二位数组按行排序：将二维数组的每一个数组元素迭代出来进行单个排序。
 
 ```js
 function sortArr(arr) {
-    let goNext = true;
-    let entries = arr.entries();
-    while (goNext) {
-        let result = entries.next();
-        if (result.done !== true) {
-            result.value[1].sort((a, b) => a - b);
-            goNext = true;
-        } else {
-            goNext = false;
-        }
-    }
-    return arr;
+let goNext = true;
+let entries = arr.entries();
+while (goNext) {
+  let result = entries.next();
+  /**
+  * 因为 result 为一个可迭代对象，调用 next() 方法返回 done 和 value。
+  * done 只有在迭代器超过迭代序列末尾时，值才为 true。
+  * value 就是当前被迭代的索引的值。
+  */
+  if (result.done !== true) {
+    result.value[1].sort((a, b) => a - b);
+    goNext = true;
+  } else {
+    goNext = false;
+  }
+}
+  return arr;
 }
 var arr = [[1,34],[456,2,3,44,234],[4567,1,4,5,6],[34,78,23,1]];
 console.log(sortArr(arr));
