@@ -8,43 +8,51 @@
 
 ```js
 // 用代码证明上面的结论
-console.log(0 in [undefined, undefined]); // true
-console.log(0 in [ , , ]); // false
+console.log(0 in [undefined, undefined]); // Output --> true
+console.log(0 in [, ,]); // Output --> false
 ```
 
 ## 扩展运算符
 
-用（...）表示，将一个数组转为用逗号分隔的参数序列。扩展运算符内部调用的是数据结构的 Iterator 接口，因此只要是具有这个接口的对象，都可以使用扩展运算符。
+用 `...` 表示，将一个数组转为用逗号分隔的参数序列。扩展运算符内部调用的是数据结构的 `Iterator` 接口，因此只要是具有这个接口的对象，都可以使用扩展运算符。
+
+使用 push 方法将一个数组添加到另外一个数组尾部。
 
 ```js
-/**
- * 利用 push 将一个数组添加到另一个数组尾部
- */
 let arr1 = [1, 2, 3];
 let arr2 = [4, 5, 6];
 arr1.push(...arr2);
-// Array.prototype.push.apply(arr1, arr2);
+```
 
-/**
- * 扩展运算符的应用
- */
-// 复制数组
+复制数组
+
+```js
 let arr1 = [1, 2, 3];
-let arr2 = [...arr1]; // 等同于 let [arr2] = arr1;
+let arr2 = [...arr1];
+// 等同于 let [arr2] = arr1;
 // let arr2 = arr1.concat();
+```
 
-// 合并数组：下面两个都是浅拷贝，如果修改了原数组，新数组也会改变。
+合并数组：下面两个都是浅拷贝，如果修改了原数组，新数组也会改变。
+
+```js
 let arr1 = [1, 2, 3];
 let arr2 = [4, 5, 6];
 let arr = [...arr1, ...arr2];
 // let arr = arr1.concat(arr2);
+```
 
-// Map 使用扩展运算符
+Map 使用扩展运算符
+
+```js
 let map = new Map([1, "one"], [2, "two"], [3, "three"]);
 let arr = [...map.keys()];
 console.log(arr); // [1, 2, 3]
+```
 
-// Generator 函数使用扩展运算符
+Generator 函数使用扩展运算符
+
+```js
 let go = function*() {
   yield 1;
   yield 2;
