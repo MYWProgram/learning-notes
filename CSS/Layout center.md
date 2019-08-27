@@ -103,7 +103,7 @@
 
 ### 5. `display: grid; grid-template-columns: ; grid-template-rows: ; justify-items: center;`
 
-在父元素上设定，行内元素会被转为块级元素。`justify-items: center;`只会设定的整个表格相对于父元素水平居中。
+在父元素上设定，行内元素会被转为块级元素。 `justify-items: center;` 只会设定的整个表格相对于父元素水平居中。
 
 ```html
 <div class="wrapper">
@@ -146,7 +146,7 @@
 
 ### 1. `height` 与 `line-height` 属性值相等
 
-在父元素上设定两个属性值相等，适用于单行的行内元素：`inline`和`inline-block`，多行会有行高问题。当需要居中的`inline-block`元素有高度，就会出现问题。
+在父元素上设定两个属性值相等，适用于单行的行内元素： `inline` 和 `inline-block` ，多行会有行高问题。当需要居中的 `inline-block` 元素有高度，就会出现问题。
 
 > inline 元素的情况
 
@@ -170,9 +170,9 @@
 
 > inline-block 元素的情况
 
-关键属性值为父元素中的`font-size: 0px;`，此时的`line-height`值为父元素和子元素的高度和。
+关键属性值为父元素中的 `font-size: 0px;` ，此时的 `line-height` 值为父元素和子元素的高度和。
 
-因为`inline-block`元素的对准基线变为了子元素的底部，并且`font-size`会影响并且撑开这个对准基线。
+因为 `inline-block` 元素的对准基线变为了子元素的底部，并且 `font-size` 会影响并且撑开这个对准基线。
 
 ```html
 <div class="wrapper">
@@ -198,7 +198,7 @@
 
 ### 2. 添加伪元素
 
-首先解释一下`vertical-align: center;`这个属性值，虽然是设置元素的垂直居中，但是当元素内部有多个元素的时候，是互相的垂直居中。就如下面的代码：
+首先解释一下 `vertical-align: center;` 这个属性值，虽然是设置元素的垂直居中，但是当元素内部有多个元素的时候，是互相的垂直居中。就如下面的代码：
 
 ```html
 <div class="wrapper">
@@ -244,13 +244,13 @@
 
 > 上图中 3 个 div 的间距可以通过修改 HTML 结构为一行或者在父元素中添加 font-size: 0px; 来消除，当然还有很多方法，可以参见我的另外一篇文章：消除 inline-block 元素间隙。
 
-修改类名为`item-second`的`height: 100%;`时候，此时左右两个元素都垂直居中了。
+修改类名为 `item-second` 的 `height: 100%;` 时候，此时左右两个元素都垂直居中了。
 
 > 效果如下图：
 
 ![height = line-height](https://ws1.sinaimg.cn/large/ecbd3051gy1g66gs8tgsuj20bf0bhgld.jpg)
 
-也就是说`wrapper`中要有一个占满父元素高度的子元素，其他才会居中；那么可以通过设置伪类`::before`或`::after`来添加一个看不见的 100% 父元素高度的子元素。但是使用`vertical-align`来设置垂直居中，子元素必须要是`inline-block`。添加伪类样式：
+也就是说 `wrapper` 中要有一个占满父元素高度的子元素，其他才会居中；那么可以通过设置伪元素 `::before` 或 `::after` 来添加一个看不见的 100% 父元素高度的子元素。但是使用 `vertical-align` 来设置垂直居中，子元素必须要是 `inline-block` 。添加伪类样式：
 
 ```css
 .wrapper::before {
@@ -268,7 +268,7 @@
 
 ### 3. calc 计算
 
-使用 calc 将`top`属性设置为父元素的一半减去子元素的一半。
+使用 calc 将 `top` 属性设置为父元素的一半减去子元素的一半。
 
 ```html
 <div class="wrapper">
@@ -316,7 +316,7 @@
 
 ### 4. 借用表格
 
-table -> `display: table;` td -> `display: table-cell;`；除了直接使用表格进行布局，也可以将一个`div`设置`display: table-cell;`属性。
+table -> `display: table;` td -> `display: table-cell;` ；除了直接使用表格进行布局，也可以将一个 `div` 设置 `display: table-cell;` 属性。
 
 ```html
 <table>
@@ -361,7 +361,7 @@ td div,
 
 ### 5. transform
 
-使用 CSS3 新属性`transform`，主要用于元素的变形、旋转、位移，其中的`translateY`（改变垂直的位移，如果使用百分比为单位，则是以元素本身的长宽为基准）；子元素必须加上`position: relative;`。
+使用 CSS3 新属性 `transform` ，主要用于元素的变形、旋转、位移，其中的 `translateY` （改变垂直的位移，如果使用百分比为单位，则是以元素本身的长宽为基准）；子元素必须加上 `position: relative;` 。
 
 ```html
 <div class="wrapper">
@@ -412,7 +412,7 @@ td div,
 
 ### 7. Grid
 
-在父元素上设定，行内元素会被转为块级元素。`align-content: center;`只会设定的整个表格相对于父元素水平居中。
+在父元素上设定，行内元素会被转为块级元素。 `align-content: center;` 只会设定的整个表格相对于父元素水平居中。
 
 ```html
 <div class="wrapper">

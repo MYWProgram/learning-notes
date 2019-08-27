@@ -1,8 +1,10 @@
 # CSS 方式清除浮动的方法
 
-## 使用带 clear 属性的空元素
+## 推荐使用的方式
 
-在浮动元素后使用一个空元素`<div class="clear"></div>`，并且在 CSS 中赋予`.clear {clear: both}`即可；或者直接添加`<br class="clear">`或`<hr class="clear">`；这种方法代码少、浏览器兼容性也好，但是不符合 html 语义化，后期也不容易维护。
+### 使用带 clear 属性的空元素
+
+在浮动元素后加上一个空的块元素，并且给元素设置 CSS 属性 `.clear {clear: both;}` 即可；或者直接添加 `<br class="clear">` 或者 `<hr class="clear">` ；这种方法代码少、浏览器兼容性也好，但是不符合 html 语义化，后期也不容易维护。
 
 ```html
 <div class="news">
@@ -31,9 +33,9 @@
 }
 ```
 
-## 使用 CSS 的 overflow 属性
+### 使用 CSS 的 overflow 属性
 
-给浮动元素的容器添加`overflow: hidden;`或`overflow: auto;`兼容 IE 浏览器还需要出发 hasLayout，例如给父元素设置容器高度或设置`zoom: 1;`。
+给浮动元素的容器添加 `overflow: hidden;` 或 `overflow: auto;` 兼容 IE 浏览器还需要触发 hasLayout，例如给父元素设置容器高度或设置 `zoom: 1;` 。
 
 ```html
 <div class="news">
@@ -59,13 +61,9 @@
 }
 ```
 
-## 给浮动元素的容器添加浮动
+### 使用邻接元素处理
 
-给浮动元素的容器也添加上浮动属性即可清除内部浮动，但是这样会使其整体浮动，影响布局，不推荐使用。
-
-## 使用邻接元素处理
-
-给浮动元素后面的元素添加 clear 属性即可，但是浮动元素后的元素必须有内容。
+给浮动元素后面的元素添加 CSS `clear: both;` 属性即可，但是浮动元素后的元素必须有内容。
 
 ```html
 <div class="news">
@@ -81,7 +79,7 @@
   border: solid 1px black;
 }
 
-.news img {
+.news h1 {
   float: left;
 }
 
@@ -94,12 +92,12 @@
 }
 ```
 
-## 使用伪元素处理
+### 使用伪元素处理
 
-给浮动元素的容器添加一个 clearfix 的 class，然后给这个 class 添加一个::after 伪元素实现元素末尾添加一个看不见的块元素清理浮动。
+给浮动元素的容器添加一个用于清除浮动的 class 类，然后给这个 class 添加一个 `after` 伪元素实现元素末尾添加一个看不见的块元素从而清除浮动。
 
 ```html
-<div class="news clearfix">
+<div class="news clear">
   <h1>some text</h1>
   <p>the other text</p>
 </div>
@@ -111,7 +109,7 @@
   border: solid 1px black;
 }
 
-.news img {
+.news h1 {
   float: left;
 }
 
@@ -119,16 +117,22 @@
   float: right;
 }
 
-.clearfix:after {
-  content: "020";
+.clear::after {
   display: block;
   height: 0;
   clear: both;
   visibility: hidden;
+  content: "020";
 }
 
-.clearfix {
+.clear {
   /* 兼容IE */
   zoom: 1;
 }
 ```
+
+## 不推荐的方式
+
+### 给浮动元素的容器添加浮动
+
+给浮动元素的容器也添加上浮动属性即可清除内部浮动，但是这样会使其整体浮动，影响布局，不推荐使用。

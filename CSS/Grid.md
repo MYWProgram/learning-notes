@@ -10,7 +10,7 @@
 
 ### grid || inline-grid
 
-`display: grid || inline-grid;` 默认情况下容器是块级元素，也可以设置成行内元素。当设置为 Grid 布局之后，容器子元素（项目）的`float` `display: inline-block || table-cell;` `vertical-align` `column-*` 都将失效。
+`display: grid || inline-grid;` 默认情况下容器是块级元素，也可以设置成行内元素。当设置为 Grid 布局之后，容器子元素（项目）的 `float、display: inline-block || table-cell、vertical-align、column-*` 都将失效。
 
 ### grid-template-columns || grid-template-rows
 
@@ -98,7 +98,7 @@
 
 #### auto
 
-由浏览器自己设置指定项的行高和列宽。当设置 auto 之后，列宽基本等于该列单元格的最大宽度。
+由浏览器自己设置指定项的行高和列宽。当设置 `auto` 之后，列宽基本等于该列单元格的最大宽度。
 
 ```css
 .wrapper {
@@ -110,7 +110,7 @@
 
 #### 网格线的名称
 
-`grid-template-columns` `grid-template-rows` 属性内使用方括号指定每一根网格线的名字，一根网格线可以有多个名字。下面代码定义一个 3\*3 网格，所以有行和列都有 4 根。
+`grid-template-columns` `grid-template-rows` 属性内使用方括号指定每一根网格线的名字，一根网格线可以有多个名字。下面代码定义一个 3 \* 3 网格，所以有行和列都有 4 根。
 
 ```css
 .container {
@@ -122,7 +122,7 @@
 
 ### gap
 
-包括`column-gap` 设置列间距 `row-gap` 设置行间距 `gap` 结合二者设置列间距和行间距。如果 gap 只有一个值，会默认第二个值等于第一个。
+包括 `column-gap` 设置列间距 `row-gap` 设置行间距 `gap` 结合二者设置列间距和行间距。如果 gap 只有一个值，会默认第二个值等于第一个。
 
 ```css
 .wrapper {

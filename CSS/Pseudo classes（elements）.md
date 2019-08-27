@@ -2,9 +2,9 @@
 
 ## 伪类
 
-是一个以冒号（:）作为前缀，被添加到一个选择器末尾的关键字；当需要在特定状态下才呈现指定状态时就可以为选择器添加伪类，下面是一些常见的伪类：
+是一个以冒号（:）作为前缀，被添加到一个选择器末尾的关键字；当需要在特定状态下才呈现指定状态时就可以为选择器添加伪类，下面是一些常见的伪类。
 
-- :link -> 会选中所有未被访问的链接，包括那些已经给定了其他伪类选择器的链接，如:`hover选择器，:active选择器，:visited选择器`；为了可以正确渲染链接元素的样式，需要遵循顺序 -> `:link -> :visited -> :hover -> :active`；`:focus`伴随在`:link`左右。
+- :link -> 会选中所有未被访问的链接，包括那些已经给定了其他伪类选择器的链接，如: `:hover、:active、:visited` ；为了可以正确渲染链接元素的样式，需要遵循以下顺序 -> `:link -> :visited -> :hover -> :active` ； `:focus` 伴随在 `:link` 左右。
 - :visited -> 选中用户已访问过的链接。
 - :active -> 匹配被用户激活的元素。应用在鼠标交互时是点下按键和抬起按键之间的时间。
 - :hover -> 匹配用户虚指（未被激活）的元素。
@@ -16,12 +16,12 @@
 - :first-of-type -> 一组兄弟元素中出现的第一个。
 - :last-of-type -> 一组兄弟元素中出现的最后一个。
 - :empty -> 代表没有子元素的元素，这里的子元素可以是元素节点或文本（空格也算文本），但不包括注释或处理指令。
-- :target -> 代表一个唯一的页面元素（目标元素），其 id 和当前 URL 片段匹配。例如有一个 URL 片段指向一个 ID 为 section2 的页面元素：`http://www.example.com/index.html#section2`，若当前浏览器 URL 等于上面这个 URL，可以使用下面的选择器来选中：`<section id="section2">Example</section>`。
-- :checked -> 表示任何处于选中状态的 radio 和 checkbox，还有 select 选中的 option。
+- :target -> 代表一个唯一的页面元素（目标元素），其 id 和当前 URL 片段匹配。例如有一个 URL 片段指向一个 ID 为 section2 的页面元素： `http://www.example.com/index.html#section2` ，若当前浏览器 URL 等于上面这个 URL，可以使用下面的选择器来选中： `<section id="section2">Example</section>` 。
+- :checked -> 表示任何处于选中状态的 `radio` 和 `checkbox`，还有 select 选中的 option。
 - :enabled -> 匹配被启用的元素。
 - :disable -> 匹配未被启用的元素。
 
-下面是一个关于`:target`伪类的例子：
+下面是一个关于 `:target` 伪类的例子：
 
 ```html
 <h3>Table of Contents</h3>
@@ -68,9 +68,9 @@ p:target i {
 
 ### ::after 和::before
 
-要使用这两个伪元素，需要选择器是可以插入内容的，也就是说需要这个选择器是一个容器；而`<img> <input> <iframe>`这三个标签都不能包含其他元素，所以不支持使用。
+要使用这两个伪元素，需要选择器是可以插入内容的，也就是说需要这个选择器是一个容器；而 `<img>、<input>、<iframe>` 这三个标签都不能包含其他元素，所以不支持使用。
 
-- 利用 after 伪元素清除浮动
+- 利用 `after` 伪元素清除浮动
 
   给浮动元素的容器添加一个 class 名为 clearfix，然后给这个 class 添加一个伪元素`::after`来实现清除浮动。
 
@@ -115,7 +115,7 @@ p:target i {
 
 - 伪元素实现换行
 
-  行内元素不会像块级元素一样自动换行，添加`<br>`标签不符合规范；
+  行内元素不会像块级元素一样自动换行，添加 `<br>` 标签不符合规范；
 
 ```css
 .inline-element::after {
@@ -128,7 +128,7 @@ p:target i {
 
 - 伪元素实现首行缩进
 
-  实现首行缩进使用`&nbsp;`会出现缩进不到位等 bug，使用`text-indent`当字体大小改变缩进不会改变。下面是将`&nbsp;`转换为 Unicode 编码。
+  实现首行缩进使用 `&nbsp;` 会出现缩进不到位等 bug，使用 `text-indent` 当字体大小改变缩进不会改变。下面是将 `&nbsp;` 转换为 Unicode 编码。
 
 ```css
 .p::before {
