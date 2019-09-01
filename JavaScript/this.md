@@ -20,81 +20,87 @@ console.log(window.a); // hello 等价于 console.log(a);
 
 ## 函数环境
 
-在函数内部，this 的值取决于函数被调用的方式。
+在函数内部，`this` 的值取决于函数被调用的方式。
 
-- 简单调用
+### 简单调用
+
+下面的代码不是严格模式下，且 `this` 的值不是由该调用设置的，所以 `this` 默认指向全局对象。
 
 ```js
-/**
- * 下面的代码不是严格模式下，且 this 的值不是由该调用设置的，所以 this 默认指向全局对象。
-*/
 function f1() {
   return this;
 };
-console.log(this === window); // true 浏览器中
-console.log(this === global); // true Node中
-/**
- * 严格模式下，this 将将保持它进入执行环境的值。
-*/
+// 浏览器中
+console.log(this === window); // Output --> true
+// Node.js
+console.log(this === global); // true
+```
+
+严格模式下， `this` 将保持它进入执行环境的值；所以在严格模式下，如果 `this` 没有被执行环境定义，它将保持为 undefined。
+
+```js
 function f2() {
   'use strict';
   return this;
 };
-console.log(f2() === undefined); // true
-console.log(window.f2() === window); // true
-// 所以在严格模式下，如果 this 没有被执行环境定义，它将保持为 undefined。
+console.log(f2() === undefined); // Output --> true
+console.log(window.f2() === window); // Output --> true
+```
 
-/**
- * 想要把 this 的值从一个环境传到另一个，需要使用 call 或 apply 方法。
-*/
+想要把 `this` 的值从一个环境传到另一个，需要使用 `call()` 或 `apply()` 方法。
+
+```js
 let obj = {a: "Custom"};
 let a = "Global";
 function whatsThis(arg) {
-  // 这里 this 的值取决于函数的调用方式
+  // 这里 this 的值取决于函数的调用方式。
   return this.a;
 };
-whatsThis(); // Global
-whatsThis.call(obj); // Custom
-whatsThis.apply(obj); // Custom
-/**
- * 当一个函数在其主体中使用 this 关键字时，可以通过使用函数继承自 Function.prototype 的 call、apply 方法 将 this 绑定到调用中的
- * 特定对象。
-*/
+whatsThis(); // Output --> Global
+whatsThis.call(obj); // Output --> Custom
+whatsThis.apply(obj); // Output --> Custom
+```
+
+当一个函数在其主体中使用 `this` 关键字时，可以通过使用函数继承自 `Function.prototype` 的 `call()、apply()` 方法 将 `this` 绑定到调用中的特定对象。
+
+```js
 function add(c, d) {
   return this.a + this.b + c + d;
 };
 let o = {a: 1, b: 2};
 console.log(add.call(o, 3, 4)); // 10
 console.log(add.apply(o, [3, 4])); // 10
-/**
- * 使用 call、apply 时，如果传递给 this 的值不是一个对象，JS内部会使用 ToObject 将其转换为对象。
-*/
+```
+
+使用 `call()、apply()` 时，如果传递给 `this` 的值不是一个对象，JS 内部会使用 ToObject 将其转换为对象。
+
+```js
 function bar() {
   console.log(Object.prototype.toString.call(this));
 };
-// 原始值 7 被隐式转换为对象
+// 原始值 7 被隐式转换为对象。
 bar.call(7); // [object Number]
 ```
 
-- bind 方法
+### bind 方法
 
-调用 `f.bind(someObject);` 会创建一个与 f 具有相同函数体和作用域的函数，但是在这个新函数中，this 将被永远绑定到 bind 的第一个参数，无论这个函数是怎么被调用的。
+调用 `f.bind(someObject)` 会创建一个与 f 具有相同函数体和作用域的函数，但是在这个新函数中， `this` 将被永远绑定到 `bind`  的第一个参数，无论这个函数是怎么被调用的。
 
 ```js
 function f() {
   return this.a;
 };
 let g = f.bind({ a: "absolute" });
-console.log(g()); // absolute
+console.log(g()); // Output --> absolute
 let h = g.bind({ a: "fixed" }); // 这段代码 bind 只生效一次
-console.log(h()); // absolute
+console.log(h()); // Output --> absolute
 let o = {a: 37, f: f, g: g, h: h};
-console.log(o.f(), o.g(), o.h()); // 37, absolute, absolute
+console.log(o.f(), o.g(), o.h()); // Output --> 37, absolute, absolute
 ```
 
-- 箭头函数
+### 箭头函数
 
-箭头函数会默认帮我们绑定外层 this 的值。同时不能使用 call、apply、bind 修改箭头函数中 this 的值。
+箭头函数会默认帮我们绑定外层 `this` 的值。同时不能使用 `call()、apply()、bind()` 修改箭头函数中 `this` 的值。
 
 ```js
 let globalObject = this;
@@ -111,14 +117,15 @@ foo = foo.bind(obj);
 console.log(foo() === globalObject); // true
 ```
 
-- 作为对象的方法
+### 作为对象的方法
 
-当函数作为对象里的方法被调用时，此时的 this 是调用该函数的对象。这种方法不会受函数定义方式或者位置的影响。
+当函数作为对象里的方法被调用时，此时的 `this` 是调用该函数的对象。这种方法不会受函数定义方式或者位置的影响。
+
+分为以下三种方式：
+
+普通的对象方式。
 
 ```js
-/**
- * 普通的对象方式
-*/
 let o = { prop: 37 };
 // 函数 i 不论是定义在对象内或外都是一样的
 function i() {
@@ -127,9 +134,11 @@ function i() {
 o.f = i;
 // 此时函数返回的 prop 来自于对象 o
 console.log(o.f()); // 37
-/**
- * 原型链中的方式
-*/
+```
+
+原型链中的方式。
+
+```js
 let o = {
   f: function() {
     return this.a + this.b;
@@ -137,11 +146,12 @@ let o = {
 };
 let p = Object.create(o);
 p.a = 1, p.b = 2;
-console.log(p.f()); // 3
+console.log(p.f()); // Output --> 3
+```
 
-/**
- * getter 与 setter 中的方式
-*/
+`getter` 与 `setter` 中的方式。
+
+```js
 function sum() {
   return this.a + this.b + this.c;
 };
@@ -156,24 +166,24 @@ let o = {
 Object.defineProperty(o, 'sum', {
   get: sum, enumerable: true, configurable: true
 });
-console.log(o.average, o.sum); // 2, 6
+console.log(o.average, o.sum); // Output -->  2, 6
 ```
 
-- 作为构造函数
+### 作为构造函数
 
-当一个函数用作构造函数时（使用 new 关键字），它的 this 被绑定到正在构造的新对象上。
+当一个函数用作构造函数时（使用 `new` 关键字），它的 `this` 被绑定到正在构造的新对象上。
 
 ```js
 function C() {
   this.a = 37;
 };
 let o = new C();
-console.log(o.a); // 37
+console.log(o.a); // Output -->  37
 ```
 
-- 作为一个 DOM 事件处理函数
+### 作为一个 DOM 事件处理函数
 
-当函数被用作事件处理函数时，它的 this 指向触发事件的元素。
+当函数被用作事件处理函数时，它的 `this` 指向触发事件的元素。
 
 ```js
 function turnBlue(e) {
@@ -187,9 +197,9 @@ for(let i = 0; i < elements.length; i++) {
 };
 ```
 
-- 作为一个内联事件处理函数
+### 作为一个内联事件处理函数
 
-当代码被内联 on-event 处理函数调用时，它的 this 指向监听器所在的 DOM 元素。
+当代码被内联 on-event 处理函数调用时，它的 `this` 指向监听器所在的 DOM 元素。
 
 ```html
 <!-- 下面的代码弹出 button，但是只有外层代码中的 this 是这样设置的。 -->
