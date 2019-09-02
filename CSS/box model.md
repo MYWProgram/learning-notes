@@ -1,4 +1,4 @@
-# 盒模型、外边距合并、BFC、IFC
+# 盒模型
 
 ## 盒模型简单介绍
 
@@ -31,7 +31,7 @@
 
 怪异盒模型对应的 CSS3 属性为： `box-sizing: border-box;` 。
 
-#### 行内元素
+#### 行内元素盒模型
 
 前面所说的盒模型是基于块级元素，但是行内元素是没有 `width、height、margin` 属性的，但是可以设置相应的 `padding` 属性。
 
@@ -60,7 +60,3 @@ span {
 从上图我们可以看出，行内盒模型高由 `font-size` 决定，宽等于其子行级盒子的外宽度 `margin、border、padding、content-width` 之和。
 
 注意：**行内盒模型的 `padding-top、padding-bottom、margin-left、margin-bottom` 等属性不占据空间。**
-
-## 外边距合并
-
-
