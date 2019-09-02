@@ -32,7 +32,7 @@ const person = new Person();
 console.log(person instanceof Person); // output --> true
 ```
 
-判断一个实例是否是其夫类型或祖先类型地实例。
+判断一个实例是否是其父类型或祖先类型的实例。
 
 ```js
 const GrandPa = function() {}
@@ -44,6 +44,8 @@ console.log(son instanceof GrandPa); // Output --> true
 ```
 
 ## Polyfill
+
+其实 `instanceof` 主要的实现原理就是只要右边变量的 `prototype` 在左边变量的原型链上即可。
 
 ```js
 function instanceofSimulation(left, right) {
