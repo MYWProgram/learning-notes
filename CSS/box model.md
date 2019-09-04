@@ -60,3 +60,14 @@ span {
 从上图我们可以看出，行内盒模型高由 `font-size` 决定，宽等于其子行级盒子的外宽度 `margin、border、padding、content-width` 之和。
 
 注意：**行内盒模型的 `padding-top、padding-bottom、margin-left、margin-bottom` 等属性不占据空间。**
+
+## CSS3 新属性
+
+`box-sizing` 定义了浏览器应该如何计算一个元素的总宽度和总高度。
+
+在盒模型的默认定义里，对一个元素所设置的 `width、height` 只会应用到这个元素的内容区域（也就是盒模型中的 content）。如果这个元素有任何 `padding、margin`，那么元素表现出来的宽高就不再是之前 content 所设置的总宽高，会加上边框与内填充的宽高。
+
+属性值：
+
+1. `content-box` 是默认值；设置一个元素宽高为 100px ，那么这个元素的 `padding、border` 不会算在这 100px 之内；表现得就像上面所说的标准盒模型。
+2. `border-box` 就是 `padding、border` 包含在所设置的元素宽高之内，所以这时的内容区域（content）就变为所设置的宽高减去 `padding、border` 的值（注意是不包括 `margin`  值的）；变现得就像上面的怪异盒模型。
