@@ -2,12 +2,66 @@
 
 ## 伪类
 
-是一个以冒号（:）作为前缀，被添加到一个选择器末尾的关键字；当需要在特定状态下才呈现指定状态时就可以为选择器添加伪类，下面是一些常见的伪类。
+是一个以冒号（:）作为前缀，被添加到一个选择器末尾的关键字；当需要在特定状态下才呈现指定状态时就可以为选择器添加伪类；首先需要注意的是伪类始终指代所依附的元素而不是后代元素。下面是一些常见的伪类。
+
+### 结构伪类
+
+#### 选择根元素
+
+:root -> 选择文档的根元素。
+
+在 HTML 中根元素就是 HTML ，只有在 XML 语言中会有所不同。
+
+需要注意的是 :root 权重高于 HTML 选择器。
+
+![Pseudo classes（elements）-1.png](http://ww1.sinaimg.cn/large/ecbd3051gy1g82gb1039lj20gw06cmxl.jpg)
+
+#### 选择空元素
+
+:empty -> 选择没有任何子代的元素，甚至连文本节点也没有（元素内有空格或者回车例外）。
+
+通常用于判断用于判断子元素为组件模块是否有效。如果本元素样式含有 `margin` `padding` 等影响页面布局的样式，如果组件无效为空，作为组件的盒子样式可以通过这个伪类使它变得无效。
+
+就像下面的例子一样，如果 templates 组件无效的时候，那么就相当于外层 div 没有了子代，这时通过 :empty 选中之后就可以完全隐藏这个影响页面样式的 div 。
+
+```html
+<div class="empty" style="margin-top:20px;padding:20px;border:20px green solid;background:red">
+  <templates v-if="false">组件</templates>
+</div>
+
+<style>
+.empty:empty{
+  display:none;
+}
+</style>
+```
+
+#### 选择唯一子元素
+
+:only-child 与 :only-of-type ，二者都是选中元素中的唯一元素；前者选中的是唯一的子元素，也就是说父元素中没有其他子元素了；后者是如果父节点中没有相同类型的其他子节点，那么会被选中。
+
+参考下面得例子详细了解：
+
+```html
+<div class="only">
+  <p>样式一</p>
+  <div>样式二</div>
+</div>
+
+<style>
+  .only p:only-child{
+    color:red;
+  }
+  .only div:only-of-type{
+    color:green;
+  }
+</style>
+```
 
 - :link -> 会选中所有未被访问的链接，包括那些已经给定了其他伪类选择器的链接，如: `:hover、:active、:visited` ；为了可以正确渲染链接元素的样式，需要遵循以下顺序 -> `:link -> :visited -> :hover -> :active` ； `:focus` 伴随在 `:link` 左右。
 - :visited -> 选中用户已访问过的链接。
-- :active -> 匹配被用户激活的元素。应用在鼠标交互时是点下按键和抬起按键之间的时间。
 - :hover -> 匹配用户虚指（未被激活）的元素。
+- :active -> 匹配被用户激活的元素。应用在鼠标交互时是点下按键和抬起按键之间的时间。
 - :focus -> 匹配获得焦点的元素。
 - :first-child -> 一组兄弟元素中的第一个元素。
 - :nth-child(an + b) -> 首先找到选择器的所有兄弟元素，然后从 1 开始按照先后顺序排序；其中 a，b 是具体的数字，n 从 0 开始计数。
@@ -15,7 +69,6 @@
 - :nth-of-type(an + b) -> 匹配机制和 nth-child 一致，但是只会匹配选择器中相同兄弟节点的元素。
 - :first-of-type -> 一组兄弟元素中出现的第一个。
 - :last-of-type -> 一组兄弟元素中出现的最后一个。
-- :empty -> 代表没有子元素的元素，这里的子元素可以是元素节点或文本（空格也算文本），但不包括注释或处理指令。
 - :target -> 代表一个唯一的页面元素（目标元素），其 id 和当前 URL 片段匹配。例如有一个 URL 片段指向一个 ID 为 section2 的页面元素： `http://www.example.com/index.html#section2` ，若当前浏览器 URL 等于上面这个 URL，可以使用下面的选择器来选中： `<section id="section2">Example</section>` 。
 - :checked -> 表示任何处于选中状态的 `radio` 和 `checkbox`，还有 select 选中的 option。
 - :enabled -> 匹配被启用的元素。
@@ -113,9 +166,9 @@ p:target i {
 
   在按钮中设置一个伪元素，将伪元素的高宽设置为原本 icon 的大小，再利用绝对定位定位到需要的地方，这样无论雪碧图每个 icon 的边距是多少，都能够完美适应。
 
-- 伪元素实现换行
+- 伪元素实现文本换行
 
-  行内元素不会像块级元素一样自动换行，添加 `<br>` 标签不符合规范；
+  行内元素不会像块级元素一样自动换行，添加 `<br>` 标签不符合规范。使用如下代码进行换行：
 
 ```css
 .inline-element::after {
@@ -126,7 +179,7 @@ p:target i {
 }
 ```
 
-- 伪元素实现首行缩进
+- 伪元素实现文本首行缩进
 
   实现首行缩进使用 `&nbsp;` 会出现缩进不到位等 bug，使用 `text-indent` 当字体大小改变缩进不会改变。下面是将 `&nbsp;` 转换为 Unicode 编码。
 
