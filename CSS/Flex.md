@@ -1,6 +1,6 @@
 # Flex 布局
 
-[Flex 布局实例](http://www.ruanyifeng.com/blog/2015/07/flex-examples.html)
+[阮一峰 Flex 布局实例](http://www.ruanyifeng.com/blog/2015/07/flex-examples.html)
 
 ## 设置 Flex
 
@@ -65,6 +65,8 @@
 
 `flex-grow` 属性定义项目的放大比例，默认为 0，即如果存在剩余空间，也不放大；如果所有项目的 `flex-grow` 属性都为 1，则它们将等分剩余空间；如果一个项目的 `flex-grow` 属性为 2，其他项目都为 1，则前者占据的空间将比其他项多一倍。
 
+注意：**当为所有项目都设置 0.1 ，只能等分部分剩余空间，而不是全部。**
+
 ```css
 .item {
   flex-grow: 0; /* default 0 */
@@ -88,3 +90,49 @@
 ```
 
 项目属性设置 `flex: 1;` ，子元素会自动占满父元素的内容区域。
+
+## Flex 不为人知的秘密
+
+### margin: auto
+
+让 flex 布局中有 float 的效果。
+
+看下面这个例子：
+
+```html
+<section class="flex-wrapper">
+  <div>1</div>
+  <div>2</div>
+  <div>3</div>
+  <div>4</div>
+  <div>5</div>
+</section>
+
+<style>
+  .flex-wrapper {
+    display: flex;
+    width: 500px;
+    margin: 100px auto;
+    border: 2px dashed gold;
+  }
+  div {
+    width: 30px;
+    height: 30px;
+    border: 1px solid silver;
+    background-color: skyblue;
+  }
+  div:first-child {
+    margin-right: auto;
+  }
+</style>
+```
+
+效果图：
+
+![Flex-1.png](http://ww1.sinaimg.cn/large/ecbd3051gy1g8af3poyw3j20jw05iwec.jpg)
+
+从上面的例子我们可以看到，需要哪些 div 有向左或者向右的浮动，只需要在其前面一个或者后面一个设置 `margin-left: auto;` 或者 `margin-right: auto;` 即可。
+
+对第三个 div 添加 `div:nth-child(3) {margin: auto;}` ；效果图如下：
+
+![Flex-2.png](http://ww1.sinaimg.cn/large/ecbd3051gy1g8af7y84r9j20hl03nq2r.jpg)
