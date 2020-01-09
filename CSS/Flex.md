@@ -131,7 +131,7 @@
 
 ![Flex-1.png](http://ww1.sinaimg.cn/large/ecbd3051gy1g8af3poyw3j20jw05iwec.jpg)
 
-从上面的例子我们可以看到，需要哪些 div 有向左或者向右的浮动，只需要在其前面一个或者后面一个设置 `margin-left: auto;` 或者 `margin-right: auto;` 即可。
+从上面的例子我们可以看到，需要哪些 div 有向左或者向右的浮动，只需要在其前面一个或者后面一个设置 `margin-right: auto;` 或者 `margin-left: auto;` 即可。
 
 对第三个 div 添加 `div:nth-child(3) {margin: auto;}` ；效果图如下：
 
