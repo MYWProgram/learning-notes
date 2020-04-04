@@ -1,3 +1,3 @@
-# LearningNotes
+# learning-notes
 
-持续更新前端学习笔记以及遇到问题的解决方案。
+个人学习笔记，持续更新到博客。
