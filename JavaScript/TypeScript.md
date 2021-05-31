@@ -273,6 +273,17 @@ const user: ReadOnlyUser = {
 user.age = 19; // Cannot assign to 'age' because it is a read-only property
 ```
 
+#### Mutable
+
+将类型的属性变成可修改
+
+```TS
+// 源码
+type Mutable<T> = {
+  -readonly [P in keyof T]: T[P];
+};
+```
+
 #### Pick
 
 挑选类型中的部分属性
@@ -305,3 +316,159 @@ type Omit<T, K extends keyof any> = Pick<T, Exclude<keyof T, K>>;
 ```TS
 type LatLong = Omit<Location, 'province' | 'city'>; // { lat: number; long: number; }
 ```
+
+### 条件类型
+
+#### 三目运算符
+
+通常与`泛型`一起出现，通过`extends`关键字判断条件是否成立
+
+```TS
+type IsString<T> = T extends string ? true : false;
+const a = 'a';
+const bool: IsString<typeof a> = true;
+```
+
+#### infer
+
+动态推导泛型，常用于需要通过传入的泛型参数去获取新的类型
+
+```TS
+type ApiResponse<T> = {
+  code: number;
+  data: T;
+};
+type UserResponse = ApiResponse<{
+  id: string;
+  name: string;
+  age: number;
+}>;
+type ArticleResponse = ApiResponse<{
+  id: string;
+  title: string;
+  content: string;
+}>;
+// 上述情况建立在已知回参类型的情况下，如果是多项目或者微前端，UserResponse 和 ArticleResponse 都由别的项目提供，我们进行导入，此时可以使用 infer 来推断这两个类型
+type ApiResponseEntity<T> = T extends ApiResponse<infer U> ? U : never;
+type User = ApiResponseEntity<UserResponse>;
+type Article = ApiResponseEntity<ArticleResponse>;
+```
+
+#### ReturnType
+
+用于获取方法的返回值类型
+
+```TS
+// 源码
+type ReturnType<T> = T extends (
+  ...args: any[]
+) => infer R ? R : any;
+```
+
+```TS
+type A = (a: string) => number;
+type B = ReturnType<A>;
+// react
+import { useDrag } from 'Utils/CustomHooks';
+const getDragProps: ReturnType<typeof useDrag> = useDrag();
+```
+
+#### Parameters
+
+获取方法的参数类型
+
+```TS
+type Parameters<T extends (...args: any) => any> = T extends (...args: infer P) => any ? P : never;
+```
+
+获取一些原生或者没有`TS`定义的类型，包括一些第三方库使用类型书写但是没有提供导出的类型
+
+```TS
+type EventListenerParamsType = Parameters<typeof window.addEventListener>;
+// [type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions | undefined]
+```
+
+#### Exclude
+
+计算在`T`中而不在`U`中的类型
+
+```TS
+// 源码
+type Exclude<T, U> = T extends U ? never : T;
+```
+
+```TS
+type A = number | string;
+type B = string;
+type C = Exclude<A, B>; // number
+```
+
+#### Extract
+
+计算`T`中可以赋值给`U`的类型
+
+```TS
+// 源码
+type Extract<T, U> = T extends U ? T : never;
+```
+
+```TS
+type A = number | string;
+type B = string;
+type C = Extract<A, B>; // string
+```
+
+#### NonNullable
+
+从类型中排除`null`和`undefined`
+
+```TS
+// 源码
+type NonNullable<T> = T extends null | undefined ? never : T;
+```
+
+```TS
+// 简化一些变动接口定义，比如某个参数一开始可以为 null，后面变动只能为确定的基础类型
+type A = {
+  a?: number | null;
+};
+type B = NonNullable(A['a']); // number
+```
+
+## 泛型进阶
+
+泛型是一种抽象类型，区别于平时我们对`值`进行编程，泛型是对`类型`进行编程
+
+### 嵌套函数
+
+已知`Reverse`为反转参数列表功能，`CutHead`为去掉数组第一项
+
+```TS
+type CutTail<Tuple extends any[]> = Reverse<CutHead<Reverse<Tuple>>>;
+```
+
+那么`CutTail`就是将传递进来的参数列表反转，切掉第一个参数，然后反转回来；也就是说去掉参数的最后一项
+
+### 递归
+
+```TS
+// HTMLElement 的定义
+declare var HTMLElement: {
+  prototype: HTMLElement;
+  new(): HTMLElement;
+};
+// 递归可选
+type DeepPartial<T> = T extends Function
+  ? T
+  : T extends object
+  ? { [P in keyof T]?: DeepPartial<T[P]> }
+  : T;
+
+type PartialedWindow = DeepPartial<Window>; // 现在 window 上所有属性都变成了可选
+```
+
+## inject
+
+[vue-property-decorator](https://github.com/kaorun343/vue-property-decorator)
+
+[如何在 Vue + TS 中使用 Provide/Inject](https://www.coder.work/article/1332213)
