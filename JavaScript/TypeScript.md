@@ -2,7 +2,7 @@
 
 ## 高级类型
 
-除了`基础类型、接口、类`等基础类型以外；其实`TS`提供了很多高级类型，用于简化类型定义的书写，另一方面方便`单声明，多拓展`的工具库开发
+除了`基础类型、接口、类`等基础用法以外；`TS`还提供了很多高级类型，一方面用于简化类型定义的书写，另一方面方便`单声明，多拓展`的工具库开发
 
 ### 类型运算
 
@@ -42,17 +42,23 @@ type User = {
   friendList: {
     name: string;
     age: number;
-  }[]
+  }[];
 };
 
 type UserIdType = User['userId']; // string
 type FriendList = User['friendList']; // { name: string; age: number; }[]
 type Friend = FriendList[number]; // { name: string; age: number; }
-// 元组中也可以通过字面量数字取得类型
+```
+
+`Tuple`中也可以通过字面量数字取得类型
+
+```TS
 type Tuple = [string, number];
 const str: Tuple[0] = 'test';
 const num: Tuple[1] = 0;
 ```
+
+`Tuple`和`Array`的区别在哪？
 
 #### typeof value
 
@@ -66,7 +72,7 @@ const str2 = 'boo';
 type Type2 = typeof str2; // 'boo'
 ```
 
-`typeof`在计算变量和常量时有所不同，由于常量时不会变的，所以`Typescript`会使用严格的类型；而变量会是宽松的基础类型
+`typeof`在推算变量和常量时有所不同，由于常量是不会变的，所以`Typescript`会使用严格的类型；而变量会是宽松的基础类型
 
 #### keyof Type
 
@@ -105,12 +111,10 @@ interface AProps {
 interface BProps extends AProps {
   b: number;
 } // { a: string; b: number }
-
 // 条件语句中布尔值运算
 type Judge<T> = T extends string ? 'string' : never;
 type A = Judge<number>; // never
 type B = Judge<string>; // 'string'
-
 // 类型限制
 type Conflicate<T extends object> = T;
 type A = Conflicate<number>; // 类型'number'不满足约束'object'
@@ -118,14 +122,11 @@ type B = Conflicate<string>; // 类型'string'不满足约束'object'
 type C = Conflicate<{}>;
 ```
 
-使得`A extends B`在布尔值运算和泛型限制中成立的条件是 A 是 B 的子集，也就是说 A 需要比 B 更具体，至少都要和 B 一样
+使得`A extends B`在布尔值运算和泛型限制中成立的条件是`A`是`B`的子集，也就是说`A`需要比`B`更具体，至少都要和`B`一样
 
 ```Ts
 type K = '1' extends '1' | '2' ? 'true' : 'false'; // "true"
 type L = '1' | '2' extends '1' ? 'true' : 'false'; // "false"
-
-type M = { a: 1 } extends { a: 1, b: 1 } ? 'true' : 'false'; // "false"
-type N = { a: 1, b: 1 } extends { a: 1 } ? 'true' : 'false'; // "true"
 ```
 
 #### is
@@ -154,7 +155,7 @@ if (isFish(pet)) {
 
 #### Record
 
-`Record`定义键类型为`Keys`、值类型为`Values`的对象类型
+`Record`定义键类型为`Keys`、值类型为`Value`的对象类型
 
 ```TS
 // 源码
@@ -169,7 +170,7 @@ type Type = {
   y: number;
   z: number;
 };
-// 索引签名 + 接口
+// 索引签名
 interface Props {
   [key: string]: number
 }
@@ -177,18 +178,22 @@ interface Props {
 type Type = Record<'x' | 'y' | 'z', number>;
 ```
 
->如果在一个对象中存在不同类型的各种值，该如何简写？
+思考上述`interface`和`type`两种写法优劣？
+
+如果在一个对象中存在不同类型的各种值，该如何简写？
 
 ```TS
 type LetterType = Record<'a' | 'b', string>;
 type NumberType = Record<'x' | 'y', number>;
 // 使用并集 + 类型别名的方式进行简写
 type CombType = LetterType | NumberType;
-// 为什么不像这样写？
-type CombType = Record<'a' | 'b' | 'x' | 'y', string | number>;
 ```
 
->上面第一个代码块中，interface 和 type 的区别在哪？如何消除 interface 写法的弊端
+为什么不像这样写？
+
+```TS
+type CombType = Record<'a' | 'b' | 'x' | 'y', string | number>;
+```
 
 #### in 关键字
 
@@ -200,6 +205,8 @@ type Type = {
   [key in 'x' | 'y' | 'z']: number;
 };
 ```
+
+与索引签名相比，有什么优点？
 
 #### Partial
 
@@ -218,7 +225,7 @@ type UserPartA = {
   uuid: string;
 };
 type UserPartB = {
-  name: string;
+  username: string;
   age?: number;
 };
 // 修改
@@ -265,7 +272,7 @@ type User = {
   name: string;
   age: number;
 };
-type RdonlyUser = Readonly<User>;
+type ReadOnlyUser = Readonly<User>;
 const user: ReadOnlyUser = {
   name: 'Daming',
   age: 18
@@ -348,7 +355,11 @@ type ArticleResponse = ApiResponse<{
   title: string;
   content: string;
 }>;
-// 上述情况建立在已知回参类型的情况下，如果是多项目或者微前端，UserResponse 和 ArticleResponse 都由别的项目提供，我们进行导入，此时可以使用 infer 来推断这两个类型
+```
+
+上述情况建立在已知回参类型的情况下，如果是多项目或者微前端，`UserResponse`和`ArticleResponse`都由别的项目提供，我们进行导入并使用，此时可以使用`infer`来推断这两个类型
+
+```TS
 type ApiResponseEntity<T> = T extends ApiResponse<infer U> ? U : never;
 type User = ApiResponseEntity<UserResponse>;
 type Article = ApiResponseEntity<ArticleResponse>;
@@ -427,8 +438,9 @@ type C = Extract<A, B>; // string
 type NonNullable<T> = T extends null | undefined ? never : T;
 ```
 
+简化一些经常会变动的接口定义，比如某个参数一开始可以为 null，后面变动只能为确定的基础类型
+
 ```TS
-// 简化一些变动接口定义，比如某个参数一开始可以为 null，后面变动只能为确定的基础类型
 type A = {
   a?: number | null;
 };
@@ -438,6 +450,38 @@ type B = NonNullable(A['a']); // number
 ## 泛型进阶
 
 泛型是一种抽象类型，区别于平时我们对`值`进行编程，泛型是对`类型`进行编程
+
+### 泛型约束
+
+假设我们有一个`trace`函数用于调试程序
+
+```TS
+function trace<T>(arg: T): T {
+  console.log(arg);
+  return arg;
+}
+```
+
+此时我们想要打印参数中的某个属性，但是我们不对`T`做任何约束
+
+```TS
+function trace<T>(arg: T): T {
+  console.log(arg.size); // Error: Property 'size doesn't exist on type 'T'
+  return arg;
+}
+```
+
+由于上面的`T`可以是任何类型，但是不同于`any`，所以这样使用会报错；解决方法就是定义一个类型，然后使用`T`实现这个接口
+
+```TS
+interface Sizeable {
+  size: number;
+}
+function trace<T extends Sizeable>(arg: T): T {
+  console.log(arg.size);
+  return arg;
+}
+```
 
 ### 嵌套函数
 
