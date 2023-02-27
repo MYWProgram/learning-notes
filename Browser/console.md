@@ -93,7 +93,7 @@ values(table);
 
 ```js
 function sayHello(name){
-    alert('Hello,'+name);
+  alert('Hello,'+name);
 }
 monitor(sayHello);
 sayHello('Mike');
